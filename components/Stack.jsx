@@ -8,7 +8,7 @@ function Stack({ children, direction = 'vertical', extraClass }) {
 				direction === 'vertical'
 					? 'flex-auto flex-col '
 					: 'flex-row items-center',
-				...extraClass
+				extraClass
 			)}
 		>
 			{children}
