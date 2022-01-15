@@ -1,4 +1,4 @@
-import { classNames } from '../../utils/twcss.helpers'
+import { classNames } from '../../utils/helpers'
 
 function Button({ type = 'button', variant = 'full', onClick, children }) {
 	return (
