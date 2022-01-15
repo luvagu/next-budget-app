@@ -1,4 +1,4 @@
-import { classNames } from '../utils/twcss.helpers'
+import { classNames } from '../../utils/twcss.helpers'
 
 function Stack({ children, direction = 'vertical', extraClass }) {
 	return (

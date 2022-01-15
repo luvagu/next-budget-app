@@ -1,5 +1,5 @@
 import Button from './shared/Button'
-import Stack from './Stack'
+import Stack from './shared/Stack'
 
 function Header() {
 	return (
