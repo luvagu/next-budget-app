@@ -6,7 +6,7 @@ import ProgressBar from './shared/ProgressBar'
 import Stack from './shared/Stack'
 
 function BudgetCard({ id, name, amount, max, gray }) {
-	const { openExpenseModalWithId } = useBadgets()
+	const { openAddExpenseModalWithId, openViewExpenseModalWithId } = useBadgets()
 
 	return (
 		<Card bgColor={amount > max ? 'bg-red-100' : gray ? 'bg-gray-100' : null}>
@@ -27,12 +27,16 @@ function BudgetCard({ id, name, amount, max, gray }) {
 			{id && (
 				<Stack direction='horizontal' extraClass='gap-2 mt-4'>
 					<Button
-						onClick={() => openExpenseModalWithId(id)}
+						onClick={() => openAddExpenseModalWithId(id)}
 						extraClass='ml-auto'
 					>
 						Add Expense
 					</Button>
-					<Button variant='gray-outline' color='gray'>
+					<Button
+						onClick={() => openViewExpenseModalWithId(id)}
+						variant='gray-outline'
+						color='gray'
+					>
 						View Expenses
 					</Button>
 				</Stack>
