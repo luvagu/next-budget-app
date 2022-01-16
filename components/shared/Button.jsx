@@ -5,8 +5,8 @@ const variants = {
 		'border-blue-600 text-blue-600 hover:text-white hover:bg-blue-700 focus:ring-blue-500',
 	blue: 'border-transparent text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-500',
 	'gray-outline':
-		'border-gray-600 text-gray-600 hover:text-white hover:bg-gray-700 focus:ring-gray-500',
-	gray: 'border-transparent text-white bg-gray-600 hover:bg-gray-700 focus:ring-gray-500',
+		'border-gray-500 text-gray-500 hover:text-white hover:bg-gray-600 focus:ring-gray-400',
+	gray: 'border-transparent text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-400',
 }
 
 function Button({
