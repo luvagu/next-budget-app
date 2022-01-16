@@ -1,11 +1,11 @@
 import { classNames } from '../../utils/helpers'
 
-function Card({ children, extraClass }) {
+function Card({ children, bgColor = 'bg-white' }) {
 	return (
 		<div
 			className={classNames(
-				'py-4 px-4 w-auto border bg-white rounded-lg shadow',
-				extraClass
+				'py-4 px-4 w-auto border rounded-lg shadow',
+				bgColor
 			)}
 		>
 			{children}
