@@ -1,7 +1,11 @@
 import { createContext, useContext, useState } from 'react'
+import useLocalStorage from '../hooks/useLocalStorage'
 import { generateUID } from '../utils/helpers'
 
 const BudgetsContext = createContext()
+
+const LS_BUDGETS_KEY = 'ls.budgets'
+const LS_EXPENSES_KEY = 'ls.expenses'
 
 export const UNCATEGORIZED_BUDGET_ID = 'Uncategorized'
 
@@ -10,8 +14,8 @@ export function useBadgets() {
 }
 
 function BudgetsProvider({ children }) {
-	const [budgets, setBudgets] = useState([])
-	const [expenses, setExpenses] = useState([])
+	const [budgets, setBudgets] = useLocalStorage(LS_BUDGETS_KEY, [])
+	const [expenses, setExpenses] = useLocalStorage(LS_EXPENSES_KEY, [])
 	const [openAddBudgetModal, setOpenAddBudgetModal] = useState(false)
 	const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false)
 	const [openViewExpenseModal, setOpenViewExpenseModal] = useState(false)
