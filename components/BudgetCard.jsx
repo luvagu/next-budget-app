@@ -5,15 +5,10 @@ import ProgressBar from './shared/ProgressBar'
 import Stack from './shared/Stack'
 
 function BudgetCard({ name, amount, max, gray }) {
-	let background = ''
-	if (amount > max) {
-		background = 'bg-red-100'
-	} else if (gray) {
-		background = 'bg-gray-100'
-	}
-
 	return (
-		<Card extraClass={background}>
+		<Card
+			extraClass={amount > max ? 'bg-red-100' : gray ? 'bg-gray-100' : null}
+		>
 			<h2 className='flex justify-between items-baseline text-gray-500 font-semibold text-xl whitespace-nowrap mb-3'>
 				<div className='mr-2'>{name}</div>
 				<div className='flex items-baseline'>
