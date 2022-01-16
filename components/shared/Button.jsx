@@ -1,14 +1,28 @@
 import { classNames } from '../../utils/helpers'
 
-function Button({ type = 'button', variant = 'full', onClick, children }) {
+const variants = {
+	'blue-outlined':
+		'border-blue-600 text-blue-600 hover:text-white hover:bg-blue-700 focus:ring-blue-500',
+	blue: 'border-transparent text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-500',
+	'gray-outlined':
+		'border-gray-600 text-gray-600 hover:text-gray-600 hover:bg-gray-700 focus:ring-gray-500',
+	gray: 'border-transparent text-white bg-gray-600 hover:bg-gray-700 focus:ring-gray-500',
+}
+
+function Button({
+	children,
+	type = 'button',
+	variant = 'blue',
+	onClick,
+	extraClass,
+}) {
 	return (
 		<button
 			type={type}
 			className={classNames(
-				'py-2 px-4 border shadow-sm text-sm font-semibold whitespace-nowrap rounded-md hover:bg-blue-700 focus:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2',
-				variant === 'outlined'
-					? 'border-blue-600 text-blue-600 hover:text-white'
-					: 'border-transparent text-white bg-blue-600'
+				'py-2 px-4 border shadow-sm text-sm font-semibold whitespace-nowrap rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2',
+				variants[variant],
+				extraClass
 			)}
 			onClick={onClick}
 		>
