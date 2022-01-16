@@ -20,7 +20,7 @@ function ProgressBar({ current, min = 0, max }) {
 				className={classNames(
 					'h-4',
 					getVariant(),
-					'transition-[width] duration-300'
+					'transition-[width] duration-500'
 				)}
 				style={{ width: `${calculatePercent(current, max)}%` }}
 			></div>
