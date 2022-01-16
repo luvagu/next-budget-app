@@ -1,11 +1,11 @@
 import { classNames } from '../../utils/helpers'
 
 const variants = {
-	'blue-outlined':
+	'blue-outline':
 		'border-blue-600 text-blue-600 hover:text-white hover:bg-blue-700 focus:ring-blue-500',
 	blue: 'border-transparent text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-500',
-	'gray-outlined':
-		'border-gray-600 text-gray-600 hover:text-gray-600 hover:bg-gray-700 focus:ring-gray-500',
+	'gray-outline':
+		'border-gray-600 text-gray-600 hover:text-white hover:bg-gray-700 focus:ring-gray-500',
 	gray: 'border-transparent text-white bg-gray-600 hover:bg-gray-700 focus:ring-gray-500',
 }
 
