@@ -3,20 +3,11 @@ import CardsGrid from '../components/CardsGrid'
 import Header from '../components/Header'
 import BudgetCard from '../components/BudgetCard'
 import { useBadgets } from '../context/BudgetsContext'
-import AddBudget from '../components/AddBudget'
 import UncategorizedBudgetCard from '../components/UncategorizedBudgetCard'
 import TotalBudgetCard from '../components/TotalBudgetCard'
 
 export default function Home() {
-	const {
-		budgets,
-		expenses,
-		getBudgetExpenses,
-		addExpense,
-		addBudget,
-		deleteBudget,
-		deleteExpense,
-	} = useBadgets()
+	const { budgets, getBudgetExpenses } = useBadgets()
 
 	return (
 		<Container>

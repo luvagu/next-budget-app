@@ -7,12 +7,22 @@ const variants = {
 	'gray-outline':
 		'border-gray-500 text-gray-500 hover:text-white hover:bg-gray-600 focus:ring-gray-400',
 	gray: 'border-transparent text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-400',
+	'red-outline':
+		'border-red-500 text-red-500 hover:text-white hover:bg-red-600 focus:ring-red-400',
+	red: 'border-transparent text-white bg-red-500 hover:bg-red-600 focus:ring-red-400',
+}
+
+const sizes = {
+	sm: 'py-1 px-2 text-xs',
+	md: 'py-2 px-4 text-sm',
+	lg: 'py-3 px-6 text-base',
 }
 
 function Button({
 	children,
 	type = 'button',
 	variant = 'blue',
+	size = 'md',
 	onClick,
 	extraClass,
 }) {
@@ -20,7 +30,8 @@ function Button({
 		<button
 			type={type}
 			className={classNames(
-				'py-2 px-4 border shadow-sm text-sm font-semibold whitespace-nowrap rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2',
+				sizes[size],
+				'border shadow-sm font-semibold whitespace-nowrap rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2',
 				variants[variant],
 				extraClass
 			)}

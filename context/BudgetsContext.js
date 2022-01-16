@@ -14,21 +14,31 @@ function BudgetsProvider({ children }) {
 	const [expenses, setExpenses] = useState([])
 	const [openAddBudgetModal, setOpenAddBudgetModal] = useState(false)
 	const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false)
+	const [openViewExpenseModal, setOpenViewExpenseModal] = useState(false)
 	const [defaultBudgetId, setDefaultBudgetId] = useState(
 		UNCATEGORIZED_BUDGET_ID
 	)
 
-	function toggleBudgetModal() {
+	function toggleAddBudgetModal() {
 		setOpenAddBudgetModal(!openAddBudgetModal)
 	}
 
-	function toggleExpenseModal() {
+	function toggleAddExpenseModal() {
 		setOpenAddExpenseModal(!openAddExpenseModal)
 	}
 
-	function openExpenseModalWithId(id) {
+	function toggleViewExpenseModal() {
+		setOpenViewExpenseModal(!openViewExpenseModal)
+	}
+
+	function openAddExpenseModalWithId(id) {
 		setDefaultBudgetId(id ? id : UNCATEGORIZED_BUDGET_ID)
-		toggleExpenseModal()
+		toggleAddExpenseModal()
+	}
+
+	function openViewExpenseModalWithId(id) {
+		setDefaultBudgetId(id ? id : UNCATEGORIZED_BUDGET_ID)
+		toggleViewExpenseModal()
 	}
 
 	function getBudgetExpenses(budgetId) {
@@ -63,7 +73,15 @@ function BudgetsProvider({ children }) {
 	}
 
 	function deleteBudget(id) {
-		// @ToDo: deal with Uncategorized
+		setExpenses(prevExpenses =>
+			prevExpenses.map(expense => {
+				if (expense.budgetId === id) {
+					return { ...expense, budgetId: UNCATEGORIZED_BUDGET_ID }
+				}
+				return expense
+			})
+		)
+
 		setBudgets(prevBudgets => prevBudgets.filter(budget => budget.id !== id))
 	}
 
@@ -79,11 +97,14 @@ function BudgetsProvider({ children }) {
 				budgets,
 				expenses,
 				openAddBudgetModal,
-				toggleBudgetModal,
+				toggleAddBudgetModal,
 				openAddExpenseModal,
-				toggleExpenseModal,
+				toggleAddExpenseModal,
 				defaultBudgetId,
-				openExpenseModalWithId,
+				openAddExpenseModalWithId,
+				openViewExpenseModal,
+				toggleViewExpenseModal,
+				openViewExpenseModalWithId,
 				getBudgetExpenses,
 				addExpense,
 				addBudget,
