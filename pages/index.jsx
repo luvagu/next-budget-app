@@ -8,7 +8,7 @@ export default function Home() {
 		<Container>
 			<Header />
 			<CardsGrid>
-				<BudgetCard name='Entertainment' amount={1001} max={1000} gray />
+				<BudgetCard name='Entertainment' amount={250} max={1000} />
 			</CardsGrid>
 		</Container>
 	)
