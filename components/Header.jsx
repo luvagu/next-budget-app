@@ -6,7 +6,7 @@ function Header() {
 		<Stack direction='horizontal' extraClass='gap-2 mb-4'>
 			<h1 className='text-3xl font-semibold mr-auto'>Budgets</h1>
 			<Button>Add Budget</Button>
-			<Button variant='blue-outlined'>Add Expense</Button>
+			<Button variant='blue-outline'>Add Expense</Button>
 		</Stack>
 	)
 }
