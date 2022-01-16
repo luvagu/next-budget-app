@@ -3,33 +3,39 @@ import { generateUID } from '../utils/helpers'
 
 const BudgetsContext = createContext()
 
+export const UNCATEGORIZED_BUDGET_ID = 'Uncategorized'
+
 export function useBadgets() {
 	return useContext(BudgetsContext)
 }
 
 function BudgetsProvider({ children }) {
-	const [budgets, setBudgets] = useState([
-		{
-			id: 'OL04-1279-1Y99-O9tl-q29H',
-			name: 'Gadgets',
-			max: 100,
-		},
-	])
+	const [budgets, setBudgets] = useState([])
+	const [expenses, setExpenses] = useState([])
+	const [openAddBudgetModal, setOpenAddBudgetModal] = useState(false)
+	const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false)
+	const [defaultBudgetId, setDefaultBudgetId] = useState(
+		UNCATEGORIZED_BUDGET_ID
+	)
 
-	const [expenses, setExpenses] = useState([
-		{
-			id: generateUID(),
-			budgetId: 'OL04-1279-1Y99-O9tl-q29H',
-			amount: 35,
-			description: 'Headphones',
-		},
-	])
+	function toggleBudgetModal() {
+		setOpenAddBudgetModal(!openAddBudgetModal)
+	}
 
-	const getBudgetExpenses = budgetId => {
+	function toggleExpenseModal() {
+		setOpenAddExpenseModal(!openAddExpenseModal)
+	}
+
+	function openExpenseModalWithId(id) {
+		setDefaultBudgetId(id ? id : UNCATEGORIZED_BUDGET_ID)
+		toggleExpenseModal()
+	}
+
+	function getBudgetExpenses(budgetId) {
 		return expenses.filter(expense => expense.budgetId === budgetId)
 	}
 
-	const addExpense = ({ budgetId, amount, description }) => {
+	function addExpense({ budgetId, amount, description }) {
 		const newExpense = {
 			id: generateUID(),
 			budgetId: budgetId,
@@ -40,7 +46,7 @@ function BudgetsProvider({ children }) {
 		setExpenses(prevExpenses => [...prevExpenses, newExpense])
 	}
 
-	const addBudget = ({ name, max }) => {
+	function addBudget({ name, max }) {
 		const newBudget = {
 			id: generateUID(),
 			name,
@@ -56,21 +62,28 @@ function BudgetsProvider({ children }) {
 		})
 	}
 
-	const deleteBudget = id => {
-		// @ToDo: deal with Uncaregorized
+	function deleteBudget(id) {
+		// @ToDo: deal with Uncategorized
 		setBudgets(prevBudgets => prevBudgets.filter(budget => budget.id !== id))
 	}
 
-	const deleteExpense = id =>
+	function deleteExpense(id) {
 		setExpenses(prevExpenses =>
 			prevExpenses.filter(expense => expense.id !== id)
 		)
+	}
 
 	return (
 		<BudgetsContext.Provider
 			value={{
 				budgets,
 				expenses,
+				openAddBudgetModal,
+				toggleBudgetModal,
+				openAddExpenseModal,
+				toggleExpenseModal,
+				defaultBudgetId,
+				openExpenseModalWithId,
 				getBudgetExpenses,
 				addExpense,
 				addBudget,
