@@ -1,6 +1,13 @@
-function Card({ children }) {
+import { classNames } from '../../utils/helpers'
+
+function Card({ children, extraClass }) {
 	return (
-		<div className='py-4 px-6 w-auto border bg-white rounded-lg shadow'>
+		<div
+			className={classNames(
+				'py-4 px-4 w-auto border bg-white rounded-lg shadow',
+				extraClass
+			)}
+		>
 			{children}
 		</div>
 	)
