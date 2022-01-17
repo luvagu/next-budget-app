@@ -8,6 +8,7 @@ import Button from './shared/Button'
 import Stack from './shared/Stack'
 import ViewExpenses from './ViewExpenses'
 import LinkButton from './shared/LinkButton'
+import { getFirstInitial } from '../utils/helpers'
 
 function Header() {
 	const { user } = useUser()
@@ -22,10 +23,21 @@ function Header() {
 		toggleViewExpenseModal,
 	} = useBadgets()
 
+	const userHeaderTitle = user ? (
+		<Fragment>
+			<span className='text-blue-600 mr-1'>
+				{getFirstInitial(user?.name)}&apos;
+			</span>
+			<span>Budgets</span>
+		</Fragment>
+	) : (
+		'Budgets'
+	)
+
 	return (
 		<Fragment>
 			<Stack direction='horizontal' extraClass='gap-2 mb-4'>
-				<h1 className='text-3xl font-semibold mr-auto'>Budgets</h1>
+				<h1 className='text-3xl font-semibold mr-auto'>{userHeaderTitle}</h1>
 				{user ? (
 					<Fragment>
 						<Button onClick={toggleAddBudgetModal}>Add Budget</Button>
