@@ -1,3 +1,4 @@
+import { useUser } from '@auth0/nextjs-auth0'
 import { createContext, useContext, useState } from 'react'
 import useLocalStorage from '../hooks/useLocalStorage'
 import { generateUID } from '../utils/helpers'
@@ -14,6 +15,7 @@ export function useBadgets() {
 }
 
 function BudgetsProvider({ children }) {
+	const { user } = useUser()
 	const [budgets, setBudgets] = useLocalStorage(LS_BUDGETS_KEY, [])
 	const [expenses, setExpenses] = useLocalStorage(LS_EXPENSES_KEY, [])
 	const [openAddBudgetModal, setOpenAddBudgetModal] = useState(false)
