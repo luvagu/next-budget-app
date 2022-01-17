@@ -48,3 +48,7 @@ export function generateUID(length = 24) {
 
 	return uid
 }
+
+export function getFirstInitial(name) {
+	return name.charAt(0).toUpperCase()
+}
