@@ -1,12 +1,13 @@
 import { useUser } from '@auth0/nextjs-auth0'
 import { Fragment } from 'react'
 import { useBadgets } from '../context/BudgetsContext'
-import { LoginIcon } from '@heroicons/react/outline'
+import { LoginIcon, LogoutIcon } from '@heroicons/react/outline'
 import AddBudget from './AddBudget'
 import AddExpense from './AddExpense'
 import Button from './shared/Button'
 import Stack from './shared/Stack'
 import ViewExpenses from './ViewExpenses'
+import LinkButton from './shared/LinkButton'
 
 function Header() {
 	const { user } = useUser()
@@ -31,11 +32,14 @@ function Header() {
 						<Button onClick={openAddExpenseModalWithId} variant='blue-outline'>
 							Add Expense
 						</Button>
+						<LinkButton href='/api/auth/logout' variant='gray-outline'>
+							<LogoutIcon className='h-6 w-6' /> <span>Log Out</span>
+						</LinkButton>
 					</Fragment>
 				) : (
-					<Button onClick={toggleAddBudgetModal} extraClass='flex space-x-2'>
+					<LinkButton href='/api/auth/login'>
 						<LoginIcon className='h-6 w-6' /> <span>Log In</span>
-					</Button>
+					</LinkButton>
 				)}
 			</Stack>
 			{user && (
