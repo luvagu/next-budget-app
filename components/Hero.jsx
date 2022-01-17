@@ -8,7 +8,7 @@ function Hero() {
 				<h2 className='text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl'>
 					<span className='block'>Ready to manage budgets?</span>
 					<span className='block text-blue-600'>
-						Please Login to get started.
+						Please Log In to get started.
 					</span>
 				</h2>
 			</div>
