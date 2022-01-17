@@ -33,12 +33,12 @@ function Header() {
 							Add Expense
 						</Button>
 						<LinkButton href='/api/auth/logout' variant='gray-outline'>
-							<LogoutIcon className='h-6 w-6' /> <span>Log Out</span>
+							<LogoutIcon className='h-5 w-5' /> <span>Log Out</span>
 						</LinkButton>
 					</Fragment>
 				) : (
 					<LinkButton href='/api/auth/login'>
-						<LoginIcon className='h-6 w-6' /> <span>Log In</span>
+						<LoginIcon className='h-5 w-5' /> <span>Log In</span>
 					</LinkButton>
 				)}
 			</Stack>
