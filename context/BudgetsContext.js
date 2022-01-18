@@ -2,11 +2,9 @@ import { useUser } from '@auth0/nextjs-auth0'
 import { createContext, useContext, useState } from 'react'
 import useDbData from '../hooks/useDbData'
 import { generateUID } from '../utils/helpers'
+import axios from 'axios'
 
 const BudgetsContext = createContext()
-
-const LS_BUDGETS_KEY = 'ls.budgets'
-const LS_EXPENSES_KEY = 'ls.expenses'
 
 export const UNCATEGORIZED_BUDGET_ID = 'Uncategorized'
 
@@ -16,14 +14,12 @@ export function useBadgets() {
 
 function BudgetsProvider({ children }) {
 	const { user } = useUser()
-	// const [budgets, setBudgets] = useLocalStorage(LS_BUDGETS_KEY, [])
-	// const [expenses, setExpenses] = useLocalStorage(LS_EXPENSES_KEY, [])
-	const { data } = useDbData(
-		user ? `/api/db/read/userdata/${user?.sub}` : null,
-		{
-			budgets: [],
-			expenses: [],
-		}
+	const { data, isFetching, mutate } = useDbData(
+		user ? `/api/db/read/userdata/${user?.sub}` : null
+		// {
+		// 	budgets: [],
+		// 	expenses: [],
+		// }
 	)
 	const [openAddBudgetModal, setOpenAddBudgetModal] = useState(false)
 	const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false)
@@ -32,9 +28,9 @@ function BudgetsProvider({ children }) {
 		UNCATEGORIZED_BUDGET_ID
 	)
 
-	const { budgets, expenses } = data
-
-	const loading = budgets.length === 0 || expenses.length === 0
+	// const { budgets, expenses } = data
+	const budgets = data?.budgets
+	const expenses = data?.expenses
 
 	function toggleAddBudgetModal() {
 		setOpenAddBudgetModal(!openAddBudgetModal)
@@ -59,59 +55,84 @@ function BudgetsProvider({ children }) {
 	}
 
 	function getBudgetExpenses(budgetId) {
-		return expenses.filter(expense => expense.budgetId === budgetId)
+		return expenses?.filter(expense => expense.budgetId === budgetId)
 	}
 
-	function addExpense({ budgetId, amount, description }) {
+	async function addBudget({ name, max }) {
+		if (budgets.some(budget => budget.name === name)) return
+
+		const newBudget = {
+			id: generateUID(),
+			name,
+			max,
+			user: user.sub,
+		}
+
+		mutate({ ...data, budgets: [...budgets, newBudget] }, false)
+
+		const { id, ...restOfData } = newBudget
+		await axios.post('/api/db/create/budget', restOfData)
+		await mutate()
+	}
+
+	async function addExpense({ budgetId, amount, description }) {
 		const newExpense = {
 			id: generateUID(),
 			budgetId: budgetId,
 			amount,
 			description,
+			user: user.sub,
 		}
 
-		setExpenses(prevExpenses => [...prevExpenses, newExpense])
+		mutate({ ...data, expenses: [...expenses, newExpense] }, false)
+
+		const { id, ...restOfData } = newExpense
+		await axios.post('/api/db/create/expense', restOfData)
+		await mutate()
 	}
 
-	function addBudget({ name, max }) {
-		const newBudget = {
-			id: generateUID(),
-			name,
-			max,
-		}
+	async function deleteBudget(id) {
+		const refsToUpdate = []
 
-		setBudgets(prevBudgets => {
-			if (prevBudgets.find(budget => budget.name === name)) {
-				return prevBudgets
-			}
+		mutate(
+			{
+				...data,
+				expenses: expenses.map(expense => {
+					if (expense.budgetId === id) {
+						refsToUpdate.push(expense.id)
+						return { ...expense, budgetId: UNCATEGORIZED_BUDGET_ID }
+					}
+					return expense
+				}),
+				budgets: budgets.filter(budget => budget.id !== id),
+			},
+			false
+		)
 
-			return [...prevBudgets, newBudget]
-		})
-	}
-
-	function deleteBudget(id) {
-		setExpenses(prevExpenses =>
-			prevExpenses.map(expense => {
-				if (expense.budgetId === id) {
-					return { ...expense, budgetId: UNCATEGORIZED_BUDGET_ID }
-				}
-				return expense
+		for (const ref of refsToUpdate) {
+			await axios.put(`/api/db/update/expense/${ref}`, {
+				budgetId: UNCATEGORIZED_BUDGET_ID,
 			})
-		)
+		}
 
-		setBudgets(prevBudgets => prevBudgets.filter(budget => budget.id !== id))
+		await axios.delete(`/api/db/delete/budget/${id}`)
+		await mutate()
 	}
 
-	function deleteExpense(id) {
-		setExpenses(prevExpenses =>
-			prevExpenses.filter(expense => expense.id !== id)
+	async function deleteExpense(id) {
+		mutate(
+			{ ...data, expenses: expenses.filter(expense => expense.id !== id) },
+			false
 		)
+
+		await axios.delete(`/api/db/delete/expense/${id}`)
+		await mutate()
 	}
 
 	return (
 		<BudgetsContext.Provider
 			value={{
-				loading,
+				isFetching,
 				budgets,
 				expenses,
 				openAddBudgetModal,
