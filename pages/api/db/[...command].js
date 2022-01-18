@@ -33,7 +33,7 @@ export default withApiAuthRequired(async function handler(req, res) {
 			}
 		}
 
-		res.status(200).json({})
+		res.status(404).json({ message: '404 Not Found' })
 	}
 
 	if (ALLOWED_COMMANDS[command] === 'POST') {
@@ -53,7 +53,7 @@ export default withApiAuthRequired(async function handler(req, res) {
 			return res.status(500).json({ message: error?.message })
 		}
 
-		res.status(200).json({})
+		res.status(404).json({ message: '404 Not Found' })
 	}
 
 	if (ALLOWED_COMMANDS[command] === 'DELETE') {
@@ -71,7 +71,7 @@ export default withApiAuthRequired(async function handler(req, res) {
 			return res.status(500).json({ message: error?.message })
 		}
 
-		res.status(200).json({})
+		res.status(404).json({ message: '404 Not Found' })
 	}
 
 	if (ALLOWED_COMMANDS[command] === 'PUT') {
@@ -91,6 +91,6 @@ export default withApiAuthRequired(async function handler(req, res) {
 			return res.status(500).json({ message: error })
 		}
 
-		res.status(200).json({})
+		res.status(404).json({ message: '404 Not Found' })
 	}
 })
