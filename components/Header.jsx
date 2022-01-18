@@ -9,6 +9,7 @@ import Stack from './shared/Stack'
 import ViewExpenses from './ViewExpenses'
 import LinkButton from './shared/LinkButton'
 import { getFirstInitial } from '../utils/helpers'
+import BudgetNameError from './BudgetNameError'
 
 function Header() {
 	const { user } = useUser()
@@ -21,6 +22,8 @@ function Header() {
 		openAddExpenseModalWithId,
 		openViewExpenseModal,
 		toggleViewExpenseModal,
+		isDuplicateBudget,
+		toggleBudgetNameErrorModal,
 	} = useBadgets()
 
 	const userHeaderTitle = user ? (
@@ -67,6 +70,10 @@ function Header() {
 					<ViewExpenses
 						isOpen={openViewExpenseModal}
 						closeModal={toggleViewExpenseModal}
+					/>
+					<BudgetNameError
+						isOpen={isDuplicateBudget}
+						closeModal={toggleBudgetNameErrorModal}
 					/>
 				</Fragment>
 			)}
