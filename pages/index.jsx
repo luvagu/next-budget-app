@@ -11,14 +11,14 @@ import Spinner from '../components/shared/Spinner'
 
 export default function Home() {
 	const { user } = useUser()
-	const { loading, budgets, getBudgetExpenses } = useBadgets()
+	const { isFetching, budgets, getBudgetExpenses } = useBadgets()
 
 	return (
 		<Container>
 			<Header />
-			{user && loading ? (
-				<Spinner />
-			) : (
+			{!user && <Hero />}
+			{user && isFetching && <Spinner />}
+			{user && !isFetching && (
 				<CardsGrid>
 					{budgets?.map(({ id, name, max }) => {
 						const amount = getBudgetExpenses(id).reduce(
@@ -39,7 +39,6 @@ export default function Home() {
 					<TotalBudgetCard />
 				</CardsGrid>
 			)}
-			{!user && <Hero />}
 		</Container>
 	)
 }
