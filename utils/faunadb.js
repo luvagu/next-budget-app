@@ -7,7 +7,7 @@ const client = new Client({
 
 const { Call, Function: Fn } = query
 
-const callFunction = (fnName, args) => Call(Fn(fnName), args)
+const callFunction = (name, args) => Call(Fn(name), args)
 
 export const readUserData = async user => {
 	const data = await client.query(callFunction('getUserData', user))
@@ -27,4 +27,24 @@ export const readUserData = async user => {
 	})
 
 	return { budgets, expenses }
+}
+
+export const createBudget = async data => {
+	return (await client.query(callFunction('addBudget', data))).data
+}
+
+export const createExpense = async data => {
+	return (await client.query(callFunction('addExpense', data))).data
+}
+
+export const deleteBudget = async ref => {
+	return (await client.query(callFunction('deleteBudget', ref))).data
+}
+
+export const deleteExpense = async ref => {
+	return (await client.query(callFunction('deleteExpense', ref))).data
+}
+
+export const updateExpense = async (ref, data) => {
+	return (await client.query(callFunction('updateExpense', [ref, data]))).data
 }
