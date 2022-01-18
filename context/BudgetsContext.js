@@ -14,13 +14,15 @@ export function useBadgets() {
 
 function BudgetsProvider({ children }) {
 	const { user } = useUser()
-	const { data, isFetching, mutate } = useDbData(
+	const { data, isFetching, isError, mutate } = useDbData(
 		user ? `/api/db/read/userdata/${user?.sub}` : null
 		// {
 		// 	budgets: [],
 		// 	expenses: [],
 		// }
 	)
+
+	const [isDuplicateBudget, setIsDuplicateBudget] = useState(false)
 	const [openAddBudgetModal, setOpenAddBudgetModal] = useState(false)
 	const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false)
 	const [openViewExpenseModal, setOpenViewExpenseModal] = useState(false)
@@ -28,7 +30,6 @@ function BudgetsProvider({ children }) {
 		UNCATEGORIZED_BUDGET_ID
 	)
 
-	// const { budgets, expenses } = data
 	const budgets = data?.budgets
 	const expenses = data?.expenses
 
@@ -42,6 +43,10 @@ function BudgetsProvider({ children }) {
 
 	function toggleViewExpenseModal() {
 		setOpenViewExpenseModal(!openViewExpenseModal)
+	}
+
+	function toggleBudgetNameErrorModal() {
+		setIsDuplicateBudget(!isDuplicateBudget)
 	}
 
 	function openAddExpenseModalWithId(id) {
@@ -59,7 +64,9 @@ function BudgetsProvider({ children }) {
 	}
 
 	async function addBudget({ name, max }) {
-		if (budgets.some(budget => budget.name === name)) return
+		if (budgets.some(budget => budget.name === name)) {
+			return setIsDuplicateBudget(true)
+		}
 
 		const newBudget = {
 			id: generateUID(),
@@ -133,8 +140,11 @@ function BudgetsProvider({ children }) {
 		<BudgetsContext.Provider
 			value={{
 				isFetching,
+				isError,
 				budgets,
 				expenses,
+				isDuplicateBudget,
+				toggleBudgetNameErrorModal,
 				openAddBudgetModal,
 				toggleAddBudgetModal,
 				openAddExpenseModal,
