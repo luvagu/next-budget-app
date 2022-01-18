@@ -1,16 +1,14 @@
+import axios from 'axios'
 import useSWR from 'swr'
 
-async function fetcher(...args) {
-	const res = await fetch(...args)
-	return res.json()
-}
+const fetcher = url => axios.get(url).then(res => res.data)
+// const fetcher = url => fetch(url).then(r => r.json())
 
-export default function useDbData(endpoint) {
-	const { data, error, mutate } = useSWR(endpoint, fetcher)
+export default function useDbData(endpoint, fallbackData = {}) {
+	const { data, error, mutate } = useSWR(endpoint, fetcher, { fallbackData })
 
 	return {
 		data,
-		isLoading: !error && !data,
 		isError: error,
 		mutate,
 	}

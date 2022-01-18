@@ -18,7 +18,13 @@ function BudgetsProvider({ children }) {
 	const { user } = useUser()
 	// const [budgets, setBudgets] = useLocalStorage(LS_BUDGETS_KEY, [])
 	// const [expenses, setExpenses] = useLocalStorage(LS_EXPENSES_KEY, [])
-	const { data, isLoading } = useDbData(`/api/db/read/userdata/${user?.sub}`)
+	const { data } = useDbData(
+		user ? `/api/db/read/userdata/${user?.sub}` : null,
+		{
+			budgets: [],
+			expenses: [],
+		}
+	)
 	const [openAddBudgetModal, setOpenAddBudgetModal] = useState(false)
 	const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false)
 	const [openViewExpenseModal, setOpenViewExpenseModal] = useState(false)
@@ -26,8 +32,9 @@ function BudgetsProvider({ children }) {
 		UNCATEGORIZED_BUDGET_ID
 	)
 
-	const budgets = isLoading ? [] : data.budgets
-	const expenses = isLoading ? [] : data.expenses
+	const { budgets, expenses } = data
+
+	const loading = budgets.length === 0 || expenses.length === 0
 
 	function toggleAddBudgetModal() {
 		setOpenAddBudgetModal(!openAddBudgetModal)
@@ -104,6 +111,7 @@ function BudgetsProvider({ children }) {
 	return (
 		<BudgetsContext.Provider
 			value={{
+				loading,
 				budgets,
 				expenses,
 				openAddBudgetModal,

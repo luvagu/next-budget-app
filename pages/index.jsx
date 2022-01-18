@@ -7,17 +7,20 @@ import { useBadgets } from '../context/BudgetsContext'
 import UncategorizedBudgetCard from '../components/UncategorizedBudgetCard'
 import TotalBudgetCard from '../components/TotalBudgetCard'
 import Hero from '../components/Hero'
+import Spinner from '../components/shared/Spinner'
 
 export default function Home() {
-	const { user, error, isLoading } = useUser()
-	const { budgets, getBudgetExpenses } = useBadgets()
+	const { user } = useUser()
+	const { loading, budgets, getBudgetExpenses } = useBadgets()
 
 	return (
 		<Container>
 			<Header />
-			{user && (
+			{user && loading ? (
+				<Spinner />
+			) : (
 				<CardsGrid>
-					{budgets.map(({ id, name, max }) => {
+					{budgets?.map(({ id, name, max }) => {
 						const amount = getBudgetExpenses(id).reduce(
 							(total, expense) => total + expense.amount,
 							0
