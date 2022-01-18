@@ -31,7 +31,8 @@ function Header() {
 			<span className='text-blue-600 mr-1'>
 				{getFirstInitial(user?.name)}&apos;
 			</span>
-			<span>Budgets</span>
+			<span className='hidden sm:inline-block'>Budgets</span>
+			<span className='sm:hidden'>B</span>
 		</Fragment>
 	) : (
 		'Budgets'
@@ -40,7 +41,9 @@ function Header() {
 	return (
 		<Fragment>
 			<Stack direction='horizontal' extraClass='gap-2 mb-4'>
-				<h1 className='text-3xl font-semibold mr-auto'>{userHeaderTitle}</h1>
+				<h1 className='text-2xl sm:text-3xl font-semibold mr-auto'>
+					{userHeaderTitle}
+				</h1>
 				{user ? (
 					<Fragment>
 						<Button onClick={toggleAddBudgetModal}>Add Budget</Button>

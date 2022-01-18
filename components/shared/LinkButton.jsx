@@ -7,11 +7,18 @@ const variants = {
 		'border-gray-600 text-gray-600 hover:text-white hover:bg-gray-700 focus:ring-gray-500',
 }
 
-function LinkButton({ children, href, variant = 'blue-outline' }) {
+const sizes = {
+	sm: 'py-1 px-1 sm:py-1 sm:px-2 text-xs',
+	md: 'py-1 px-2 sm:py-2 sm:px-4 text-sm',
+	lg: 'py-2 px-4 sm:py-3 sm:px-6 text-base',
+}
+
+function LinkButton({ children, href, variant = 'blue-outline', size = 'md' }) {
 	return (
 		<a
 			className={classNames(
-				'flex items-center gap-2 py-2 px-4 text-sm border shadow-sm font-semibold whitespace-nowrap rounded-md',
+				sizes[size],
+				'flex items-center gap-2 border shadow-sm font-semibold whitespace-nowrap rounded-md',
 				variants[variant],
 				'focus:outline-none focus:ring-2 focus:ring-offset-2'
 			)}
