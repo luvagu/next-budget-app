@@ -1,5 +1,12 @@
 import { withApiAuthRequired } from '@auth0/nextjs-auth0'
-import { readUserData } from '../../../utils/faunadb'
+import {
+	createBudget,
+	createExpense,
+	deleteBudget,
+	deleteExpense,
+	readUserData,
+	updateExpense,
+} from '../../../utils/faunadb'
 
 const ALLOWED_COMMANDS = {
 	create: 'POST',
@@ -24,6 +31,64 @@ export default withApiAuthRequired(async function handler(req, res) {
 			} catch (error) {
 				return res.status(500).json({ message: error?.message })
 			}
+		}
+
+		res.status(200).json({})
+	}
+
+	if (ALLOWED_COMMANDS[command] === 'POST') {
+		const data = req.body
+
+		try {
+			let response
+			if (query === 'budget') {
+				response = await createBudget(data)
+				return res.status(200).json(response)
+			}
+			if (query === 'expense') {
+				response = await createExpense(data)
+				return res.status(200).json(response)
+			}
+		} catch (error) {
+			return res.status(500).json({ message: error?.message })
+		}
+
+		res.status(200).json({})
+	}
+
+	if (ALLOWED_COMMANDS[command] === 'DELETE') {
+		try {
+			let response
+			if (query === 'budget') {
+				response = await deleteBudget(args)
+				return res.status(200).json(response)
+			}
+			if (query === 'expense') {
+				response = await deleteExpense(args)
+				return res.status(200).json(response)
+			}
+		} catch (error) {
+			return res.status(500).json({ message: error?.message })
+		}
+
+		res.status(200).json({})
+	}
+
+	if (ALLOWED_COMMANDS[command] === 'PUT') {
+		const data = req.body
+
+		try {
+			let response
+			// if (query === 'budget') {
+			// 	response = await deleteBudget(args)
+			// 	return res.status(200).json(response)
+			// }
+			if (query === 'expense') {
+				response = await updateExpense(args, data)
+				return res.status(200).json(response)
+			}
+		} catch (error) {
+			return res.status(500).json({ message: error })
 		}
 
 		res.status(200).json({})
