@@ -47,7 +47,7 @@ function ViewExpenses({ isOpen, closeModal }) {
 			closeModal={closeModal}
 		>
 			<Stack extraClass='gap-3'>
-				{expenses.map(({ id, amount, description }) => (
+				{expenses?.map(({ id, amount, description }) => (
 					<Stack key={id} direction='horizontal' extraClass='gap-2'>
 						<div className='mr-auto text-xl'>{description}</div>
 						<div className='text-lg'>{curencyFormatter(amount)}</div>

@@ -51,7 +51,7 @@ function AddExpense({ isOpen, closeModal }) {
 						<option value={UNCATEGORIZED_BUDGET_ID}>
 							{UNCATEGORIZED_BUDGET_ID}
 						</option>
-						{budgets.map(({ id, name }) => (
+						{budgets?.map(({ id, name }) => (
 							<option key={id} value={id}>
 								{name}
 							</option>
