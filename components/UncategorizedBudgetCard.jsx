@@ -4,7 +4,7 @@ import BudgetCard from './BudgetCard'
 function UncategorizedBudgetCard() {
 	const { getBudgetExpenses } = useBadgets()
 
-	const amount = getBudgetExpenses(UNCATEGORIZED_BUDGET_ID).reduce(
+	const amount = getBudgetExpenses(UNCATEGORIZED_BUDGET_ID)?.reduce(
 		(total, expense) => total + expense.amount,
 		0
 	)
