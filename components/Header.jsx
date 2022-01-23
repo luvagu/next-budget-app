@@ -1,7 +1,8 @@
 import { useUser } from '@auth0/nextjs-auth0'
 import { Fragment } from 'react'
+import Link from 'next/link'
 import { useBadgets } from '../context/BudgetsContext'
-import { LoginIcon, LogoutIcon } from '@heroicons/react/outline'
+import { CashIcon, LoginIcon, LogoutIcon } from '@heroicons/react/outline'
 import AddBudget from './AddBudget'
 import AddExpense from './AddExpense'
 import Button from './shared/Button'
@@ -11,7 +12,7 @@ import LinkButton from './shared/LinkButton'
 import { getFirstInitial } from '../utils/helpers'
 import BudgetNameError from './BudgetNameError'
 
-function Header() {
+function Header({ isHome, isDashboard }) {
 	const { user } = useUser()
 
 	const {
@@ -44,19 +45,29 @@ function Header() {
 				<h1 className='text-2xl sm:text-3xl font-semibold mr-auto'>
 					{userHeaderTitle}
 				</h1>
-				{user ? (
+				{isHome && (
+					<Link href='/dashboard' passHref>
+						<LinkButton>
+							{user ? (
+								<CashIcon className='h-5 w-5' />
+							) : (
+								<LoginIcon className='h-5 w-5' />
+							)}
+							<span>{user ? 'Dashboard' : 'Log In'}</span>
+						</LinkButton>
+					</Link>
+				)}
+				{user && isDashboard && (
 					<Fragment>
 						<Button onClick={toggleAddBudgetModal}>Add Budget</Button>
 						<Button onClick={openAddExpenseModalWithId} variant='blue-outline'>
 							Add Expense
 						</Button>
-						<LinkButton href='/api/auth/logout' variant='gray-outline'>
-							<LogoutIcon className='h-5 w-5' /> <span>Log Out</span>
-						</LinkButton>
 					</Fragment>
-				) : (
-					<LinkButton href='/api/auth/login'>
-						<LoginIcon className='h-5 w-5' /> <span>Log In</span>
+				)}
+				{user && (
+					<LinkButton href='/api/auth/logout' variant='gray-outline'>
+						<LogoutIcon className='h-5 w-5' /> <span>Log Out</span>
 					</LinkButton>
 				)}
 			</Stack>
