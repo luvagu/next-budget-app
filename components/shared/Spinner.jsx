@@ -4,7 +4,7 @@ function Spinner() {
 	return (
 		<HeroContainer>
 			<svg
-				className='animate-spin h-7 w-7 sm:h-8 sm:w-8 text-blue-600'
+				className='animate-spin h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 text-blue-600'
 				xmlns='http://www.w3.org/2000/svg'
 				fill='none'
 				viewBox='0 0 24 24'
@@ -23,7 +23,7 @@ function Spinner() {
 					d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
 				></path>
 			</svg>
-			<h2 className='text-3xl font-extrabold tracking-tight text-gray-600 sm:text-4xl animate-pulse'>
+			<h2 className='text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-gray-600 text-center lg:text-left animate-pulse'>
 				Please wait...
 			</h2>
 		</HeroContainer>
