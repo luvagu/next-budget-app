@@ -8,6 +8,7 @@ import AddExpense from './AddExpense'
 import Button from './shared/Button'
 import Stack from './shared/Stack'
 import ViewExpenses from './ViewExpenses'
+import UpdateBudget from './UpdateBudget'
 import LinkButton from './shared/LinkButton'
 import { getFirstInitial } from '../utils/helpers'
 import BudgetNameError from './BudgetNameError'
@@ -21,7 +22,9 @@ function Header({ isHome, isDashboard }) {
 		openAddExpenseModal,
 		toggleAddExpenseModal,
 		openAddExpenseModalWithId,
+		openUpdateBudgetModal,
 		openViewExpenseModal,
+		toggleUpdateBudgetModal,
 		toggleViewExpenseModal,
 		isDuplicateBudget,
 		toggleBudgetNameErrorModal,
@@ -84,6 +87,10 @@ function Header({ isHome, isDashboard }) {
 					<ViewExpenses
 						isOpen={openViewExpenseModal}
 						closeModal={toggleViewExpenseModal}
+					/>
+					<UpdateBudget
+						isOpen={openUpdateBudgetModal}
+						closeModal={toggleUpdateBudgetModal}
 					/>
 					<BudgetNameError
 						isOpen={isDuplicateBudget}

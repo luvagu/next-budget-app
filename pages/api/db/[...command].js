@@ -5,6 +5,7 @@ import {
 	deleteBudget,
 	deleteExpense,
 	readUserData,
+	updateBudget,
 	updateExpense,
 } from '../../../utils/faunadb'
 
@@ -79,10 +80,10 @@ export default withApiAuthRequired(async function handler(req, res) {
 
 		try {
 			let response
-			// if (query === 'budget') {
-			// 	response = await deleteBudget(args)
-			// 	return res.status(200).json(response)
-			// }
+			if (query === 'budget') {
+				response = await updateBudget(args, data)
+				return res.status(200).json(response)
+			}
 			if (query === 'expense') {
 				response = await updateExpense(args, data)
 				return res.status(200).json(response)

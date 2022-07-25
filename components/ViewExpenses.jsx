@@ -1,3 +1,4 @@
+import { PencilIcon, TrashIcon } from '@heroicons/react/outline'
 import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
 import { curencyFormatter } from '../utils/helpers'
 import Button from './shared/Button'
@@ -10,6 +11,7 @@ function ViewExpenses({ isOpen, closeModal }) {
 		defaultBudgetId,
 		getBudgetExpenses,
 		deleteBudget,
+		openUpdateBudgetModalWithId,
 		deleteExpense,
 	} = useBadgets()
 
@@ -22,21 +24,33 @@ function ViewExpenses({ isOpen, closeModal }) {
 
 	const renderTitleWithButton = () => {
 		return (
-			<Stack direction='horizontal' extraClass='gap-2'>
-				<div>Expenses - {budget?.name}</div>
+			<>
+				<span className='flex-1'>Expenses - {budget?.name}</span>
 				{defaultBudgetId !== UNCATEGORIZED_BUDGET_ID && (
-					<Button
-						variant='red-outline'
-						size='sm'
-						onClick={() => {
-							deleteBudget(budget?.id)
-							closeModal()
-						}}
-					>
-						Delete
-					</Button>
+					<>
+						<Button
+							variant='red-outline'
+							size='sm'
+							onClick={() => {
+								deleteBudget(budget?.id)
+								closeModal()
+							}}
+						>
+							<TrashIcon className='h-4 w-4' />
+						</Button>
+						<Button
+							variant='blue-outline'
+							size='sm'
+							onClick={() => {
+								openUpdateBudgetModalWithId(budget?.id)
+								closeModal()
+							}}
+						>
+							<PencilIcon className='h-4 w-4' />
+						</Button>
+					</>
 				)}
-			</Stack>
+			</>
 		)
 	}
 
@@ -56,7 +70,7 @@ function ViewExpenses({ isOpen, closeModal }) {
 							size='sm'
 							onClick={() => deleteExpense(id)}
 						>
-							&times;
+							<TrashIcon className='h-3 w-3' />
 						</Button>
 					</Stack>
 				))}

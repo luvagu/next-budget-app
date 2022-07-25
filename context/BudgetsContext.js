@@ -24,6 +24,7 @@ function BudgetsProvider({ children }) {
 
 	const [isDuplicateBudget, setIsDuplicateBudget] = useState(false)
 	const [openAddBudgetModal, setOpenAddBudgetModal] = useState(false)
+	const [openUpdateBudgetModal, setOpenUpdateBudgetModal] = useState(false)
 	const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false)
 	const [openViewExpenseModal, setOpenViewExpenseModal] = useState(false)
 	const [defaultBudgetId, setDefaultBudgetId] = useState(
@@ -35,6 +36,10 @@ function BudgetsProvider({ children }) {
 
 	function toggleAddBudgetModal() {
 		setOpenAddBudgetModal(!openAddBudgetModal)
+	}
+
+	function toggleUpdateBudgetModal() {
+		setOpenUpdateBudgetModal(!openUpdateBudgetModal)
 	}
 
 	function toggleAddExpenseModal() {
@@ -59,8 +64,17 @@ function BudgetsProvider({ children }) {
 		toggleViewExpenseModal()
 	}
 
+	function openUpdateBudgetModalWithId(id) {
+		setDefaultBudgetId(id)
+		toggleUpdateBudgetModal()
+	}
+
 	function getBudgetExpenses(budgetId) {
 		return expenses?.filter(expense => expense.budgetId === budgetId)
+	}
+
+	function getDefaultBudget() {
+		return budgets?.find(budget => budget.id === defaultBudgetId) || {}
 	}
 
 	async function addBudget({ name, max }) {
@@ -79,6 +93,40 @@ function BudgetsProvider({ children }) {
 
 		const { id, ...restOfData } = newBudget
 		await axios.post('/api/db/create/budget', restOfData)
+		await mutate()
+	}
+
+	async function updateBudget({ name, max, ref }) {
+		if (
+			budgets
+				.filter(({ id }) => id !== ref)
+				.some(budget => budget.name === name)
+		) {
+			return setIsDuplicateBudget(true)
+		}
+
+		const newBudgetData = {
+			name,
+			max,
+		}
+
+		mutate(
+			{
+				...data,
+				budgets: budgets.map(budget => {
+					if (budget.id === ref) {
+						return {
+							...budget,
+							...newBudgetData,
+						}
+					}
+					return budget
+				}),
+			},
+			false
+		)
+
+		await axios.put(`/api/db/update/budget/${ref}`, newBudgetData)
 		await mutate()
 	}
 
@@ -147,6 +195,9 @@ function BudgetsProvider({ children }) {
 				toggleBudgetNameErrorModal,
 				openAddBudgetModal,
 				toggleAddBudgetModal,
+				openUpdateBudgetModal,
+				openUpdateBudgetModalWithId,
+				toggleUpdateBudgetModal,
 				openAddExpenseModal,
 				toggleAddExpenseModal,
 				defaultBudgetId,
@@ -154,9 +205,11 @@ function BudgetsProvider({ children }) {
 				openViewExpenseModal,
 				toggleViewExpenseModal,
 				openViewExpenseModalWithId,
+				getDefaultBudget,
 				getBudgetExpenses,
 				addExpense,
 				addBudget,
+				updateBudget,
 				deleteBudget,
 				deleteExpense,
 			}}

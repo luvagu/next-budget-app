@@ -7,10 +7,10 @@ const client = new Client({
 
 const { Call, Function: Fn } = query
 
-const callFunction = (name, args) => Call(Fn(name), args)
+const callFn = (name, args) => Call(Fn(name), args)
 
 export const readUserData = async user => {
-	const data = await client.query(callFunction('getUserData', user))
+	const data = await client.query(callFn('getUserData', user))
 
 	const budgets = data.budgets.data.map(budget => {
 		return {
@@ -30,21 +30,25 @@ export const readUserData = async user => {
 }
 
 export const createBudget = async data => {
-	return (await client.query(callFunction('addBudget', data))).data
+	return (await client.query(callFn('addBudget', data))).data
 }
 
 export const createExpense = async data => {
-	return (await client.query(callFunction('addExpense', data))).data
+	return (await client.query(callFn('addExpense', data))).data
 }
 
 export const deleteBudget = async ref => {
-	return (await client.query(callFunction('deleteBudget', ref))).data
+	return (await client.query(callFn('deleteBudget', ref))).data
 }
 
 export const deleteExpense = async ref => {
-	return (await client.query(callFunction('deleteExpense', ref))).data
+	return (await client.query(callFn('deleteExpense', ref))).data
+}
+
+export const updateBudget = async (ref, data) => {
+	return (await client.query(callFn('updateBudget', [ref, data]))).data
 }
 
 export const updateExpense = async (ref, data) => {
-	return (await client.query(callFunction('updateExpense', [ref, data]))).data
+	return (await client.query(callFn('updateExpense', [ref, data]))).data
 }
