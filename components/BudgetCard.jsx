@@ -6,11 +6,17 @@ import ProgressBar from './shared/ProgressBar'
 import Stack from './shared/Stack'
 
 function BudgetCard({ id, name, amount, max, gray }) {
-	const { openAddExpenseModalWithId, openViewExpenseModalWithId } = useBadgets()
+	const {
+		getBudgetExpenses,
+		openAddExpenseModalWithId,
+		openViewExpenseModalWithId,
+	} = useBadgets()
+
+	const hasBudgetExpenses = !!getBudgetExpenses(id)?.length
 
 	return (
 		<Card bgColor={amount > max ? 'bg-red-100' : gray ? 'bg-gray-100' : null}>
-			<h2 className='flex justify-between items-baseline text-gray-500 font-semibold text-xl mb-3 whitespace-nowrap'>
+			<h2 className='flex justify-between items-baseline text-gray-600 font-semibold text-xl mb-3 whitespace-nowrap'>
 				<div className='flex-1 mr-2 text-ellipsis overflow-hidden'>{name}</div>
 				<div className='flex items-baseline'>
 					{curencyFormatter(amount)}
@@ -36,6 +42,7 @@ function BudgetCard({ id, name, amount, max, gray }) {
 						onClick={() => openViewExpenseModalWithId(id)}
 						variant='gray-outline'
 						color='gray'
+						disabled={!hasBudgetExpenses}
 					>
 						View Expenses
 					</Button>

@@ -24,6 +24,7 @@ function Button({
 	variant = 'blue',
 	size = 'md',
 	onClick,
+	disabled = false,
 	extraClass,
 }) {
 	return (
@@ -31,11 +32,12 @@ function Button({
 			type={type}
 			className={classNames(
 				sizes[size],
-				'border shadow-sm font-semibold whitespace-nowrap rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2',
+				'border shadow-sm font-semibold whitespace-nowrap rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed',
 				variants[variant],
 				extraClass
 			)}
 			onClick={onClick}
+			disabled={disabled}
 		>
 			{children}
 		</button>

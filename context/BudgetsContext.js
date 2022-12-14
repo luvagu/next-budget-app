@@ -26,10 +26,12 @@ function BudgetsProvider({ children }) {
 	const [openAddBudgetModal, setOpenAddBudgetModal] = useState(false)
 	const [openUpdateBudgetModal, setOpenUpdateBudgetModal] = useState(false)
 	const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false)
+	const [openUpdateExpenseModal, setOpenUpdateExpenseModal] = useState(false)
 	const [openViewExpenseModal, setOpenViewExpenseModal] = useState(false)
 	const [defaultBudgetId, setDefaultBudgetId] = useState(
 		UNCATEGORIZED_BUDGET_ID
 	)
+	const [currentExpense, setCurrentExpense] = useState({})
 
 	const budgets = data?.budgets
 	const expenses = data?.expenses
@@ -46,6 +48,10 @@ function BudgetsProvider({ children }) {
 		setOpenAddExpenseModal(!openAddExpenseModal)
 	}
 
+	function toggleUpdateExpenseModal() {
+		setOpenUpdateExpenseModal(!openUpdateExpenseModal)
+	}
+
 	function toggleViewExpenseModal() {
 		setOpenViewExpenseModal(!openViewExpenseModal)
 	}
@@ -54,13 +60,13 @@ function BudgetsProvider({ children }) {
 		setIsDuplicateBudget(!isDuplicateBudget)
 	}
 
-	function openAddExpenseModalWithId(id) {
-		setDefaultBudgetId(id ? id : UNCATEGORIZED_BUDGET_ID)
+	function openAddExpenseModalWithId(id = UNCATEGORIZED_BUDGET_ID) {
+		setDefaultBudgetId(id)
 		toggleAddExpenseModal()
 	}
 
-	function openViewExpenseModalWithId(id) {
-		setDefaultBudgetId(id ? id : UNCATEGORIZED_BUDGET_ID)
+	function openViewExpenseModalWithId(id = UNCATEGORIZED_BUDGET_ID) {
+		setDefaultBudgetId(id)
 		toggleViewExpenseModal()
 	}
 
@@ -69,12 +75,24 @@ function BudgetsProvider({ children }) {
 		toggleUpdateBudgetModal()
 	}
 
+	function openUpdateExpenseModalExpenseData(budgetId, expense) {
+		setDefaultBudgetId(budgetId)
+		setCurrentExpense(expense)
+		toggleUpdateExpenseModal()
+	}
+
 	function getBudgetExpenses(budgetId) {
 		return expenses?.filter(expense => expense.budgetId === budgetId)
 	}
 
 	function getDefaultBudget() {
-		return budgets?.find(budget => budget.id === defaultBudgetId) || {}
+		return defaultBudgetId === UNCATEGORIZED_BUDGET_ID
+			? {
+					id: UNCATEGORIZED_BUDGET_ID,
+					name: UNCATEGORIZED_BUDGET_ID,
+					max: undefined,
+			  }
+			: budgets?.find(budget => budget.id === defaultBudgetId) || {}
 	}
 
 	async function addBudget({ name, max }) {
@@ -133,7 +151,7 @@ function BudgetsProvider({ children }) {
 	async function addExpense({ budgetId, amount, description }) {
 		const newExpense = {
 			id: generateUID(),
-			budgetId: budgetId,
+			budgetId,
 			amount,
 			description,
 			user: user.sub,
@@ -143,6 +161,33 @@ function BudgetsProvider({ children }) {
 
 		const { id, ...restOfData } = newExpense
 		await axios.post('/api/db/create/expense', restOfData)
+		await mutate()
+	}
+
+	async function updateExpense({ budgetId, description, amount, ref }) {
+		const newExpenseData = {
+			budgetId,
+			amount,
+			description,
+		}
+
+		mutate(
+			{
+				...data,
+				expenses: expenses.map(expense => {
+					if (expense.id === ref) {
+						return {
+							...expense,
+							...newExpenseData,
+						}
+					}
+					return expense
+				}),
+			},
+			false
+		)
+
+		await axios.put(`/api/db/update/expense/${ref}`, newExpenseData)
 		await mutate()
 	}
 
@@ -200,6 +245,10 @@ function BudgetsProvider({ children }) {
 				toggleUpdateBudgetModal,
 				openAddExpenseModal,
 				toggleAddExpenseModal,
+				toggleUpdateExpenseModal,
+				openUpdateExpenseModal,
+				openUpdateExpenseModalExpenseData,
+				currentExpense,
 				defaultBudgetId,
 				openAddExpenseModalWithId,
 				openViewExpenseModal,
@@ -208,6 +257,7 @@ function BudgetsProvider({ children }) {
 				getDefaultBudget,
 				getBudgetExpenses,
 				addExpense,
+				updateExpense,
 				addBudget,
 				updateBudget,
 				deleteBudget,

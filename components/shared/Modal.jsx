@@ -15,11 +15,11 @@ function Modal({ children, title, isOpen = false, closeModal }) {
 					leaveFrom='opacity-100'
 					leaveTo='opacity-0'
 				>
-					<div className='fixed inset-0 bg-black bg-opacity-25' />
+					<div className='fixed inset-0 bg-black/30 backdrop-filter backdrop-blur-[2px]' />
 				</Transition.Child>
 
-				<div className='fixed inset-0 overflow-y-auto'>
-					<div className='flex min-h-full items-center justify-center p-4 text-center'>
+				<div className='fixed inset-0 h-screen w-screen cursor-auto flex flex-col p-4 sm:p-[10vh]'>
+					<div className='w-full flex flex-col min-h-0'>
 						<Transition.Child
 							as={Fragment}
 							enter='ease-out duration-300'
@@ -29,7 +29,7 @@ function Modal({ children, title, isOpen = false, closeModal }) {
 							leaveFrom='opacity-100 scale-100'
 							leaveTo='opacity-0 scale-95'
 						>
-							<Dialog.Panel className='relative w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all'>
+							<Dialog.Panel className='relative flex flex-col mx-auto h-full w-full max-w-xl transform rounded-2xl bg-white text-left transition-all'>
 								{/* close buttton */}
 								<div className='z-20 absolute top-0 right-0 pt-4 pr-3 flex'>
 									<button
@@ -44,13 +44,15 @@ function Modal({ children, title, isOpen = false, closeModal }) {
 
 								<Dialog.Title
 									as='h3'
-									className='flex items-baseline gap-2 text-xl font-semibold leading-6 p-4 pr-12 text-gray-900 border-b'
+									className='relative flex items-baseline gap-2 text-xl font-semibold leading-6 p-4 pr-12 text-gray-900 border-b shadow-sm'
 								>
 									{title}
 								</Dialog.Title>
 
 								{/* body */}
-								<div className='m-0 p-6'>{children}</div>
+								<div className='m-0 p-4 overflow-y-auto flex-auto'>
+									{children}
+								</div>
 							</Dialog.Panel>
 						</Transition.Child>
 					</div>
