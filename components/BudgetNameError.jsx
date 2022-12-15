@@ -21,25 +21,22 @@ function BudgetNameError({ isOpen, closeModal }) {
 
 	return (
 		<Modal title={renderTitleWithIcon} isOpen={isOpen} closeModal={closeModal}>
-			<div className='grid grid-cols-1 gap-4'>
-				<p className='text-base text-gray-500'>
-					Your budget was not added. Budget name must be unique. Please try
-					again!
-				</p>
-				<div className='flex justify-end mt-1 gap-2'>
-					<Button variant='gray-outline' onClick={toggleBudgetNameErrorModal}>
-						Cancel
-					</Button>
-					<Button
-						onClick={() => {
-							toggleBudgetNameErrorModal()
-							toggleAddBudgetModal()
-						}}
-					>
-						Add Budget
-					</Button>
-				</div>
-			</div>
+			<p className='text-base text-gray-500'>
+				Your budget was not added. Budget name must be unique. Please try again!
+			</p>
+			<Stack direction='horizontal' extraClass='gap-2 mt-6 justify-end'>
+				<Button variant='gray-outline' onClick={toggleBudgetNameErrorModal}>
+					Cancel
+				</Button>
+				<Button
+					onClick={() => {
+						toggleBudgetNameErrorModal()
+						toggleAddBudgetModal()
+					}}
+				>
+					Add Budget
+				</Button>
+			</Stack>
 		</Modal>
 	)
 }

@@ -1,4 +1,5 @@
 import { useBadgets } from '../context/BudgetsContext'
+import { capitalizeWords } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
 
@@ -12,12 +13,12 @@ function AddBudget({ isOpen, closeModal }) {
 			new FormData(form.target).entries()
 		)
 
-		addBudget({ name, max: parseFloat(max) })
+		addBudget({ name: capitalizeWords(name), max: parseFloat(max) })
 		closeModal()
 	}
 
 	return (
-		<Modal title='New Budget' isOpen={isOpen} closeModal={closeModal}>
+		<Modal title='Add Budget' isOpen={isOpen} closeModal={closeModal}>
 			<form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4'>
 				<label className='block'>
 					<span className='text-gray-700'>Name</span>

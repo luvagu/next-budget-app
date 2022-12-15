@@ -16,25 +16,41 @@ function BudgetsProvider({ children }) {
 	const { user } = useUser()
 	const { data, isFetching, isError, mutate } = useDbData(
 		user ? `/api/db/read/userdata/${user?.sub}` : null
-		// {
-		// 	budgets: [],
-		// 	expenses: [],
-		// }
 	)
 
-	const [isDuplicateBudget, setIsDuplicateBudget] = useState(false)
-	const [openAddBudgetModal, setOpenAddBudgetModal] = useState(false)
-	const [openUpdateBudgetModal, setOpenUpdateBudgetModal] = useState(false)
-	const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false)
-	const [openUpdateExpenseModal, setOpenUpdateExpenseModal] = useState(false)
-	const [openViewExpenseModal, setOpenViewExpenseModal] = useState(false)
+	const [currentExpense, setCurrentExpense] = useState({})
 	const [defaultBudgetId, setDefaultBudgetId] = useState(
 		UNCATEGORIZED_BUDGET_ID
 	)
-	const [currentExpense, setCurrentExpense] = useState({})
+	const [deleteData, setDeleteData] = useState({ type: '', id: '' })
+	const [isDuplicateBudget, setIsDuplicateBudget] = useState(false)
+	const [openAddBudgetModal, setOpenAddBudgetModal] = useState(false)
+	const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false)
+	const [openConfirmDeteleModal, setOpenConfirmDeteleModal] = useState(false)
+	const [openUpdateBudgetModal, setOpenUpdateBudgetModal] = useState(false)
+	const [openUpdateExpenseModal, setOpenUpdateExpenseModal] = useState(false)
+	const [openViewExpenseModal, setOpenViewExpenseModal] = useState(false)
 
 	const budgets = data?.budgets
 	const expenses = data?.expenses
+
+	function deleteDataCallback() {
+		const { type, id } = deleteData
+
+		if (type === 'budget') {
+			deleteBudget(id)
+		}
+
+		if (type === 'expense') {
+			deleteExpense(id)
+		}
+
+		toggleConfirmDeleteModal()
+	}
+
+	function toggleConfirmDeleteModal() {
+		setOpenConfirmDeteleModal(!openConfirmDeteleModal)
+	}
 
 	function toggleAddBudgetModal() {
 		setOpenAddBudgetModal(!openAddBudgetModal)
@@ -60,6 +76,11 @@ function BudgetsProvider({ children }) {
 		setIsDuplicateBudget(!isDuplicateBudget)
 	}
 
+	function openConfirmDeleteModalWithTypeAndId(typeAndId = {}) {
+		toggleConfirmDeleteModal()
+		setDeleteData(typeAndId)
+	}
+
 	function openAddExpenseModalWithId(id = UNCATEGORIZED_BUDGET_ID) {
 		setDefaultBudgetId(id)
 		toggleAddExpenseModal()
@@ -75,7 +96,7 @@ function BudgetsProvider({ children }) {
 		toggleUpdateBudgetModal()
 	}
 
-	function openUpdateExpenseModalExpenseData(budgetId, expense) {
+	function openUpdateExpenseModalWithData(budgetId, expense) {
 		setDefaultBudgetId(budgetId)
 		setCurrentExpense(expense)
 		toggleUpdateExpenseModal()
@@ -232,36 +253,39 @@ function BudgetsProvider({ children }) {
 	return (
 		<BudgetsContext.Provider
 			value={{
-				isFetching,
-				isError,
+				addBudget,
+				addExpense,
 				budgets,
-				expenses,
-				isDuplicateBudget,
-				toggleBudgetNameErrorModal,
-				openAddBudgetModal,
-				toggleAddBudgetModal,
-				openUpdateBudgetModal,
-				openUpdateBudgetModalWithId,
-				toggleUpdateBudgetModal,
-				openAddExpenseModal,
-				toggleAddExpenseModal,
-				toggleUpdateExpenseModal,
-				openUpdateExpenseModal,
-				openUpdateExpenseModalExpenseData,
 				currentExpense,
 				defaultBudgetId,
-				openAddExpenseModalWithId,
-				openViewExpenseModal,
-				toggleViewExpenseModal,
-				openViewExpenseModalWithId,
-				getDefaultBudget,
+				deleteData,
+				deleteDataCallback,
+				expenses,
 				getBudgetExpenses,
-				addExpense,
-				updateExpense,
-				addBudget,
+				getDefaultBudget,
+				isDuplicateBudget,
+				isError,
+				isFetching,
+				openAddBudgetModal,
+				openAddExpenseModal,
+				openAddExpenseModalWithId,
+				openConfirmDeteleModal,
+				openConfirmDeleteModalWithTypeAndId,
+				openUpdateBudgetModal,
+				openUpdateBudgetModalWithId,
+				openUpdateExpenseModal,
+				openUpdateExpenseModalWithData,
+				openViewExpenseModal,
+				openViewExpenseModalWithId,
+				toggleAddBudgetModal,
+				toggleAddExpenseModal,
+				toggleBudgetNameErrorModal,
+				toggleConfirmDeleteModal,
+				toggleUpdateBudgetModal,
+				toggleUpdateExpenseModal,
+				toggleViewExpenseModal,
 				updateBudget,
-				deleteBudget,
-				deleteExpense,
+				updateExpense,
 			}}
 		>
 			{children}

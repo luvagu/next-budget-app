@@ -29,7 +29,7 @@ function Modal({ children, title, isOpen = false, closeModal }) {
 							leaveFrom='opacity-100 scale-100'
 							leaveTo='opacity-0 scale-95'
 						>
-							<Dialog.Panel className='relative flex flex-col mx-auto h-full w-full max-w-xl transform rounded-2xl bg-white text-left transition-all'>
+							<Dialog.Panel className='relative flex flex-col mx-auto h-full w-full max-w-xl transform rounded-lg bg-white text-left transition-all'>
 								{/* close buttton */}
 								<div className='z-20 absolute top-0 right-0 pt-4 pr-3 flex'>
 									<button

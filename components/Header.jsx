@@ -13,6 +13,7 @@ import UpdateExpense from './UpdateExpense'
 import LinkButton from './shared/LinkButton'
 import { getFirstInitial } from '../utils/helpers'
 import BudgetNameError from './BudgetNameError'
+import ConfirmDelete from './ConfirmDelete'
 
 function Header({ isHome, isDashboard }) {
 	const { user } = useUser()
@@ -31,6 +32,8 @@ function Header({ isHome, isDashboard }) {
 		toggleViewExpenseModal,
 		isDuplicateBudget,
 		toggleBudgetNameErrorModal,
+		openConfirmDeteleModal,
+		toggleConfirmDeleteModal,
 	} = useBadgets()
 
 	const userHeaderTitle = user ? (
@@ -102,6 +105,10 @@ function Header({ isHome, isDashboard }) {
 					<BudgetNameError
 						isOpen={isDuplicateBudget}
 						closeModal={toggleBudgetNameErrorModal}
+					/>
+					<ConfirmDelete
+						isOpen={openConfirmDeteleModal}
+						closeModal={toggleConfirmDeleteModal}
 					/>
 				</Fragment>
 			)}

@@ -1,4 +1,5 @@
 import { useBadgets } from '../context/BudgetsContext'
+import { capitalizeWords } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
 
@@ -14,7 +15,7 @@ function UpdateBudget({ isOpen, closeModal }) {
 			new FormData(form.target).entries()
 		)
 
-		updateBudget({ name, max: parseFloat(max), ref })
+		updateBudget({ name: capitalizeWords(name), max: parseFloat(max), ref })
 		closeModal()
 	}
 

@@ -1,10 +1,16 @@
 import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
+import { capitalizeWords } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
 
 function UpdateExpense({ isOpen, closeModal }) {
-	const { updateExpense, budgets, defaultBudgetId, currentExpense } =
-		useBadgets()
+	const {
+		updateExpense,
+		budgets,
+		defaultBudgetId,
+		currentExpense,
+		openViewExpenseModalWithId,
+	} = useBadgets()
 	const { id: ref, amount, description } = currentExpense
 
 	const handleSubmit = form => {
@@ -14,8 +20,14 @@ function UpdateExpense({ isOpen, closeModal }) {
 			new FormData(form.target).entries()
 		)
 
-		updateExpense({ budgetId, description, amount: parseFloat(amount), ref })
+		updateExpense({
+			budgetId,
+			description: capitalizeWords(description),
+			amount: parseFloat(amount),
+			ref,
+		})
 		closeModal()
+		openViewExpenseModalWithId(budgetId)
 	}
 
 	return (

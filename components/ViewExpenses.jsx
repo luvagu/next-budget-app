@@ -1,5 +1,5 @@
 import { PencilIcon, TrashIcon } from '@heroicons/react/outline'
-import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
+import { useBadgets } from '../context/BudgetsContext'
 import { curencyFormatter } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
@@ -10,56 +10,22 @@ function ViewExpenses({ isOpen, closeModal }) {
 		defaultBudgetId,
 		getBudgetExpenses,
 		getDefaultBudget,
-		deleteBudget,
-		openUpdateBudgetModalWithId,
-		openUpdateExpenseModalExpenseData,
-		deleteExpense,
+		openUpdateExpenseModalWithData,
 		openAddExpenseModalWithId,
+		openConfirmDeleteModalWithTypeAndId,
 	} = useBadgets()
 
 	const budget = getDefaultBudget()
 	const budgetExpenses = getBudgetExpenses(defaultBudgetId)
 
-	const renderTitleWithButton = () => {
-		return (
-			<>
-				<span className='flex-1'>
-					<span className=' text-blue-600'>{budget?.name}&apos;s</span> Expenses
-				</span>
-				{defaultBudgetId !== UNCATEGORIZED_BUDGET_ID && (
-					<>
-						<Button
-							variant='blue-outline'
-							size='sm'
-							onClick={() => {
-								openUpdateBudgetModalWithId(budget?.id)
-								closeModal()
-							}}
-						>
-							<PencilIcon className='h-4 w-4' />
-						</Button>
-						<Button
-							variant='red-outline'
-							size='sm'
-							onClick={() => {
-								deleteBudget(budget?.id)
-								closeModal()
-							}}
-						>
-							<TrashIcon className='h-4 w-4' />
-						</Button>
-					</>
-				)}
-			</>
-		)
-	}
+	const renderTitle = () => (
+		<span className='flex-1'>
+			<span className=' text-blue-600'>{budget?.name}&apos;s</span> Expenses
+		</span>
+	)
 
 	return (
-		<Modal
-			title={renderTitleWithButton}
-			isOpen={isOpen}
-			closeModal={closeModal}
-		>
+		<Modal title={renderTitle} isOpen={isOpen} closeModal={closeModal}>
 			<Stack extraClass='gap-2'>
 				{budgetExpenses?.length ? (
 					budgetExpenses?.map(({ id, amount, description }) => (
@@ -74,7 +40,7 @@ function ViewExpenses({ isOpen, closeModal }) {
 								variant='blue-outline'
 								size='sm'
 								onClick={() => {
-									openUpdateExpenseModalExpenseData(budget?.id, {
+									openUpdateExpenseModalWithData(budget?.id, {
 										id,
 										amount,
 										description,
@@ -87,7 +53,13 @@ function ViewExpenses({ isOpen, closeModal }) {
 							<Button
 								variant='red-outline'
 								size='sm'
-								onClick={() => deleteExpense(id)}
+								onClick={() =>
+									openConfirmDeleteModalWithTypeAndId({
+										type: 'expense',
+										id,
+										name: description,
+									})
+								}
 							>
 								<TrashIcon className='h-3 w-3' />
 							</Button>
@@ -95,6 +67,7 @@ function ViewExpenses({ isOpen, closeModal }) {
 					))
 				) : (
 					<Button
+						variant='blue-outline'
 						onClick={() => {
 							openAddExpenseModalWithId(defaultBudgetId)
 							closeModal()

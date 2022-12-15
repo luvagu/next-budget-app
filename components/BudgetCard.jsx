@@ -1,4 +1,10 @@
-import { useBadgets } from '../context/BudgetsContext'
+import {
+	PencilIcon,
+	TrashIcon,
+	EyeIcon,
+	PlusIcon,
+} from '@heroicons/react/outline'
+import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
 import { curencyFormatter } from '../utils/helpers'
 import Button from './shared/Button'
 import Card from './shared/Card'
@@ -10,9 +16,12 @@ function BudgetCard({ id, name, amount, max, gray }) {
 		getBudgetExpenses,
 		openAddExpenseModalWithId,
 		openViewExpenseModalWithId,
+		openUpdateBudgetModalWithId,
+		openConfirmDeleteModalWithTypeAndId,
 	} = useBadgets()
 
 	const hasBudgetExpenses = !!getBudgetExpenses(id)?.length
+	const isUncategorizedBudget = id === UNCATEGORIZED_BUDGET_ID
 
 	return (
 		<Card bgColor={amount > max ? 'bg-red-100' : gray ? 'bg-gray-100' : null}>
@@ -31,20 +40,47 @@ function BudgetCard({ id, name, amount, max, gray }) {
 			{max && <ProgressBar current={amount} max={max} />}
 
 			{id && (
-				<Stack direction='horizontal' extraClass='gap-2 mt-4'>
+				<Stack direction='horizontal' extraClass='gap-2 mt-4 justify-end'>
+					{!isUncategorizedBudget && (
+						<>
+							<Button
+								variant='blue-outline'
+								size='sm'
+								onClick={() => openUpdateBudgetModalWithId(id)}
+							>
+								<PencilIcon className='h-4 w-4' />
+							</Button>
+							<Button
+								variant='red-outline'
+								size='sm'
+								onClick={() =>
+									openConfirmDeleteModalWithTypeAndId({
+										type: 'budget',
+										id,
+										name,
+									})
+								}
+							>
+								<TrashIcon className='h-4 w-4' />
+							</Button>
+						</>
+					)}
 					<Button
+						variant='blue-outline'
+						size='sm'
 						onClick={() => openAddExpenseModalWithId(id)}
-						extraClass='ml-auto'
 					>
-						Add Expense
+						<PlusIcon className='h-4 w-4' />
+						<span>Expense</span>
 					</Button>
 					<Button
 						onClick={() => openViewExpenseModalWithId(id)}
-						variant='gray-outline'
-						color='gray'
+						variant='indigo-outline'
+						size='sm'
 						disabled={!hasBudgetExpenses}
 					>
-						View Expenses
+						<EyeIcon className='h-4 w-4' />
+						<span>Expenses</span>
 					</Button>
 				</Stack>
 			)}

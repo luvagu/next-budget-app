@@ -1,9 +1,11 @@
 import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
+import { capitalizeWords } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
 
 function AddExpense({ isOpen, closeModal }) {
-	const { addExpense, budgets, defaultBudgetId } = useBadgets()
+	const { addExpense, budgets, defaultBudgetId, openViewExpenseModalWithId } =
+		useBadgets()
 
 	const handleSubmit = form => {
 		form.preventDefault()
@@ -12,12 +14,17 @@ function AddExpense({ isOpen, closeModal }) {
 			new FormData(form.target).entries()
 		)
 
-		addExpense({ budgetId, amount: parseFloat(amount), description })
+		addExpense({
+			budgetId,
+			description: capitalizeWords(description),
+			amount: parseFloat(amount),
+		})
 		closeModal()
+		openViewExpenseModalWithId(budgetId)
 	}
 
 	return (
-		<Modal title='New Expense' isOpen={isOpen} closeModal={closeModal}>
+		<Modal title='Add Expense' isOpen={isOpen} closeModal={closeModal}>
 			<form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4'>
 				<label className='block'>
 					<span className='text-gray-700'>Description</span>
