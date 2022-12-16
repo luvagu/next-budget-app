@@ -18,7 +18,7 @@ function ViewExpenses({ isOpen, closeModal }) {
 	const budget = getDefaultBudget()
 	const budgetExpenses = getBudgetExpenses(defaultBudgetId)
 
-	const renderTitle = () => (
+	const renderTitle = (
 		<span className='flex-1'>
 			<span className=' text-blue-600'>{budget?.name}&apos;s</span> Expenses
 		</span>
@@ -53,13 +53,14 @@ function ViewExpenses({ isOpen, closeModal }) {
 							<Button
 								variant='red-outline'
 								size='sm'
-								onClick={() =>
+								onClick={() => {
 									openConfirmDeleteModalWithTypeAndId({
 										type: 'expense',
 										id,
 										name: description,
 									})
-								}
+									closeModal()
+								}}
 							>
 								<TrashIcon className='h-3 w-3' />
 							</Button>

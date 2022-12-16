@@ -14,6 +14,7 @@ import HeroDashboard from '../components/HeroDashboard'
 export default withPageAuthRequired(function Dashboard() {
 	const { isFetching, isError, budgets, expenses, getBudgetExpenses } =
 		useBadgets()
+
 	const hasBudgets = !!budgets?.length
 	const hasExpenses = !!expenses?.length
 

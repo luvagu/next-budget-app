@@ -7,17 +7,15 @@ import Button from './shared/Button'
 function BudgetNameError({ isOpen, closeModal }) {
 	const { toggleAddBudgetModal, toggleBudgetNameErrorModal } = useBadgets()
 
-	const renderTitleWithIcon = () => {
-		return (
-			<Stack direction='horizontal' extraClass='gap-2'>
-				<ExclamationCircleIcon
-					className='h-6 w-6 text-red-600'
-					aria-hidden='true'
-				/>
-				<div>Opps!</div>
-			</Stack>
-		)
-	}
+	const renderTitleWithIcon = (
+		<Stack direction='horizontal' extraClass='gap-2'>
+			<ExclamationCircleIcon
+				className='h-6 w-6 text-red-600'
+				aria-hidden='true'
+			/>
+			<div>Opps!</div>
+		</Stack>
+	)
 
 	return (
 		<Modal title={renderTitleWithIcon} isOpen={isOpen} closeModal={closeModal}>

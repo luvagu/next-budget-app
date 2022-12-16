@@ -10,9 +10,11 @@ const variants = {
 function ProgressBar({ current, min = 0, max }) {
 	const getVariant = () => {
 		const percent = calculatePercent(current, max)
+
 		if (percent < 25) return variants.green
 		if (percent < 50) return variants.blue
 		if (percent < 75) return variants.yellow
+
 		return variants.red
 	}
 

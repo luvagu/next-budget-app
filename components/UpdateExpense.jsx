@@ -11,6 +11,7 @@ function UpdateExpense({ isOpen, closeModal }) {
 		currentExpense,
 		openViewExpenseModalWithId,
 	} = useBadgets()
+
 	const { id: ref, amount, description } = currentExpense
 
 	const handleSubmit = form => {
