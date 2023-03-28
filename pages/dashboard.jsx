@@ -26,7 +26,7 @@ export default withPageAuthRequired(function Dashboard() {
 			{isError && <Error />}
 			{!isFetching && !isError && (hasBudgets || hasExpenses) && (
 				<CardsGrid>
-					{budgets?.map(({ id, name, max }) => {
+					{budgets?.map(({ id, name, max, type }) => {
 						const amount = getBudgetExpenses(id).reduce(
 							(total, expense) => total + expense.amount,
 							0
@@ -38,6 +38,7 @@ export default withPageAuthRequired(function Dashboard() {
 								name={name}
 								amount={amount}
 								max={max}
+								type={type}
 							/>
 						)
 					})}

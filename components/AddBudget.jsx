@@ -1,4 +1,8 @@
-import { useBadgets } from '../context/BudgetsContext'
+import {
+	BUDGET_TYPE_DEFAULT,
+	BUDGET_TYPE_INSTALLMENTS,
+	useBadgets,
+} from '../context/BudgetsContext'
 import { capitalizeWords } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
@@ -54,9 +58,9 @@ function AddBudget({ isOpen, closeModal }) {
 							<input
 								type='radio'
 								name='type'
-								defaultValue='default'
+								defaultValue={BUDGET_TYPE_DEFAULT}
 								className='border-gray-300 text-indigo-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50'
-								checked
+								defaultChecked
 								required
 							/>
 							<span className='ml-2 text-gray-700 text-sm sm:text-base'>
@@ -67,7 +71,7 @@ function AddBudget({ isOpen, closeModal }) {
 							<input
 								type='radio'
 								name='type'
-								defaultValue='installmets'
+								defaultValue={BUDGET_TYPE_INSTALLMENTS}
 								className='border-gray-300 text-indigo-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50'
 								required
 							/>

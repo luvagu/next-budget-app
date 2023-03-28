@@ -7,6 +7,8 @@ import axios from 'axios'
 const BudgetsContext = createContext()
 
 export const UNCATEGORIZED_BUDGET_ID = 'Uncategorized'
+export const BUDGET_TYPE_DEFAULT = 'default'
+export const BUDGET_TYPE_INSTALLMENTS = 'installmets'
 
 export function useBadgets() {
 	return useContext(BudgetsContext)

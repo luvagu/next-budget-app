@@ -4,14 +4,18 @@ import {
 	EyeIcon,
 	PlusIcon,
 } from '@heroicons/react/outline'
-import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
+import {
+	BUDGET_TYPE_INSTALLMENTS,
+	UNCATEGORIZED_BUDGET_ID,
+	useBadgets,
+} from '../context/BudgetsContext'
 import { curencyFormatter } from '../utils/helpers'
 import Button from './shared/Button'
 import Card from './shared/Card'
 import ProgressBar from './shared/ProgressBar'
 import Stack from './shared/Stack'
 
-function BudgetCard({ id, name, amount, max, gray }) {
+function BudgetCard({ id, name, amount, max, type = null, gray }) {
 	const {
 		getBudgetExpenses,
 		openAddExpenseModalWithId,
@@ -22,9 +26,22 @@ function BudgetCard({ id, name, amount, max, gray }) {
 
 	const hasBudgetExpenses = !!getBudgetExpenses(id)?.length
 	const isUncategorizedBudget = id === UNCATEGORIZED_BUDGET_ID
+	const isInstallments = type === BUDGET_TYPE_INSTALLMENTS
 
 	return (
-		<Card bgColor={amount > max ? 'bg-red-100' : gray ? 'bg-gray-100' : null}>
+		<Card
+			bgColor={
+				amount >= max
+					? isInstallments
+						? 'bg-green-100'
+						: 'bg-red-100'
+					: isInstallments
+					? 'bg-sky-100'
+					: gray
+					? 'bg-gray-100'
+					: null
+			}
+		>
 			<h2 className='flex justify-between items-baseline text-gray-600 font-semibold text-base sm:text-lg md:text-xl mb-3 whitespace-nowrap'>
 				<div className='flex-1 mr-2 text-ellipsis overflow-hidden'>{name}</div>
 				<div className='flex items-baseline'>
@@ -37,7 +54,7 @@ function BudgetCard({ id, name, amount, max, gray }) {
 				</div>
 			</h2>
 
-			{max && <ProgressBar current={amount} max={max} />}
+			{max && <ProgressBar current={amount} max={max} type={type} />}
 
 			{id && (
 				<Stack direction='horizontal' extraClass='gap-2 mt-4 justify-end'>

@@ -1,3 +1,4 @@
+import { BUDGET_TYPE_INSTALLMENTS } from '../../context/BudgetsContext'
 import { calculatePercent, classNames } from '../../utils/helpers'
 
 const variants = {
@@ -7,15 +8,17 @@ const variants = {
 	yellow: 'bg-yellow-500',
 }
 
-function ProgressBar({ current, min = 0, max }) {
+function ProgressBar({ current, min = 0, max, type }) {
+	const isInstallments = type === BUDGET_TYPE_INSTALLMENTS
+
 	const getVariant = () => {
 		const percent = calculatePercent(current, max)
 
-		if (percent < 25) return variants.green
-		if (percent < 50) return variants.blue
-		if (percent < 75) return variants.yellow
+		if (percent < 25) return isInstallments ? variants.red : variants.green
+		if (percent < 50) return isInstallments ? variants.yellow : variants.blue
+		if (percent < 75) return isInstallments ? variants.blue : variants.yellow
 
-		return variants.red
+		return isInstallments ? variants.green : variants.red
 	}
 
 	return (
