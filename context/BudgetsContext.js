@@ -116,7 +116,7 @@ function BudgetsProvider({ children }) {
 			: budgets?.find(budget => budget.id === defaultBudgetId) || {}
 	}
 
-	async function addBudget({ name, max }) {
+	async function addBudget({ name, max, type }) {
 		if (budgets.some(budget => budget.name === name)) {
 			return setIsDuplicateBudget(true)
 		}
@@ -125,6 +125,7 @@ function BudgetsProvider({ children }) {
 			id: generateUID(),
 			name,
 			max,
+			type,
 			user: user.sub,
 		}
 
