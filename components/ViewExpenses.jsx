@@ -46,8 +46,12 @@ function ViewExpenses({ isOpen, closeModal }) {
 						direction='horizontal'
 						extraClass='gap-2 hover:bg-slate-100'
 					>
-						<div className='mr-auto text-xl'>{description}</div>
-						<div className='text-lg'>{curencyFormatter(amount)}</div>
+						<div className='mr-auto text-base sm:text-lg md:text-xl'>
+							{description}
+						</div>
+						<div className='text-base sm:text-lg md:text-xl'>
+							{curencyFormatter(amount)}
+						</div>
 						<Button
 							variant='blue-outline'
 							size='sm'

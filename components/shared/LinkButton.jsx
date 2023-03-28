@@ -9,9 +9,9 @@ const variants = {
 }
 
 const sizes = {
-	sm: 'py-1 px-1 sm:py-1 sm:px-2 text-xs',
-	md: 'py-1 px-2 sm:py-2 sm:px-4 text-sm',
-	lg: 'py-2 px-4 sm:py-3 sm:px-6 text-base',
+	sm: 'gap-1 py-1 px-1 sm:py-1 sm:px-2 text-xs',
+	md: 'gap-1 sm:gap-2 py-1 px-2 sm:py-2 sm:px-4 text-xs sm:text-sm',
+	lg: 'gap-3 py-2 px-4 sm:py-3 sm:px-6 text-base',
 }
 
 const LinkButton = forwardRef(
@@ -20,7 +20,7 @@ const LinkButton = forwardRef(
 			<a
 				className={classNames(
 					sizes[size],
-					'flex items-center gap-2 border shadow-sm font-semibold whitespace-nowrap rounded-md',
+					'inline-flex items-center border shadow-sm font-semibold whitespace-nowrap rounded-md',
 					variants[variant],
 					'focus:outline-none focus:ring-2 focus:ring-offset-2'
 				)}

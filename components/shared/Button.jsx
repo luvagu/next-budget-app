@@ -16,7 +16,7 @@ const variants = {
 
 const sizes = {
 	sm: 'gap-1 py-1 px-1 sm:py-1 sm:px-2 text-xs',
-	md: 'gap-2 py-1 px-2 sm:py-2 sm:px-4 text-sm',
+	md: 'gap-1 sm:gap-2 py-1 px-2 sm:py-2 sm:px-4 text-xs sm:text-sm',
 	lg: 'gap-3 py-2 px-4 sm:py-3 sm:px-6 text-base',
 }
 
@@ -34,7 +34,7 @@ function Button({
 			type={type}
 			className={classNames(
 				sizes[size],
-				'inline-flex border shadow-sm font-semibold whitespace-nowrap rounded focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed',
+				'inline-flex items-center border shadow-sm font-semibold whitespace-nowrap rounded focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed',
 				variants[variant],
 				extraClass
 			)}

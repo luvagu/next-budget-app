@@ -25,12 +25,12 @@ function BudgetCard({ id, name, amount, max, gray }) {
 
 	return (
 		<Card bgColor={amount > max ? 'bg-red-100' : gray ? 'bg-gray-100' : null}>
-			<h2 className='flex justify-between items-baseline text-gray-600 font-semibold text-xl mb-3 whitespace-nowrap'>
+			<h2 className='flex justify-between items-baseline text-gray-600 font-semibold text-base sm:text-lg md:text-xl mb-3 whitespace-nowrap'>
 				<div className='flex-1 mr-2 text-ellipsis overflow-hidden'>{name}</div>
 				<div className='flex items-baseline'>
 					{curencyFormatter(amount)}
 					{max && (
-						<span className='text-base text-gray-400 ml-1'>
+						<span className='text-sm md:text-base text-gray-400 ml-1'>
 							/ {curencyFormatter(max)}
 						</span>
 					)}

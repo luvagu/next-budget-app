@@ -44,7 +44,7 @@ function Modal({ children, title, isOpen = false, closeModal }) {
 
 								<Dialog.Title
 									as='h3'
-									className='relative flex items-baseline gap-2 text-xl font-semibold leading-6 p-4 pr-12 text-gray-900 border-b shadow-sm'
+									className='relative flex items-baseline gap-2 text-base sm:text-lg md:text-xl font-semibold leading-6 p-4 pr-12 text-gray-900 border-b shadow-sm'
 								>
 									{title}
 								</Dialog.Title>

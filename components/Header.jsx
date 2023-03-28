@@ -44,10 +44,10 @@ function Header({ isHome, isDashboard }) {
 	return (
 		<Fragment>
 			<Stack direction='horizontal' extraClass='gap-2 mb-4'>
-				<h1 className='inline-flex items-center gap-1 text-2xl sm:text-3xl font-semibold mr-auto'>
+				<h1 className='inline-flex items-center gap-1 text-xl sm:text-2xl md:text-3xl font-semibold mr-auto'>
 					{user ? (
 						<Fragment>
-							<CashIcon className='text-blue-600 h-8 w-8 sm:h-10 sm:w-10' />
+							<CashIcon className='text-blue-600 h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10' />
 							<span className='text-blue-600'>
 								{getFirstInitial(user?.name)}&apos;
 							</span>
@@ -61,7 +61,7 @@ function Header({ isHome, isDashboard }) {
 				{isHome && (
 					<Link href='/api/auth/login' passHref>
 						<LinkButton>
-							<LoginIcon className='h-5 w-5' />
+							<LoginIcon className='h-4 w-4 sm:h-5 sm:w-5' />
 							<span>Log In</span>
 						</LinkButton>
 					</Link>
@@ -69,19 +69,19 @@ function Header({ isHome, isDashboard }) {
 				{user && isDashboard && (
 					<Fragment>
 						<Button onClick={toggleAddBudgetModal}>
-							<PlusIcon className='h-5 w-5' />
+							<PlusIcon className='h-4 w-4 sm:h-5 sm:w-5' />
 							<span>Budget</span>
 						</Button>
 						<Button onClick={openAddExpenseModalWithId} variant='blue-outline'>
-							<PlusIcon className='h-5 w-5' />
-
+							<PlusIcon className='h-4 w-4 sm:h-5 sm:w-5' />
 							<span>Expense</span>
 						</Button>
 					</Fragment>
 				)}
 				{user && (
 					<LinkButton href='/api/auth/logout' variant='gray-outline'>
-						<LogoutIcon className='h-5 w-5' /> <span>Log Out</span>
+						<LogoutIcon className='h-4 w-4 sm:h-5 sm:w-5' />{' '}
+						<span>Log Out</span>
 					</LinkButton>
 				)}
 			</Stack>
