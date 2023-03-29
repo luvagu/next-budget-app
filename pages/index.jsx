@@ -3,7 +3,6 @@ import Container from '../components/shared/Container'
 import Metatags from '../components/shared/Metatags'
 import Header from '../components/Header'
 import Hero from '../components/Hero'
-import Error from '../components/shared/Error'
 
 export default function Home() {
 	return (
@@ -15,8 +14,8 @@ export default function Home() {
 	)
 }
 
-export const getServerSideProps = async context => {
-	const user = await getSession(context.req, context.res)
+export async function getServerSideProps(context) {
+	const user = getSession(context.req, context.res)
 
 	if (user) {
 		return {
