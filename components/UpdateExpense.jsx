@@ -58,7 +58,7 @@ function UpdateExpense({ isOpen, closeModal }) {
 						type='number'
 						name='amount'
 						min={0}
-						step={0.01}
+						step={1}
 						className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50'
 						placeholder=''
 						defaultValue={amount}
