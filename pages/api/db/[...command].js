@@ -1,4 +1,4 @@
-import { withApiAuthRequired } from '@auth0/nextjs-auth0'
+import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0'
 import {
 	createBudget,
 	createExpense,
@@ -17,8 +17,17 @@ const ALLOWED_COMMANDS = {
 }
 
 export default withApiAuthRequired(async function handler(req, res) {
+	const session = getSession(req, res)
+	const userId = session?.user?.sub
+	const authorization = req.headers.authorization
+
 	const [command, query, args] = req.query.command
 	const method = req.method
+	const data = req.body
+
+	if (userId !== authorization) {
+		return res.status(401).json({ message: 'Unauthorized' })
+	}
 
 	if (!ALLOWED_COMMANDS[command] || ALLOWED_COMMANDS[command] !== method) {
 		return res.status(405).json({ message: 'Command/Method not allowed' })
@@ -38,8 +47,6 @@ export default withApiAuthRequired(async function handler(req, res) {
 	}
 
 	if (ALLOWED_COMMANDS[command] === 'POST') {
-		const data = req.body
-
 		try {
 			let response
 			if (query === 'budget') {
@@ -76,8 +83,6 @@ export default withApiAuthRequired(async function handler(req, res) {
 	}
 
 	if (ALLOWED_COMMANDS[command] === 'PUT') {
-		const data = req.body
-
 		try {
 			let response
 			if (query === 'budget') {

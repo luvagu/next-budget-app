@@ -36,6 +36,9 @@ function BudgetsProvider({ children }) {
 	const budgets = data?.budgets
 	const expenses = data?.expenses
 
+	// Set global Axios required Authorization headers for all api calls
+	axios.defaults.headers.common['Authorization'] = user?.sub
+
 	function deleteDataCallback() {
 		const { type, id } = deleteData
 
