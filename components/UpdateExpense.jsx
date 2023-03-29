@@ -1,4 +1,8 @@
-import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
+import {
+	BUDGET_TYPE_INSTALLMENTS,
+	UNCATEGORIZED_BUDGET_ID,
+	useBadgets,
+} from '../context/BudgetsContext'
 import { capitalizeWords } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
@@ -10,9 +14,12 @@ function UpdateExpense({ isOpen, closeModal }) {
 		defaultBudgetId,
 		currentExpense,
 		openViewExpenseModalWithId,
+		getDefaultBudget,
 	} = useBadgets()
 
 	const { id: ref, amount, description } = currentExpense
+	const { type } = getDefaultBudget()
+	const isInstallments = type === BUDGET_TYPE_INSTALLMENTS
 
 	const handleSubmit = form => {
 		form.preventDefault()
@@ -22,13 +29,13 @@ function UpdateExpense({ isOpen, closeModal }) {
 		)
 
 		updateExpense({
-			budgetId,
+			budgetId: isInstallments ? defaultBudgetId : budgetId,
 			description: capitalizeWords(description),
 			amount: parseFloat(amount),
 			ref,
 		})
 		closeModal()
-		openViewExpenseModalWithId(budgetId)
+		openViewExpenseModalWithId(isInstallments ? defaultBudgetId : budgetId)
 	}
 
 	return (
@@ -62,8 +69,9 @@ function UpdateExpense({ isOpen, closeModal }) {
 					<span className='text-gray-700'>Budget</span>
 					<select
 						name='budgetId'
-						className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50'
+						className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 disabled:bg-gray-100 disabled:text-gray-500'
 						defaultValue={defaultBudgetId}
+						disabled={isInstallments}
 					>
 						<option value={UNCATEGORIZED_BUDGET_ID}>
 							{UNCATEGORIZED_BUDGET_ID}

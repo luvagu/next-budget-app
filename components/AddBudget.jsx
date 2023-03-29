@@ -59,7 +59,7 @@ function AddBudget({ isOpen, closeModal }) {
 								type='radio'
 								name='type'
 								defaultValue={BUDGET_TYPE_DEFAULT}
-								className='border-gray-300 text-indigo-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50'
+								className='border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50'
 								defaultChecked
 								required
 							/>
@@ -72,7 +72,7 @@ function AddBudget({ isOpen, closeModal }) {
 								type='radio'
 								name='type'
 								defaultValue={BUDGET_TYPE_INSTALLMENTS}
-								className='border-gray-300 text-indigo-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50'
+								className='border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50'
 								required
 							/>
 							<span className='ml-2 text-gray-700 text-sm sm:text-base'>
