@@ -44,18 +44,18 @@ function Modal({ children, title, isOpen = false, closeModal, progress }) {
 
 								<Dialog.Title
 									as='h3'
-									className='relative flex items-baseline gap-2 text-base sm:text-lg md:text-xl font-semibold leading-6 p-4 pr-12 text-gray-900 border-b shadow-sm'
+									className='relative flex items-baseline gap-2 text-base sm:text-lg md:text-xl font-semibold leading-6 p-4 pr-12 text-gray-900 border-b'
 								>
 									{title}
 								</Dialog.Title>
 
 								{progress && (
-									<div className='relative flex flex-col items-center px-4 pt-3 bg-slate-100'>
+									<div className='relative px-4 py-2 bg-slate-100'>
 										{progress}
 									</div>
 								)}
 								{/* body */}
-								<div className='m-0 px-4 pt-2 pb-4 overflow-y-auto flex-auto bg-slate-100'>
+								<div className='m-0 px-4 pt-2 pb-4 overflow-y-auto flex-auto bg-slate-200 shadow-inner'>
 									{children}
 								</div>
 							</Dialog.Panel>
