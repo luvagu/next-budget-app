@@ -7,7 +7,7 @@ export function curencyFormatter(amount = 0) {
 		currency: 'usd',
 		style: 'currency',
 		minimumFractionDigits: 0,
-	}).format(amount)
+	}).format(Math.abs(amount))
 }
 
 export function calculatePercent(current = 0, max = 0) {
@@ -67,4 +67,18 @@ export function capitalizeWords(words = '') {
 		.map(word => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(' ')
 		.trim()
+}
+
+export function dateFormatter(timestamp = null) {
+	if (!timestamp) return null
+
+	const date = new Date(timestamp / 1000)
+	const formattedDateString = new Intl.DateTimeFormat('en-GB', {
+		weekday: 'long',
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	}).format(date)
+
+	return `Created on ${formattedDateString}`
 }
