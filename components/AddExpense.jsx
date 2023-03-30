@@ -25,8 +25,6 @@ function AddExpense({ isOpen, closeModal }) {
 			new FormData(form.target).entries()
 		)
 
-		console.log({ budgetId, amount, description })
-
 		addExpense({
 			budgetId: isBudgetTypeLoan ? defaultBudget.id : budgetId,
 			description: capitalizeWords(description),
