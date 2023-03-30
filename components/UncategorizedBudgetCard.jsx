@@ -2,12 +2,9 @@ import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
 import BudgetCard from './BudgetCard'
 
 function UncategorizedBudgetCard() {
-	const { getBudgetExpenses } = useBadgets()
+	const { getBudgetExpensesAmount } = useBadgets()
 
-	const amount = getBudgetExpenses(UNCATEGORIZED_BUDGET_ID)?.reduce(
-		(total, expense) => total + expense.amount,
-		0
-	)
+	const amount = getBudgetExpensesAmount(UNCATEGORIZED_BUDGET_ID)
 
 	if (amount === 0) return null
 

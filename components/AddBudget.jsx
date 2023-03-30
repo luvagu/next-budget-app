@@ -1,6 +1,6 @@
 import {
 	BUDGET_TYPE_DEFAULT,
-	BUDGET_TYPE_INSTALLMENTS,
+	BUDGET_TYPE_LOAN,
 	useBadgets,
 } from '../context/BudgetsContext'
 import { capitalizeWords } from '../utils/helpers'
@@ -71,12 +71,12 @@ function AddBudget({ isOpen, closeModal }) {
 							<input
 								type='radio'
 								name='type'
-								defaultValue={BUDGET_TYPE_INSTALLMENTS}
+								defaultValue={BUDGET_TYPE_LOAN}
 								className='border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50'
 								required
 							/>
 							<span className='ml-2 text-gray-700 text-sm sm:text-base'>
-								Installments Tracker
+								Loan (installments tracker)
 							</span>
 						</label>
 					</Stack>

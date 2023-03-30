@@ -1,18 +1,14 @@
-import { BUDGET_TYPE_INSTALLMENTS, useBadgets } from '../context/BudgetsContext'
+import { useBadgets } from '../context/BudgetsContext'
 import BudgetCard from './BudgetCard'
 
 function TotalBudgetCard() {
-	const { budgets, expenses } = useBadgets()
+	const { totalExpensesVsBudgets } = useBadgets()
 
-	const amount = expenses?.reduce((total, expense) => total + expense.amount, 0)
-
-	const max = budgets
-		.filter(({ type }) => type !== BUDGET_TYPE_INSTALLMENTS)
-		?.reduce((total, budget) => total + budget.max, 0)
+	const { amount, max } = totalExpensesVsBudgets
 
 	if (max === 0) return null
 
-	return <BudgetCard name='Total' amount={amount} max={max} gray />
+	return <BudgetCard name='Total' amount={amount} max={max} isTotal />
 }
 
 export default TotalBudgetCard

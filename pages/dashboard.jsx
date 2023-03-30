@@ -12,7 +12,7 @@ import UncategorizedBudgetCard from '../components/UncategorizedBudgetCard'
 import HeroDashboard from '../components/HeroDashboard'
 
 export default withPageAuthRequired(function Dashboard() {
-	const { isFetching, isError, budgets, expenses, getBudgetExpenses } =
+	const { isFetching, isError, budgets, expenses, getBudgetExpensesAmount } =
 		useBadgets()
 
 	const hasBudgets = !!budgets?.length
@@ -26,21 +26,10 @@ export default withPageAuthRequired(function Dashboard() {
 			{isError && <Error />}
 			{!isFetching && !isError && (hasBudgets || hasExpenses) && (
 				<CardsGrid>
-					{budgets?.map(({ id, name, max, type }) => {
-						const amount = getBudgetExpenses(id).reduce(
-							(total, expense) => total + expense.amount,
-							0
-						)
-						return (
-							<BudgetCard
-								key={id}
-								id={id}
-								name={name}
-								amount={amount}
-								max={max}
-								type={type}
-							/>
-						)
+					{budgets?.map(({ id, ...props }) => {
+						const amount = getBudgetExpensesAmount(id)
+
+						return <BudgetCard key={id} id={id} amount={amount} {...props} />
 					})}
 					<UncategorizedBudgetCard />
 					<TotalBudgetCard />

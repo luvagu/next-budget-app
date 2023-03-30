@@ -8,7 +8,9 @@ const BudgetsContext = createContext()
 
 export const UNCATEGORIZED_BUDGET_ID = 'Uncategorized'
 export const BUDGET_TYPE_DEFAULT = 'default'
-export const BUDGET_TYPE_INSTALLMENTS = 'installmets'
+export const BUDGET_TYPE_LOAN = 'loan'
+export const EXPENSE_TYPE_DEFAULT = 'installment'
+export const EXPENSE_TYPE_INSTALLMENT = 'installment'
 
 export function useBadgets() {
 	return useContext(BudgetsContext)
@@ -16,6 +18,10 @@ export function useBadgets() {
 
 function BudgetsProvider({ children }) {
 	const { user } = useUser()
+
+	// Set global Axios required Authorization headers for all api calls
+	axios.defaults.headers.common['Authorization'] = user?.sub
+
 	const { data, isFetching, isError, mutate } = useDbData(
 		user ? `/api/db/read/userdata/${user?.sub}` : null
 	)
@@ -36,8 +42,37 @@ function BudgetsProvider({ children }) {
 	const budgets = data?.budgets
 	const expenses = data?.expenses
 
-	// Set global Axios required Authorization headers for all api calls
-	axios.defaults.headers.common['Authorization'] = user?.sub
+	const defaultBudget =
+		defaultBudgetId === UNCATEGORIZED_BUDGET_ID
+			? {
+					id: UNCATEGORIZED_BUDGET_ID,
+					name: UNCATEGORIZED_BUDGET_ID,
+					max: undefined,
+					type: undefined,
+			  }
+			: budgets?.find(budget => budget.id === defaultBudgetId) || {}
+
+	const budgetsTypeDefault = budgets?.filter(
+		({ type }) => type !== BUDGET_TYPE_LOAN
+	)
+
+	const budgetsTypeLoan = budgets?.filter(
+		({ type }) => type === BUDGET_TYPE_LOAN
+	)
+
+	const expensesTypeDefault = expenses?.filter(
+		({ type }) => type !== EXPENSE_TYPE_INSTALLMENT
+	)
+
+	const totalExpensesVsBudgets = {
+		amount: expensesTypeDefault?.reduce(
+			(total, expense) => total + expense.amount,
+			0
+		),
+		max: budgetsTypeDefault?.reduce((total, budget) => total + budget.max, 0),
+	}
+
+	const isBudgetTypeLoan = defaultBudget?.type === BUDGET_TYPE_LOAN
 
 	function deleteDataCallback() {
 		const { type, id } = deleteData
@@ -46,7 +81,7 @@ function BudgetsProvider({ children }) {
 			deleteBudget(id)
 		}
 
-		if (type === 'expense') {
+		if (type === 'expense' || type === 'installment') {
 			deleteExpense(id)
 		}
 
@@ -111,14 +146,10 @@ function BudgetsProvider({ children }) {
 		return expenses?.filter(expense => expense.budgetId === budgetId)
 	}
 
-	function getDefaultBudget() {
-		return defaultBudgetId === UNCATEGORIZED_BUDGET_ID
-			? {
-					id: UNCATEGORIZED_BUDGET_ID,
-					name: UNCATEGORIZED_BUDGET_ID,
-					max: undefined,
-			  }
-			: budgets?.find(budget => budget.id === defaultBudgetId) || {}
+	function getBudgetExpensesAmount(budgetId) {
+		return expenses
+			?.filter(expense => expense.budgetId === budgetId)
+			?.reduce((total, expense) => total + expense.amount, 0)
 	}
 
 	async function addBudget({ name, max, type }) {
@@ -175,12 +206,13 @@ function BudgetsProvider({ children }) {
 		await mutate()
 	}
 
-	async function addExpense({ budgetId, amount, description }) {
+	async function addExpense({ budgetId, amount, description, type }) {
 		const newExpense = {
 			id: generateUID(),
 			budgetId,
 			amount,
 			description,
+			type,
 			user: user.sub,
 		}
 
@@ -263,12 +295,16 @@ function BudgetsProvider({ children }) {
 				addExpense,
 				budgets,
 				currentExpense,
+				defaultBudget,
 				defaultBudgetId,
+				budgetsTypeDefault,
+				budgetsTypeLoan,
 				deleteData,
 				deleteDataCallback,
 				expenses,
 				getBudgetExpenses,
-				getDefaultBudget,
+				getBudgetExpensesAmount,
+				isBudgetTypeLoan,
 				isDuplicateBudget,
 				isError,
 				isFetching,
@@ -290,6 +326,7 @@ function BudgetsProvider({ children }) {
 				toggleUpdateBudgetModal,
 				toggleUpdateExpenseModal,
 				toggleViewExpenseModal,
+				totalExpensesVsBudgets,
 				updateBudget,
 				updateExpense,
 			}}

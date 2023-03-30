@@ -27,7 +27,7 @@ function ConfirmDelete({ isOpen, closeModal }) {
 	const handleCancel = () => {
 		closeModal()
 
-		if (type === 'expense') {
+		if (type === 'expense' || type === 'installment') {
 			openViewExpenseModalWithId(defaultBudgetId)
 		}
 	}
@@ -35,7 +35,7 @@ function ConfirmDelete({ isOpen, closeModal }) {
 	const handleDelete = () => {
 		deleteDataCallback()
 
-		if (type === 'expense') {
+		if (type === 'expense' || type === 'installment') {
 			openViewExpenseModalWithId(defaultBudgetId)
 		}
 	}

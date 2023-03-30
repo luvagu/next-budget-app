@@ -7,27 +7,27 @@ import Stack from './shared/Stack'
 
 function ViewExpenses({ isOpen, closeModal }) {
 	const {
-		defaultBudgetId,
 		getBudgetExpenses,
-		getDefaultBudget,
 		openUpdateExpenseModalWithData,
 		openAddExpenseModalWithId,
 		openConfirmDeleteModalWithTypeAndId,
+		defaultBudget,
+		isBudgetTypeLoan,
 	} = useBadgets()
 
-	const budget = getDefaultBudget()
-	const budgetExpenses = getBudgetExpenses(defaultBudgetId)
+	const budgetExpenses = getBudgetExpenses(defaultBudget.id)
 
 	const renderTitle = (
 		<>
 			<span className='flex-1'>
-				<span className=' text-blue-600'>{budget?.name}&apos;s</span> Expenses
+				<span className=' text-blue-600'>{defaultBudget?.name}&apos;s</span>{' '}
+				{isBudgetTypeLoan ? 'Installments' : 'Expenses'}
 			</span>
 			<Button
 				variant='blue-outline'
 				size='sm'
 				onClick={() => {
-					openAddExpenseModalWithId(defaultBudgetId)
+					openAddExpenseModalWithId(defaultBudget.id)
 					closeModal()
 				}}
 			>
@@ -56,7 +56,7 @@ function ViewExpenses({ isOpen, closeModal }) {
 							variant='blue-outline'
 							size='sm'
 							onClick={() => {
-								openUpdateExpenseModalWithData(budget?.id, {
+								openUpdateExpenseModalWithData(defaultBudget?.id, {
 									id,
 									amount,
 									description,
@@ -71,7 +71,7 @@ function ViewExpenses({ isOpen, closeModal }) {
 							size='sm'
 							onClick={() => {
 								openConfirmDeleteModalWithTypeAndId({
-									type: 'expense',
+									type: isBudgetTypeLoan ? 'installment' : 'expense',
 									id,
 									name: description,
 								})

@@ -4,9 +4,9 @@ import Button from './shared/Button'
 import Modal from './shared/Modal'
 
 function UpdateBudget({ isOpen, closeModal }) {
-	const { getDefaultBudget, updateBudget } = useBadgets()
+	const { defaultBudget, updateBudget } = useBadgets()
 
-	const { id: ref, name: budgetName, max: budgetMax } = getDefaultBudget()
+	const { id: ref, name: budgetName, max: budgetMax } = defaultBudget
 
 	const handleSubmit = form => {
 		form.preventDefault()

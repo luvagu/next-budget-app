@@ -5,7 +5,7 @@ import {
 	PlusIcon,
 } from '@heroicons/react/outline'
 import {
-	BUDGET_TYPE_INSTALLMENTS,
+	BUDGET_TYPE_LOAN,
 	UNCATEGORIZED_BUDGET_ID,
 	useBadgets,
 } from '../context/BudgetsContext'
@@ -15,7 +15,7 @@ import Card from './shared/Card'
 import ProgressBar from './shared/ProgressBar'
 import Stack from './shared/Stack'
 
-function BudgetCard({ id, name, amount, max, type = null, gray }) {
+function BudgetCard({ id, name, amount, max, type, isTotal }) {
 	const {
 		getBudgetExpenses,
 		openAddExpenseModalWithId,
@@ -26,18 +26,18 @@ function BudgetCard({ id, name, amount, max, type = null, gray }) {
 
 	const hasBudgetExpenses = !!getBudgetExpenses(id)?.length
 	const isUncategorizedBudget = id === UNCATEGORIZED_BUDGET_ID
-	const isInstallments = type === BUDGET_TYPE_INSTALLMENTS
+	const isBudgetTypeLoan = type === BUDGET_TYPE_LOAN
 
 	return (
 		<Card
 			bgColor={
 				amount >= max
-					? isInstallments
+					? isBudgetTypeLoan
 						? 'bg-green-100'
 						: 'bg-red-100'
-					: isInstallments
+					: isBudgetTypeLoan
 					? 'bg-sky-100'
-					: gray
+					: isTotal
 					? 'bg-gray-100'
 					: null
 			}
@@ -49,12 +49,26 @@ function BudgetCard({ id, name, amount, max, type = null, gray }) {
 					{max && (
 						<span className='text-sm md:text-base text-gray-400 ml-1'>
 							/ {curencyFormatter(max)}
+							{isTotal && '*'}
 						</span>
 					)}
 				</div>
 			</h2>
 
-			{max && <ProgressBar current={amount} max={max} type={type} />}
+			{isTotal && (
+				<p className='text-gray-600 text-xs mb-3'>
+					* Total amount does not account for budgets of type{' '}
+					<strong className='text-sky-600'>Loan</strong>.
+				</p>
+			)}
+
+			{max && (
+				<ProgressBar
+					current={amount}
+					max={max}
+					isBudgetTypeLoan={isBudgetTypeLoan}
+				/>
+			)}
 
 			{id && (
 				<Stack direction='horizontal' extraClass='gap-2 mt-4 justify-end'>
@@ -88,7 +102,7 @@ function BudgetCard({ id, name, amount, max, type = null, gray }) {
 						onClick={() => openAddExpenseModalWithId(id)}
 					>
 						<PlusIcon className='h-4 w-4' />
-						<span>Expense</span>
+						<span>{isBudgetTypeLoan ? 'Installment' : 'Expense'}</span>
 					</Button>
 					<Button
 						onClick={() => openViewExpenseModalWithId(id)}
@@ -97,7 +111,7 @@ function BudgetCard({ id, name, amount, max, type = null, gray }) {
 						disabled={!hasBudgetExpenses}
 					>
 						<EyeIcon className='h-4 w-4' />
-						<span>Expenses</span>
+						<span>{isBudgetTypeLoan ? 'Installments' : 'Expenses'}</span>
 					</Button>
 				</Stack>
 			)}
