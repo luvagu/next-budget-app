@@ -4,7 +4,7 @@ function Card({ children, bgColor = 'bg-white' }) {
 	return (
 		<div
 			className={classNames(
-				'py-4 px-4 w-auto border rounded-md shadow',
+				'py-4 px-4 w-auto sm:h-full border rounded-md shadow',
 				bgColor
 			)}
 		>
