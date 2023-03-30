@@ -15,7 +15,7 @@ import Card from './shared/Card'
 import ProgressBar from './shared/ProgressBar'
 import Stack from './shared/Stack'
 
-function BudgetCard({ id, name, amount, max, type, isTotal }) {
+function BudgetCard({ id, name, amount, max, type, isTotal, isUnrecognized }) {
 	const {
 		getBudgetExpenses,
 		openAddExpenseModalWithId,
@@ -38,7 +38,9 @@ function BudgetCard({ id, name, amount, max, type, isTotal }) {
 					: isBudgetTypeLoan
 					? 'bg-sky-100'
 					: isTotal
-					? 'bg-gray-100'
+					? 'bg-stone-100'
+					: isUnrecognized
+					? 'bg-slate-100'
 					: null
 			}
 		>
@@ -55,19 +57,20 @@ function BudgetCard({ id, name, amount, max, type, isTotal }) {
 				</div>
 			</h2>
 
-			{isTotal && (
-				<p className='text-gray-600 text-xs mb-3'>
-					* Total amount does not account for budgets of type{' '}
-					<strong className='text-sky-600'>Loan</strong>.
-				</p>
-			)}
-
 			{max && (
 				<ProgressBar
 					current={amount}
 					max={max}
 					isBudgetTypeLoan={isBudgetTypeLoan}
+					isTotal={isTotal}
 				/>
+			)}
+
+			{isTotal && (
+				<p className='text-gray-600 text-xs mt-3'>
+					* Total amount does not account for budgets of type{' '}
+					<strong className='text-sky-600'>Loan</strong>.
+				</p>
 			)}
 
 			{id && (

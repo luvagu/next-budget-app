@@ -13,7 +13,7 @@ function UncategorizedBudgetCard() {
 			id={UNCATEGORIZED_BUDGET_ID}
 			name={UNCATEGORIZED_BUDGET_ID}
 			amount={amount}
-			gray
+			isUnrecognized
 		/>
 	)
 }
