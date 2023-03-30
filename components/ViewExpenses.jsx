@@ -1,9 +1,10 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/outline'
-import { useBadgets } from '../context/BudgetsContext'
+import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
 import { curencyFormatter } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
 import Stack from './shared/Stack'
+import ProgressBar from './shared/ProgressBar'
 
 function ViewExpenses({ isOpen, closeModal }) {
 	const {
@@ -13,11 +14,12 @@ function ViewExpenses({ isOpen, closeModal }) {
 		openConfirmDeleteModalWithTypeAndId,
 		defaultBudget,
 		isBudgetTypeLoan,
+		getBudgetExpensesAmount,
 	} = useBadgets()
 
 	const budgetExpenses = getBudgetExpenses(defaultBudget.id)
 
-	const renderTitle = (
+	const title = (
 		<>
 			<span className='flex-1'>
 				<span className=' text-blue-600'>{defaultBudget?.name}&apos;s</span>{' '}
@@ -37,14 +39,28 @@ function ViewExpenses({ isOpen, closeModal }) {
 		</>
 	)
 
+	const progress = defaultBudget.id !== UNCATEGORIZED_BUDGET_ID && (
+		<ProgressBar
+			current={getBudgetExpensesAmount(defaultBudget.id)}
+			max={defaultBudget.max}
+			isBudgetTypeLoan={isBudgetTypeLoan}
+			isInModal
+		/>
+	)
+
 	return (
-		<Modal title={renderTitle} isOpen={isOpen} closeModal={closeModal}>
+		<Modal
+			title={title}
+			isOpen={isOpen}
+			closeModal={closeModal}
+			progress={progress}
+		>
 			<Stack extraClass='gap-2'>
 				{budgetExpenses?.map(({ id, amount, description }) => (
 					<Stack
 						key={id}
 						direction='horizontal'
-						extraClass='gap-2 hover:bg-slate-100'
+						extraClass='gap-2 hover:bg-slate-300'
 					>
 						<div className='mr-auto text-base sm:text-lg md:text-xl'>
 							{description}

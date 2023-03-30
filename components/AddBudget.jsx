@@ -43,7 +43,7 @@ function AddBudget({ isOpen, closeModal }) {
 						type='number'
 						name='max'
 						min={0}
-						step={1}
+						step={0.01}
 						className='mt-1 block w-full rounded-md text-sm sm:text-base border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50'
 						placeholder=''
 						required

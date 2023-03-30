@@ -1,4 +1,8 @@
-import { calculatePercent, classNames } from '../../utils/helpers'
+import {
+	calculatePercent,
+	classNames,
+	curencyFormatter,
+} from '../../utils/helpers'
 
 const getVariant = ({ percent, isBudgetTypeLoan }) => {
 	const variants = {
@@ -15,20 +19,32 @@ const getVariant = ({ percent, isBudgetTypeLoan }) => {
 	return isBudgetTypeLoan ? variants.green : variants.red
 }
 
-function ProgressBar({ current, min = 0, max, isBudgetTypeLoan }) {
+function ProgressBar({ current, min = 0, max, isBudgetTypeLoan, isInModal }) {
 	const percent = calculatePercent(current, max)
 
 	return (
-		<div className='h-4 bg-gray-300 rounded-lg shadow-inner overflow-hidden transition'>
+		<>
 			<div
 				className={classNames(
-					'h-4',
-					getVariant({ percent, isBudgetTypeLoan }),
-					'transition-[width] duration-500'
+					isInModal ? 'relative h-5' : 'h-4',
+					'w-full bg-gray-300 rounded-lg shadow-inner overflow-hidden transition'
 				)}
-				style={{ width: `${percent}%` }}
-			></div>
-		</div>
+			>
+				<div
+					className={classNames(
+						isInModal ? 'h-5' : 'h-4',
+						getVariant({ percent, isBudgetTypeLoan }),
+						'transition-[width] duration-500'
+					)}
+					style={{ width: `${percent}%` }}
+				/>
+				{isInModal && (
+					<div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-sm text-black font-medium'>
+						{curencyFormatter(current)} / {curencyFormatter(max)}
+					</div>
+				)}
+			</div>
+		</>
 	)
 }
 

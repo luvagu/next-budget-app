@@ -7,7 +7,7 @@ import Button from './shared/Button'
 function BudgetNameError({ isOpen, closeModal }) {
 	const { toggleAddBudgetModal, toggleBudgetNameErrorModal } = useBadgets()
 
-	const renderTitleWithIcon = (
+	const title = (
 		<Stack direction='horizontal' extraClass='gap-2'>
 			<ExclamationCircleIcon
 				className='h-6 w-6 text-red-600'
@@ -18,7 +18,7 @@ function BudgetNameError({ isOpen, closeModal }) {
 	)
 
 	return (
-		<Modal title={renderTitleWithIcon} isOpen={isOpen} closeModal={closeModal}>
+		<Modal title={title} isOpen={isOpen} closeModal={closeModal}>
 			<p className='text-base text-gray-500'>
 				Your budget was not added. Budget name must be unique. Please try again!
 			</p>

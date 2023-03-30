@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 
-function Modal({ children, title, isOpen = false, closeModal }) {
+function Modal({ children, title, isOpen = false, closeModal, progress }) {
 	return (
 		<Transition appear show={isOpen} as={Fragment}>
 			<Dialog as='div' className='relative z-10' onClose={closeModal}>
@@ -49,8 +49,13 @@ function Modal({ children, title, isOpen = false, closeModal }) {
 									{title}
 								</Dialog.Title>
 
+								{progress && (
+									<div className='relative flex flex-col items-center px-4 pt-3 bg-slate-100'>
+										{progress}
+									</div>
+								)}
 								{/* body */}
-								<div className='m-0 p-4 overflow-y-auto flex-auto'>
+								<div className='m-0 px-4 pt-2 pb-4 overflow-y-auto flex-auto bg-slate-100'>
 									{children}
 								</div>
 							</Dialog.Panel>

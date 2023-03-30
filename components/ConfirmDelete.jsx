@@ -17,7 +17,7 @@ function ConfirmDelete({ isOpen, closeModal }) {
 	const { name, type, id } = deleteData
 	const hasBudgetExpenses = !!getBudgetExpenses(id)?.length
 
-	const renderTitleWithIcon = (
+	const title = (
 		<Stack direction='horizontal' extraClass='gap-2'>
 			<ExclamationIcon className='h-6 w-6 text-red-600' aria-hidden='true' />
 			<div>Confirm Delete</div>
@@ -41,11 +41,7 @@ function ConfirmDelete({ isOpen, closeModal }) {
 	}
 
 	return (
-		<Modal
-			title={renderTitleWithIcon}
-			isOpen={isOpen}
-			closeModal={handleCancel}
-		>
+		<Modal title={title} isOpen={isOpen} closeModal={handleCancel}>
 			<p className='text-base text-gray-500'>
 				Are you sure you want to delete [{capitalizeWords(type)}] [{name}]?
 			</p>
