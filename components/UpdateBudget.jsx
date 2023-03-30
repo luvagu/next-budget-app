@@ -1,21 +1,36 @@
-import { useBadgets } from '../context/BudgetsContext'
-import { capitalizeWords } from '../utils/helpers'
+import {
+	budgetCardBgColors,
+	BUDGET_CARD_BG_COLORS,
+	useBadgets,
+} from '../context/BudgetsContext'
+import { capitalizeWords, classNames } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
+import Stack from './shared/Stack'
 
 function UpdateBudget({ isOpen, closeModal }) {
 	const { defaultBudget, updateBudget } = useBadgets()
 
-	const { id: ref, name: budgetName, max: budgetMax } = defaultBudget
+	const {
+		id: ref,
+		name: budgetName,
+		max: budgetMax,
+		bgColor: bgC,
+	} = defaultBudget
 
 	const handleSubmit = form => {
 		form.preventDefault()
 
-		const { name, max } = Object.fromEntries(
+		const { name, max, bgColor } = Object.fromEntries(
 			new FormData(form.target).entries()
 		)
 
-		updateBudget({ name: capitalizeWords(name), max: parseFloat(max), ref })
+		updateBudget({
+			name: capitalizeWords(name),
+			max: parseFloat(max),
+			bgColor,
+			ref,
+		})
 		closeModal()
 	}
 
@@ -46,6 +61,30 @@ function UpdateBudget({ isOpen, closeModal }) {
 						required
 					/>
 				</label>
+				<div className='block'>
+					<span className='text-gray-700 text-sm sm:text-base'>
+						Card background color
+					</span>
+					<Stack extraClass='mt-1 gap-2 flex-wrap' direction='horizontal'>
+						{budgetCardBgColors.map(color => (
+							<label
+								key={color}
+								className={classNames(
+									'inline-flex justify-center items-center py-1 w-10 rounded-md shadow',
+									BUDGET_CARD_BG_COLORS[color]
+								)}
+							>
+								<input
+									type='radio'
+									name='bgColor'
+									defaultValue={color}
+									className='border-gray-300 text-blue-600 focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50 disabled:text-gray-500'
+									defaultChecked={color === bgC}
+								/>
+							</label>
+						))}
+					</Stack>
+				</div>
 				<div className='flex justify-end mt-1'>
 					<Button type='submit'>Update</Button>
 				</div>

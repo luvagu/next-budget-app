@@ -12,6 +12,18 @@ export const BUDGET_TYPE_LOAN = 'loan'
 export const EXPENSE_TYPE_DEFAULT = 'default'
 export const EXPENSE_TYPE_INSTALLMENT = 'installment'
 
+export const BUDGET_CARD_BG_COLORS = {
+	white: 'bg-white',
+	gray: 'bg-gray-100',
+	orange: 'bg-orange-100',
+	yellow: 'bg-yellow-100',
+	lime: 'bg-lime-100',
+	emerald: 'bg-emerald-100',
+	cyan: 'bg-cyan-100',
+}
+
+export const budgetCardBgColors = Object.keys(BUDGET_CARD_BG_COLORS)
+
 export function useBadgets() {
 	return useContext(BudgetsContext)
 }
@@ -117,6 +129,10 @@ function BudgetsProvider({ children }) {
 	}
 
 	function openConfirmDeleteModalWithTypeAndId(typeAndId = {}) {
+		if (typeAndId === 'budget') {
+			setDefaultBudgetId(typeAndId.id)
+		}
+
 		toggleConfirmDeleteModal()
 		setDeleteData(typeAndId)
 	}
@@ -152,7 +168,7 @@ function BudgetsProvider({ children }) {
 			?.reduce((total, expense) => total + expense.amount, 0)
 	}
 
-	async function addBudget({ name, max, type }) {
+	async function addBudget({ name, max, type, bgColor }) {
 		if (budgets.some(budget => budget.name === name)) {
 			return setIsDuplicateBudget(true)
 		}
@@ -162,6 +178,7 @@ function BudgetsProvider({ children }) {
 			name,
 			max,
 			type,
+			bgColor,
 			user: user.sub,
 		}
 
@@ -172,7 +189,7 @@ function BudgetsProvider({ children }) {
 		await mutate()
 	}
 
-	async function updateBudget({ name, max, ref }) {
+	async function updateBudget({ name, max, bgColor, ref }) {
 		if (
 			budgets
 				.filter(({ id }) => id !== ref)
@@ -184,6 +201,7 @@ function BudgetsProvider({ children }) {
 		const newBudgetData = {
 			name,
 			max,
+			bgColor,
 		}
 
 		mutate(
@@ -252,26 +270,39 @@ function BudgetsProvider({ children }) {
 
 	async function deleteBudget(id) {
 		const refsToUpdate = []
+		const isBudgetLoan =
+			budgets?.find(budget => budget.id === id)?.type === BUDGET_TYPE_LOAN
 
 		mutate(
 			{
 				...data,
-				expenses: expenses.map(expense => {
-					if (expense.budgetId === id) {
-						refsToUpdate.push(expense.id)
-						return { ...expense, budgetId: UNCATEGORIZED_BUDGET_ID }
-					}
-					return expense
-				}),
+				expenses: isBudgetLoan
+					? expenses.filter(expense => {
+							if (expense.budgetId === id) {
+								refsToUpdate.push(expense.id)
+							}
+							return expense.budgetId !== id
+					  })
+					: expenses.map(expense => {
+							if (expense.budgetId === id) {
+								refsToUpdate.push(expense.id)
+								return { ...expense, budgetId: UNCATEGORIZED_BUDGET_ID }
+							}
+							return expense
+					  }),
 				budgets: budgets.filter(budget => budget.id !== id),
 			},
 			false
 		)
 
 		for (const ref of refsToUpdate) {
-			await axios.put(`/api/db/update/expense/${ref}`, {
-				budgetId: UNCATEGORIZED_BUDGET_ID,
-			})
+			if (isBudgetLoan) {
+				await axios.delete(`/api/db/delete/expense/${ref}`)
+			} else {
+				await axios.put(`/api/db/update/expense/${ref}`, {
+					budgetId: UNCATEGORIZED_BUDGET_ID,
+				})
+			}
 		}
 
 		await axios.delete(`/api/db/delete/budget/${id}`)

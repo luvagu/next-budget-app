@@ -5,6 +5,7 @@ import {
 	PlusIcon,
 } from '@heroicons/react/outline'
 import {
+	BUDGET_CARD_BG_COLORS,
 	BUDGET_TYPE_LOAN,
 	UNCATEGORIZED_BUDGET_ID,
 	useBadgets,
@@ -15,7 +16,16 @@ import Card from './shared/Card'
 import ProgressBar from './shared/ProgressBar'
 import Stack from './shared/Stack'
 
-function BudgetCard({ id, name, amount, max, type, isTotal, isUnrecognized }) {
+function BudgetCard({
+	id,
+	name,
+	amount,
+	max,
+	type,
+	bgColor,
+	isTotal,
+	isUnrecognized,
+}) {
 	const {
 		getBudgetExpenses,
 		openAddExpenseModalWithId,
@@ -24,14 +34,16 @@ function BudgetCard({ id, name, amount, max, type, isTotal, isUnrecognized }) {
 		openConfirmDeleteModalWithTypeAndId,
 	} = useBadgets()
 
+	const isOver = amount >= max
 	const hasBudgetExpenses = !!getBudgetExpenses(id)?.length
 	const isUncategorizedBudget = id === UNCATEGORIZED_BUDGET_ID
 	const isBudgetTypeLoan = type === BUDGET_TYPE_LOAN
+	const customCardBgColor = BUDGET_CARD_BG_COLORS[bgColor]
 
 	return (
 		<Card
 			bgColor={
-				amount >= max
+				isOver
 					? isBudgetTypeLoan
 						? 'bg-green-100'
 						: 'bg-red-100'
@@ -41,7 +53,7 @@ function BudgetCard({ id, name, amount, max, type, isTotal, isUnrecognized }) {
 					? 'bg-stone-100'
 					: isUnrecognized
 					? 'bg-slate-100'
-					: null
+					: customCardBgColor
 			}
 		>
 			<h2 className='flex justify-between items-baseline text-gray-600 font-semibold text-base sm:text-lg md:text-xl mb-3 whitespace-nowrap'>
