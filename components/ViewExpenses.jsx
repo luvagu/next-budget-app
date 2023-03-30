@@ -1,6 +1,6 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/outline'
 import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
-import { curencyFormatter } from '../utils/helpers'
+import { curencyFormatter, dateFormatter } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
 import Stack from './shared/Stack'
@@ -56,14 +56,19 @@ function ViewExpenses({ isOpen, closeModal }) {
 			progress={progress}
 		>
 			<Stack extraClass='gap-2'>
-				{budgetExpenses?.map(({ id, amount, description }) => (
+				{budgetExpenses?.map(({ id, amount, description, ts }) => (
 					<Stack
 						key={id}
 						direction='horizontal'
-						extraClass='gap-2 hover:bg-slate-300'
+						extraClass='gap-2 hover:bg-slate-300 items-baseline'
 					>
-						<div className='mr-auto text-base sm:text-lg md:text-xl'>
+						<div className='mr-auto text-base sm:text-lg md:text-xl inline-flex flex-col'>
 							{description}
+							{ts && (
+								<span className='text-xs text-gray-600 text-'>
+									{dateFormatter(ts)}
+								</span>
+							)}
 						</div>
 						<div className='text-base sm:text-lg md:text-xl'>
 							{curencyFormatter(amount)}
