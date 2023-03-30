@@ -20,6 +20,7 @@ export const BUDGET_CARD_BG_COLORS = {
 	lime: 'bg-lime-100',
 	emerald: 'bg-emerald-100',
 	cyan: 'bg-cyan-100',
+	violet: 'bg-violet-100',
 }
 
 export const budgetCardBgColors = Object.keys(BUDGET_CARD_BG_COLORS)
