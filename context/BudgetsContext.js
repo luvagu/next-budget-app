@@ -9,7 +9,7 @@ const BudgetsContext = createContext()
 export const UNCATEGORIZED_BUDGET_ID = 'Uncategorized'
 export const BUDGET_TYPE_DEFAULT = 'default'
 export const BUDGET_TYPE_LOAN = 'loan'
-export const EXPENSE_TYPE_DEFAULT = 'installment'
+export const EXPENSE_TYPE_DEFAULT = 'default'
 export const EXPENSE_TYPE_INSTALLMENT = 'installment'
 
 export function useBadgets() {
