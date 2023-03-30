@@ -16,6 +16,7 @@ export const readUserData = async user => {
 		return {
 			...budget.data,
 			id: budget.ref.id,
+			ts: budget.ts,
 		}
 	})
 
@@ -23,6 +24,7 @@ export const readUserData = async user => {
 		return {
 			...expense.data,
 			id: expense.ref.id,
+			ts: expense.ts,
 		}
 	})
 
