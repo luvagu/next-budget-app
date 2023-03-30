@@ -32,7 +32,7 @@ function ViewExpenses({ isOpen, closeModal }) {
 				}}
 			>
 				<PlusIcon className='h-4 w-4' />
-				<span>Expense</span>
+				<span>{isBudgetTypeLoan ? 'Installment' : 'Expense'}</span>
 			</Button>
 		</>
 	)
