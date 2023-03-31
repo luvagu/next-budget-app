@@ -28,18 +28,18 @@ function ProgressBar({
 	isTotal,
 }) {
 	const percent = calculatePercent(current, max)
-	const isOver = current > max
-	const isAtMax = current === max
 	const remaining = max - current
+	const isOverBudget = current > max
+	const isAtMaxBudget = current === max
 
 	return (
 		<>
 			{!isInModal &&
 				(isBudgetTypeLoan ? (
 					<p className='text-xs mb-1'>
-						{isAtMax
+						{isAtMaxBudget
 							? 'Congratulation! The loan is paid in full.'
-							: isOver
+							: isOverBudget
 							? `You've overpaid the loan by ${curencyFormatter(remaining)}`
 							: `You're ${curencyFormatter(
 									remaining
@@ -47,11 +47,11 @@ function ProgressBar({
 					</p>
 				) : (
 					<p className='text-xs mb-1'>
-						{isAtMax
+						{isAtMaxBudget
 							? isTotal
 								? 'Your total budget is maxed out!'
 								: "You've maxed out the badget."
-							: isOver
+							: isOverBudget
 							? isTotal
 								? `Opps! You've gone over the total badget by ${curencyFormatter(
 										remaining
