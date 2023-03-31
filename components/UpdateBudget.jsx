@@ -1,7 +1,8 @@
 import {
-	budgetCardBgColors,
+	defaultBudgetCardBgColors,
 	BUDGET_CARD_BG_COLORS,
 	useBadgets,
+	BUDGET_TYPES,
 } from '../context/BudgetsContext'
 import { capitalizeWords, classNames } from '../utils/helpers'
 import Button from './shared/Button'
@@ -9,7 +10,7 @@ import Modal from './shared/Modal'
 import Stack from './shared/Stack'
 
 function UpdateBudget({ isOpen, closeModal }) {
-	const { defaultBudget, updateBudget } = useBadgets()
+	const { defaultBudget, updateBudget, isBudgetTypeLoan } = useBadgets()
 
 	const {
 		id: ref,
@@ -33,6 +34,10 @@ function UpdateBudget({ isOpen, closeModal }) {
 		})
 		closeModal()
 	}
+
+	const budgetCardBgColorsToMap = isBudgetTypeLoan
+		? [BUDGET_TYPES.loan]
+		: defaultBudgetCardBgColors
 
 	return (
 		<Modal title='Update Budget' isOpen={isOpen} closeModal={closeModal}>
@@ -66,7 +71,7 @@ function UpdateBudget({ isOpen, closeModal }) {
 						Card background color
 					</span>
 					<Stack extraClass='mt-1 gap-2 flex-wrap' direction='horizontal'>
-						{budgetCardBgColors.map(color => (
+						{budgetCardBgColorsToMap.map(color => (
 							<label
 								key={color}
 								className={classNames(

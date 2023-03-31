@@ -1,6 +1,5 @@
 import {
-	EXPENSE_TYPE_DEFAULT,
-	EXPENSE_TYPE_INSTALLMENT,
+	EXPENSE_TYPES,
 	UNCATEGORIZED_BUDGET_ID,
 	useBadgets,
 } from '../context/BudgetsContext'
@@ -29,7 +28,9 @@ function AddExpense({ isOpen, closeModal }) {
 			budgetId: isBudgetTypeLoan ? defaultBudget.id : budgetId,
 			description: capitalizeWords(description),
 			amount: parseFloat(amount),
-			type: isBudgetTypeLoan ? EXPENSE_TYPE_INSTALLMENT : EXPENSE_TYPE_DEFAULT,
+			type: isBudgetTypeLoan
+				? EXPENSE_TYPES.installment
+				: EXPENSE_TYPES.default,
 		})
 		closeModal()
 		openViewExpenseModalWithId(isBudgetTypeLoan ? defaultBudget.id : budgetId)

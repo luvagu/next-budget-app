@@ -1,5 +1,9 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/outline'
-import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
+import {
+	DELETE_TYPE,
+	UNCATEGORIZED_BUDGET_ID,
+	useBadgets,
+} from '../context/BudgetsContext'
 import { curencyFormatter, dateFormatter } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
@@ -92,7 +96,9 @@ function ViewExpenses({ isOpen, closeModal }) {
 							size='sm'
 							onClick={() => {
 								openConfirmDeleteModalWithTypeAndId({
-									type: isBudgetTypeLoan ? 'installment' : 'expense',
+									type: isBudgetTypeLoan
+										? DELETE_TYPE.expenseInstallment
+										: DELETE_TYPE.expenseDefault,
 									id,
 									name: description,
 								})

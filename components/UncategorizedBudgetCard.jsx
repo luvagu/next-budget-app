@@ -1,4 +1,8 @@
-import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
+import {
+	BUDGET_CARD_BG_COLORS,
+	UNCATEGORIZED_BUDGET_ID,
+	useBadgets,
+} from '../context/BudgetsContext'
 import BudgetCard from './BudgetCard'
 
 function UncategorizedBudgetCard() {
@@ -13,7 +17,7 @@ function UncategorizedBudgetCard() {
 			id={UNCATEGORIZED_BUDGET_ID}
 			name={UNCATEGORIZED_BUDGET_ID}
 			amount={amount}
-			isUnrecognized
+			bgColor='unrecognized'
 		/>
 	)
 }

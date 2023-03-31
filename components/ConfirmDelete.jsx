@@ -1,5 +1,5 @@
 import { ExclamationIcon } from '@heroicons/react/outline'
-import { useBadgets } from '../context/BudgetsContext'
+import { DELETE_TYPE, useBadgets } from '../context/BudgetsContext'
 import { capitalizeWords } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
@@ -28,7 +28,10 @@ function ConfirmDelete({ isOpen, closeModal }) {
 	const handleCancel = () => {
 		closeModal()
 
-		if (type === 'expense' || type === 'installment') {
+		if (
+			type === DELETE_TYPE.expenseDefault ||
+			type === DELETE_TYPE.expenseInstallment
+		) {
 			openViewExpenseModalWithId(defaultBudget.id)
 		}
 	}
@@ -36,7 +39,10 @@ function ConfirmDelete({ isOpen, closeModal }) {
 	const handleDelete = () => {
 		deleteDataCallback()
 
-		if (type === 'expense' || type === 'installment') {
+		if (
+			type === DELETE_TYPE.expenseDefault ||
+			type === DELETE_TYPE.expenseInstallment
+		) {
 			openViewExpenseModalWithId(defaultBudget.id)
 		}
 	}

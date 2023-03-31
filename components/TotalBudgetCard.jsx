@@ -8,7 +8,15 @@ function TotalBudgetCard() {
 
 	if (max === 0) return null
 
-	return <BudgetCard name='Total' amount={amount} max={max} isTotal />
+	return (
+		<BudgetCard
+			name='Total'
+			amount={amount}
+			max={max}
+			bgColor='total'
+			isTotal
+		/>
+	)
 }
 
 export default TotalBudgetCard

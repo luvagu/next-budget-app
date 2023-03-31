@@ -7,23 +7,40 @@ import axios from 'axios'
 const BudgetsContext = createContext()
 
 export const UNCATEGORIZED_BUDGET_ID = 'Uncategorized'
-export const BUDGET_TYPE_DEFAULT = 'default'
-export const BUDGET_TYPE_LOAN = 'loan'
-export const EXPENSE_TYPE_DEFAULT = 'default'
-export const EXPENSE_TYPE_INSTALLMENT = 'installment'
+export const BUDGET_TYPES = { default: 'default', loan: 'loan' }
+export const EXPENSE_TYPES = { default: 'default', installment: 'installment' }
+export const DELETE_TYPE = {
+	budget: 'budget',
+	expenseDefault: 'expenseDefault',
+	expenseInstallment: 'expenseInstallment',
+}
 
 export const BUDGET_CARD_BG_COLORS = {
 	white: 'bg-white',
-	gray: 'bg-gray-100',
 	orange: 'bg-orange-100',
 	yellow: 'bg-yellow-100',
 	lime: 'bg-lime-100',
 	emerald: 'bg-emerald-100',
 	cyan: 'bg-cyan-100',
 	violet: 'bg-violet-100',
+	loan: 'bg-sky-100', // reserved
+	total: 'bg-stone-100', // reserved
+	unrecognized: 'bg-slate-100', // reserved
+	loanPaid: 'bg-green-100', // reserved
+	budgetMax: 'bg-red-100', // reserved
 }
 
-export const budgetCardBgColors = Object.keys(BUDGET_CARD_BG_COLORS)
+const BUDGET_CARD_RESERVED_BG_COLORS_KEYS = [
+	'loan',
+	'total',
+	'unrecognized',
+	'loanPaid',
+	'budgetMax',
+]
+
+export const defaultBudgetCardBgColors = Object.keys(
+	BUDGET_CARD_BG_COLORS
+).filter(key => !BUDGET_CARD_RESERVED_BG_COLORS_KEYS.includes(key))
 
 export function useBadgets() {
 	return useContext(BudgetsContext)
@@ -66,15 +83,15 @@ function BudgetsProvider({ children }) {
 			: budgets?.find(budget => budget.id === defaultBudgetId) || {}
 
 	const budgetsTypeDefault = budgets?.filter(
-		({ type }) => type !== BUDGET_TYPE_LOAN
+		({ type }) => type !== BUDGET_TYPES.loan
 	)
 
 	const budgetsTypeLoan = budgets?.filter(
-		({ type }) => type === BUDGET_TYPE_LOAN
+		({ type }) => type === BUDGET_TYPES.loan
 	)
 
 	const expensesTypeDefault = expenses?.filter(
-		({ type }) => type !== EXPENSE_TYPE_INSTALLMENT
+		({ type }) => type !== EXPENSE_TYPES.installment
 	)
 
 	const totalExpensesVsBudgets = {
@@ -85,7 +102,7 @@ function BudgetsProvider({ children }) {
 		max: budgetsTypeDefault?.reduce((total, budget) => total + budget.max, 0),
 	}
 
-	const isBudgetTypeLoan = defaultBudget?.type === BUDGET_TYPE_LOAN
+	const isBudgetTypeLoan = defaultBudget?.type === BUDGET_TYPES.loan
 
 	function deleteDataCallback() {
 		const { type, id } = deleteData
@@ -94,7 +111,10 @@ function BudgetsProvider({ children }) {
 			deleteBudget(id)
 		}
 
-		if (type === 'expense' || type === 'installment') {
+		if (
+			type === DELETE_TYPE.expenseDefault ||
+			type === DELETE_TYPE.expenseInstallment
+		) {
 			deleteExpense(id)
 		}
 
@@ -272,7 +292,7 @@ function BudgetsProvider({ children }) {
 	async function deleteBudget(id) {
 		const refsToUpdate = []
 		const isBudgetLoan =
-			budgets?.find(budget => budget.id === id)?.type === BUDGET_TYPE_LOAN
+			budgets?.find(budget => budget.id === id)?.type === BUDGET_TYPES.loan
 
 		mutate(
 			{

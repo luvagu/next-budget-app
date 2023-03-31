@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import {
-	budgetCardBgColors,
+	defaultBudgetCardBgColors,
 	BUDGET_CARD_BG_COLORS,
-	BUDGET_TYPE_DEFAULT,
-	BUDGET_TYPE_LOAN,
+	BUDGET_TYPES,
 	useBadgets,
 } from '../context/BudgetsContext'
 import { capitalizeWords, classNames } from '../utils/helpers'
@@ -13,7 +12,8 @@ import Stack from './shared/Stack'
 
 function AddBudget({ isOpen, closeModal }) {
 	const { addBudget } = useBadgets()
-	const [isBgColorOptionDisabled, setIsBgColorOptionDisabled] = useState(false)
+	const [isBudgetTypeLoanSelected, setIsBudgetTypeLoanSelected] =
+		useState(false)
 
 	const handleSubmit = form => {
 		form.preventDefault()
@@ -30,6 +30,10 @@ function AddBudget({ isOpen, closeModal }) {
 		})
 		closeModal()
 	}
+
+	const budgetCardBgColorsToMap = isBudgetTypeLoanSelected
+		? [BUDGET_TYPES.loan]
+		: defaultBudgetCardBgColors
 
 	return (
 		<Modal title='Add Budget' isOpen={isOpen} closeModal={closeModal}>
@@ -65,24 +69,24 @@ function AddBudget({ isOpen, closeModal }) {
 					<Stack extraClass='mt-1'>
 						<label className='inline-flex items-center'>
 							<input
-								onChange={e => setIsBgColorOptionDisabled(!e.target.checked)}
+								onChange={e => setIsBudgetTypeLoanSelected(!e.target.checked)}
 								type='radio'
 								name='type'
-								defaultValue={BUDGET_TYPE_DEFAULT}
+								defaultValue={BUDGET_TYPES.default}
 								className='border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50'
 								defaultChecked
 								required
 							/>
 							<span className='ml-2 text-gray-700 text-sm sm:text-base'>
-								Default
+								Default (expenses tracker)
 							</span>
 						</label>
 						<label className='inline-flex items-center'>
 							<input
-								onChange={e => setIsBgColorOptionDisabled(e.target.checked)}
+								onChange={e => setIsBudgetTypeLoanSelected(e.target.checked)}
 								type='radio'
 								name='type'
-								defaultValue={BUDGET_TYPE_LOAN}
+								defaultValue={BUDGET_TYPES.loan}
 								className='border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50'
 								required
 							/>
@@ -97,14 +101,12 @@ function AddBudget({ isOpen, closeModal }) {
 						Card background color
 					</span>
 					<Stack extraClass='mt-1 gap-2 flex-wrap' direction='horizontal'>
-						{budgetCardBgColors.map((color, index) => (
+						{budgetCardBgColorsToMap.map((color, index) => (
 							<label
 								key={color}
 								className={classNames(
 									'inline-flex justify-center items-center py-1 w-10 rounded-md shadow',
-									isBgColorOptionDisabled
-										? 'bg-gray-100'
-										: BUDGET_CARD_BG_COLORS[color]
+									BUDGET_CARD_BG_COLORS[color]
 								)}
 							>
 								<input
@@ -113,7 +115,6 @@ function AddBudget({ isOpen, closeModal }) {
 									defaultValue={color}
 									className='border-gray-300 text-blue-600 focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50 disabled:text-gray-500'
 									defaultChecked={index === 0}
-									disabled={isBgColorOptionDisabled}
 								/>
 							</label>
 						))}
