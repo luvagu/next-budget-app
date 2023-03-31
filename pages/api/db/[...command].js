@@ -16,6 +16,12 @@ const ALLOWED_COMMANDS = {
 	delete: 'DELETE',
 }
 
+const QUERY_TYPES = {
+	budget: 'budget',
+	expense: 'expense',
+	userdata: 'userdata',
+}
+
 export default withApiAuthRequired(async function handler(req, res) {
 	const session = getSession(req, res)
 	const userId = session?.user?.sub
@@ -33,8 +39,9 @@ export default withApiAuthRequired(async function handler(req, res) {
 		return res.status(405).json({ message: 'Command/Method not allowed' })
 	}
 
-	if (ALLOWED_COMMANDS[command] === 'GET') {
-		if (query === 'userdata') {
+	// GET method
+	if (command === ALLOWED_COMMANDS.read) {
+		if (query === QUERY_TYPES.userdata) {
 			try {
 				const userData = await readUserData(args)
 				return res.status(200).json({ ...userData })
@@ -46,14 +53,15 @@ export default withApiAuthRequired(async function handler(req, res) {
 		res.status(404).json({ message: '404 Not Found' })
 	}
 
-	if (ALLOWED_COMMANDS[command] === 'POST') {
+	// POST method
+	if (command === ALLOWED_COMMANDS.create) {
 		try {
 			let response
-			if (query === 'budget') {
+			if (query === QUERY_TYPES.budget) {
 				response = await createBudget(data)
 				return res.status(200).json(response)
 			}
-			if (query === 'expense') {
+			if (query === QUERY_TYPES.expense) {
 				response = await createExpense(data)
 				return res.status(200).json(response)
 			}
@@ -64,37 +72,39 @@ export default withApiAuthRequired(async function handler(req, res) {
 		res.status(404).json({ message: '404 Not Found' })
 	}
 
-	if (ALLOWED_COMMANDS[command] === 'DELETE') {
+	// PUT method
+	if (command === ALLOWED_COMMANDS.update) {
 		try {
 			let response
-			if (query === 'budget') {
-				response = await deleteBudget(args)
-				return res.status(200).json(response)
-			}
-			if (query === 'expense') {
-				response = await deleteExpense(args)
-				return res.status(200).json(response)
-			}
-		} catch (error) {
-			return res.status(500).json({ message: error?.message })
-		}
-
-		res.status(404).json({ message: '404 Not Found' })
-	}
-
-	if (ALLOWED_COMMANDS[command] === 'PUT') {
-		try {
-			let response
-			if (query === 'budget') {
+			if (query === QUERY_TYPES.budget) {
 				response = await updateBudget(args, data)
 				return res.status(200).json(response)
 			}
-			if (query === 'expense') {
+			if (query === QUERY_TYPES.expense) {
 				response = await updateExpense(args, data)
 				return res.status(200).json(response)
 			}
 		} catch (error) {
 			return res.status(500).json({ message: error })
+		}
+
+		res.status(404).json({ message: '404 Not Found' })
+	}
+
+	// DELETE method
+	if (command === ALLOWED_COMMANDS.delete) {
+		try {
+			let response
+			if (query === QUERY_TYPES.budget) {
+				response = await deleteBudget(args)
+				return res.status(200).json(response)
+			}
+			if (query === QUERY_TYPES.expense) {
+				response = await deleteExpense(args)
+				return res.status(200).json(response)
+			}
+		} catch (error) {
+			return res.status(500).json({ message: error?.message })
 		}
 
 		res.status(404).json({ message: '404 Not Found' })
