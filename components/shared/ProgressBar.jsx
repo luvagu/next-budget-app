@@ -83,7 +83,7 @@ function ProgressBar({
 					style={{ width: `${percent}%` }}
 				/>
 				{isInModal && (
-					<div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-sm text-black font-medium'>
+					<div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-xs sm:text-sm text-black font-medium'>
 						{curencyFormatter(current)} / {curencyFormatter(max)}
 					</div>
 				)}
