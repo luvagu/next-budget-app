@@ -40,7 +40,7 @@ export default withApiAuthRequired(async function handler(req, res) {
 	}
 
 	// GET method
-	if (command === ALLOWED_COMMANDS.read) {
+	if (ALLOWED_COMMANDS[command] === ALLOWED_COMMANDS.read) {
 		if (query === QUERY_TYPES.userdata) {
 			try {
 				const userData = await readUserData(args)
@@ -54,7 +54,7 @@ export default withApiAuthRequired(async function handler(req, res) {
 	}
 
 	// POST method
-	if (command === ALLOWED_COMMANDS.create) {
+	if (ALLOWED_COMMANDS[command] === ALLOWED_COMMANDS.create) {
 		try {
 			let response
 			if (query === QUERY_TYPES.budget) {
@@ -73,7 +73,7 @@ export default withApiAuthRequired(async function handler(req, res) {
 	}
 
 	// PUT method
-	if (command === ALLOWED_COMMANDS.update) {
+	if (ALLOWED_COMMANDS[command] === ALLOWED_COMMANDS.update) {
 		try {
 			let response
 			if (query === QUERY_TYPES.budget) {
@@ -92,7 +92,7 @@ export default withApiAuthRequired(async function handler(req, res) {
 	}
 
 	// DELETE method
-	if (command === ALLOWED_COMMANDS.delete) {
+	if (ALLOWED_COMMANDS[command] === ALLOWED_COMMANDS.delete) {
 		try {
 			let response
 			if (query === QUERY_TYPES.budget) {
