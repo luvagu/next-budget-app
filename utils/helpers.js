@@ -74,11 +74,17 @@ export function dateFormatter(timestamp = null) {
 
 	const date = new Date(timestamp / 1000)
 	const formattedDateString = new Intl.DateTimeFormat('en-GB', {
-		weekday: 'long',
+		// weekday: 'short',
 		year: 'numeric',
-		month: 'long',
+		month: 'short',
 		day: 'numeric',
+		hour: 'numeric',
+		minute: '2-digit',
+		hour12: false,
+		// dayPeriod: 'short',
+		// timeZone: 'America/Guayaquil',
+		// timeZoneName: 'short',
 	}).format(date)
 
-	return `Created on ${formattedDateString}`
+	return `Updated on ${formattedDateString}`
 }
