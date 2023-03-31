@@ -34,7 +34,7 @@ function BudgetCard({
 		openConfirmDeleteModalWithTypeAndId,
 	} = useBadgets()
 
-	const isOver = amount >= max
+	const isOverBudget = amount >= max
 	const hasBudgetExpenses = !!getBudgetExpenses(id)?.length
 	const isUncategorizedBudget = id === UNCATEGORIZED_BUDGET_ID
 	const isBudgetTypeLoan = type === BUDGET_TYPE_LOAN
@@ -43,7 +43,7 @@ function BudgetCard({
 	return (
 		<Card
 			bgColor={
-				isOver
+				isOverBudget
 					? isBudgetTypeLoan
 						? 'bg-green-100'
 						: 'bg-red-100'
