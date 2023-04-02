@@ -38,34 +38,32 @@ function ProgressBar({
 				(isBudgetTypeLoan ? (
 					<p className='text-xs mb-1'>
 						{isAtMaxBudget
-							? 'Congratulation! The loan is paid in full.'
+							? 'Congratulation! Loan is paid in full.'
 							: isOverBudget
-							? `You've overpaid the loan by ${curencyFormatter(remaining)}`
-							: `You're ${curencyFormatter(
+							? `Loan is overpaid by ${curencyFormatter(remaining)}`
+							: `Loan is ${curencyFormatter(
 									remaining
-							  )} away from repaying the loan.`}
+							  )} away from being repayed.`}
 					</p>
 				) : (
 					<p className='text-xs mb-1'>
 						{isAtMaxBudget
 							? isTotal
-								? 'Your total budget is maxed out!'
-								: "You've maxed out the badget."
+								? 'Total budget maxed out!'
+								: 'Budget maxed out!'
 							: isOverBudget
 							? isTotal
-								? `Opps! You've gone over the total badget by ${curencyFormatter(
+								? `Opps! Total budget gone over by ${curencyFormatter(
 										remaining
 								  )}`
-								: `Opps! You've gone over the badget by ${curencyFormatter(
-										remaining
-								  )}`
+								: `Opps! Budget gone over by ${curencyFormatter(remaining)}`
 							: isTotal
-							? `You're ${curencyFormatter(
+							? `Total budget is ${curencyFormatter(
 									remaining
-							  )} away from maxing out the total budget.`
-							: `You're ${curencyFormatter(
+							  )} away from maxing out.`
+							: `Budget is ${curencyFormatter(
 									remaining
-							  )} away from maxing out the budget.`}
+							  )} away from maxing out.`}
 					</p>
 				))}
 			<div

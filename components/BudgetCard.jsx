@@ -67,7 +67,7 @@ function BudgetCard({ id, name, amount, max, type, bgColor, isTotal }) {
 			{isTotal && (
 				<p className='text-gray-600 text-xs mt-3'>
 					* Total amount does not account for budgets of type{' '}
-					<strong className='text-sky-600'>Loan</strong>.
+					<strong className='text-sky-600'>loan</strong>.
 				</p>
 			)}
 
