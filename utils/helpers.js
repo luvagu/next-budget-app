@@ -72,19 +72,68 @@ export function capitalizeWords(words = '') {
 export function dateFormatter(timestamp = null) {
 	if (!timestamp) return null
 
-	const date = new Date(timestamp / 1000)
-	const formattedDateString = new Intl.DateTimeFormat('en-GB', {
-		// weekday: 'short',
+	const dayInMs = 24 * 60 * 60 * 1000
+	const twoDaysInMs = 2 * 24 * 60 * 60 * 1000
+	const weekInMs = 7 * 24 * 60 * 60 * 1000
+	const now = new Date()
+	const pastTime = new Date(timestamp / 1000)
+
+	const timeDiffInMs = now.getTime() - pastTime.getTime()
+	const isToday = timeDiffInMs <= dayInMs
+	const isYesterday = timeDiffInMs > dayInMs && timeDiffInMs <= twoDaysInMs
+	const isPastTimeOlderThanAWeek =
+		timeDiffInMs > twoDaysInMs && timeDiffInMs >= weekInMs
+
+	const updateWord =
+		'Updated ' +
+		(isToday
+			? 'today'
+			: isYesterday
+			? 'yesterday'
+			: isPastTimeOlderThanAWeek
+			? 'on'
+			: 'last')
+
+	// e.g. 9:13 in the morning
+	const dayOptions = {
+		dayPeriod: 'short',
+		hourCycle: 'h12',
+		hour: 'numeric',
+		minute: 'numeric',
+	}
+
+	// e.g: Thu 09:02 at night
+	const weekOptions = {
+		dayPeriod: 'short',
+		hourCycle: 'h12',
+		weekday: 'short',
+		hour: 'numeric',
+		minute: 'numeric',
+	}
+
+	// e.g. Thu, 30 Mar 2023, 21:02
+	const dateOptions = {
+		weekday: 'short',
 		year: 'numeric',
 		month: 'short',
 		day: 'numeric',
 		hour: 'numeric',
 		minute: '2-digit',
 		hour12: false,
-		// dayPeriod: 'short',
 		// timeZone: 'America/Guayaquil',
 		// timeZoneName: 'short',
-	}).format(date)
+	}
 
-	return `Updated on ${formattedDateString}`
+	const options =
+		isToday || isYesterday
+			? dayOptions
+			: isPastTimeOlderThanAWeek
+			? dateOptions
+			: weekOptions
+
+	const formattedDateString = new Intl.DateTimeFormat('en-GB', options).format(
+		pastTime
+	)
+
+	return `${updateWord} ${formattedDateString}`
 }
