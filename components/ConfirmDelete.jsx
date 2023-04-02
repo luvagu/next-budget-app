@@ -56,7 +56,7 @@ function ConfirmDelete({ isOpen, closeModal }) {
 				<p className='text-base text-gray-500 mt-2'>
 					<strong>Note</strong>:{' '}
 					{isBudgetTypeLoan ? (
-						<>This budget&apos;s installments will be deleted</>
+						<>This budget&apos;s installments will also be deleted</>
 					) : (
 						<>
 							This budget&apos;s expenses, will be moved to the [Budget]
