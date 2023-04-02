@@ -80,9 +80,8 @@ export function dateFormatter(timestamp = null) {
 
 	const timeDiffInMs = now.getTime() - pastTime.getTime()
 	const isToday = timeDiffInMs <= dayInMs
-	const isYesterday = timeDiffInMs > dayInMs && timeDiffInMs <= twoDaysInMs
-	const isPastTimeOlderThanAWeek =
-		timeDiffInMs > twoDaysInMs && timeDiffInMs >= weekInMs
+	const isYesterday = !istoday && timeDiffInMs <= twoDaysInMs
+	const isPastTimeOlderThanAWeek = timeDiffInMs > weekInMs
 
 	const updateWord =
 		'Updated ' +
