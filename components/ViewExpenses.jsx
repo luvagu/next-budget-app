@@ -91,22 +91,24 @@ function ViewExpenses({ isOpen, closeModal }) {
 						>
 							<PencilIcon className='h-3 w-3' />
 						</Button>
-						<Button
-							variant='red-outline'
-							size='sm'
-							onClick={() => {
-								openConfirmDeleteModalWithTypeAndId({
-									type: isBudgetTypeLoan
-										? DELETE_TYPE.expenseInstallment
-										: DELETE_TYPE.expenseDefault,
-									id,
-									name: description,
-								})
-								closeModal()
-							}}
-						>
-							<TrashIcon className='h-3 w-3' />
-						</Button>
+						{!isBudgetTypeLoan && (
+							<Button
+								variant='red-outline'
+								size='sm'
+								onClick={() => {
+									openConfirmDeleteModalWithTypeAndId({
+										type: isBudgetTypeLoan
+											? DELETE_TYPE.expenseInstallment
+											: DELETE_TYPE.expenseDefault,
+										id,
+										name: description,
+									})
+									closeModal()
+								}}
+							>
+								<TrashIcon className='h-3 w-3' />
+							</Button>
+						)}
 					</Stack>
 				))}
 			</Stack>
