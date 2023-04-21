@@ -19,53 +19,41 @@ const getVariant = ({ percent, isBudgetTypeLoan }) => {
 	return isBudgetTypeLoan ? variants.green : variants.red
 }
 
-function ProgressBar({
-	current,
-	min = 0,
-	max,
-	isBudgetTypeLoan,
-	isInModal,
-	isTotal,
-}) {
+function ProgressBar({ current, max, isBudgetTypeLoan, isInModal, isTotal }) {
 	const percent = calculatePercent(current, max)
 	const remaining = max - current
 	const isOverBudget = current > max
 	const isAtMaxBudget = current === max
+	const budgetTypeLoanText = isAtMaxBudget
+		? 'Congratulation! Loan is paid in full.'
+		: isOverBudget
+		? `Loan is overpaid by ${curencyFormatter(remaining)}`
+		: `Loan is ${curencyFormatter(remaining)} away from being repayed.`
+	const budgetTypeDefaultText = isAtMaxBudget
+		? isTotal
+			? 'Total budget maxed out!'
+			: 'Budget maxed out!'
+		: isOverBudget
+		? isTotal
+			? `Opps! Total budget gone over by ${curencyFormatter(remaining)}`
+			: `Opps! Budget gone over by ${curencyFormatter(remaining)}`
+		: isTotal
+		? `Total budget is ${curencyFormatter(remaining)} away from maxing out.`
+		: `Budget is ${curencyFormatter(remaining)} away from maxing out.`
+	const progressBarTopText = isBudgetTypeLoan
+		? budgetTypeLoanText
+		: budgetTypeDefaultText
 
 	return (
 		<>
-			{!isInModal &&
-				(isBudgetTypeLoan ? (
-					<p className='text-xs mb-1'>
-						{isAtMaxBudget
-							? 'Congratulation! Loan is paid in full.'
-							: isOverBudget
-							? `Loan is overpaid by ${curencyFormatter(remaining)}`
-							: `Loan is ${curencyFormatter(
-									remaining
-							  )} away from being repayed.`}
-					</p>
-				) : (
-					<p className='text-xs mb-1'>
-						{isAtMaxBudget
-							? isTotal
-								? 'Total budget maxed out!'
-								: 'Budget maxed out!'
-							: isOverBudget
-							? isTotal
-								? `Opps! Total budget gone over by ${curencyFormatter(
-										remaining
-								  )}`
-								: `Opps! Budget gone over by ${curencyFormatter(remaining)}`
-							: isTotal
-							? `Total budget is ${curencyFormatter(
-									remaining
-							  )} away from maxing out.`
-							: `Budget is ${curencyFormatter(
-									remaining
-							  )} away from maxing out.`}
-					</p>
-				))}
+			<p
+				className={classNames(
+					'mb-1',
+					isInModal ? 'text-xs sm:text-sm text-center leading-none' : 'text-xs'
+				)}
+			>
+				{progressBarTopText}
+			</p>
 			<div
 				className={classNames(
 					isInModal ? 'relative h-5' : 'h-4',

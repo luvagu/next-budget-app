@@ -50,7 +50,7 @@ function Modal({ children, title, isOpen = false, closeModal, progress }) {
 								</Dialog.Title>
 
 								{progress && (
-									<div className='relative px-4 py-2 bg-slate-100'>
+									<div className='relative px-4 pt-1 pb-2 bg-slate-100'>
 										{progress}
 									</div>
 								)}
