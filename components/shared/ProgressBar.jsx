@@ -23,23 +23,50 @@ function ProgressBar({ current, max, isBudgetTypeLoan, isInModal, isTotal }) {
 	const percent = calculatePercent(current, max)
 	const remaining = max - current
 	const isOverBudget = current > max
-	const isAtMaxBudget = current === max
-	const budgetTypeLoanText = isAtMaxBudget
-		? 'Congratulation! Loan is paid in full.'
-		: isOverBudget
-		? `Loan is overpaid by ${curencyFormatter(remaining)}`
-		: `Loan is ${curencyFormatter(remaining)} away from being repayed.`
-	const budgetTypeDefaultText = isAtMaxBudget
-		? isTotal
-			? 'Total budget maxed out!'
-			: 'Budget maxed out!'
-		: isOverBudget
-		? isTotal
-			? `Opps! Total budget gone over by ${curencyFormatter(remaining)}`
-			: `Opps! Budget gone over by ${curencyFormatter(remaining)}`
-		: isTotal
-		? `Total budget is ${curencyFormatter(remaining)} away from maxing out.`
-		: `Budget is ${curencyFormatter(remaining)} away from maxing out.`
+	const isAtMaxBudget = remaining === 0
+	const budgetTypeLoanText = isAtMaxBudget ? (
+		'Congratulation! Loan is paid in full.'
+	) : isOverBudget ? (
+		<>
+			Loan is overpaid by{' '}
+			<span className='font-bold'>{curencyFormatter(remaining)}</span>
+		</>
+	) : (
+		<>
+			Loan is <span className='font-bold'>{curencyFormatter(remaining)}</span>{' '}
+			away from being repayed.
+		</>
+	)
+	const budgetTypeDefaultText = isAtMaxBudget ? (
+		isTotal ? (
+			'Total budget maxed out!'
+		) : (
+			'Budget maxed out!'
+		)
+	) : isOverBudget ? (
+		isTotal ? (
+			<>
+				Opps! Total budget gone over by{' '}
+				<span className='font-bold'>{curencyFormatter(remaining)}</span>
+			</>
+		) : (
+			<>
+				Opps! Budget gone over by{' '}
+				<span className='font-bold'>{curencyFormatter(remaining)}</span>
+			</>
+		)
+	) : isTotal ? (
+		<>
+			Total budget is{' '}
+			<span className='font-bold'>{curencyFormatter(remaining)}</span> away from
+			maxing out.
+		</>
+	) : (
+		<>
+			Budget is <span className='font-bold'>{curencyFormatter(remaining)}</span>{' '}
+			away from maxing out.
+		</>
+	)
 	const progressBarTopText = isBudgetTypeLoan
 		? budgetTypeLoanText
 		: budgetTypeDefaultText
