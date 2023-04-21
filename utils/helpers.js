@@ -86,28 +86,30 @@ export function dateFormatter(timestamp = null) {
 	const updateWord =
 		'Updated ' +
 		(isToday
-			? 'today'
+			? 'today at '
 			: isYesterday
-			? 'yesterday'
+			? 'yesterday at '
 			: isPastTimeOlderThanAWeek
 			? 'on'
 			: 'last')
 
 	// e.g. 9:13 in the morning
 	const dayOptions = {
-		dayPeriod: 'short',
-		hourCycle: 'h12',
-		hour: 'numeric',
-		minute: 'numeric',
+		// dayPeriod: 'short',
+		// hourCycle: 'h12',
+		// hour: 'numeric',
+		// minute: 'numeric',
+		timeStyle: 'short',
 	}
 
 	// e.g: Thu 09:02 at night
 	const weekOptions = {
-		dayPeriod: 'short',
-		hourCycle: 'h12',
-		weekday: 'short',
-		hour: 'numeric',
-		minute: 'numeric',
+		weekday: 'long',
+		// dayPeriod: 'short',
+		// hourCycle: 'h12',
+		// weekday: 'short',
+		// hour: 'numeric',
+		// minute: 'numeric',
 	}
 
 	// e.g. Thu, 30 Mar 2023, 21:02
@@ -116,9 +118,9 @@ export function dateFormatter(timestamp = null) {
 		year: 'numeric',
 		month: 'short',
 		day: 'numeric',
-		hour: 'numeric',
-		minute: '2-digit',
-		hour12: false,
+		// hour: 'numeric',
+		// minute: '2-digit',
+		// hour12: false,
 		// timeZone: 'America/Guayaquil',
 		// timeZoneName: 'short',
 	}
