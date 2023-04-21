@@ -138,3 +138,7 @@ export function dateFormatter(timestamp = null) {
 
 	return `${updateWord} ${formattedDateString}`
 }
+
+export function twoDigitsNumber(number = 0) {
+	return Number(number.toFixed(2))
+}

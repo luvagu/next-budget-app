@@ -1,5 +1,5 @@
 import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
-import { capitalizeWords } from '../utils/helpers'
+import { capitalizeWords, twoDigitsNumber } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
 
@@ -11,7 +11,7 @@ function UpdateExpense({ isOpen, closeModal }) {
 		defaultBudgetId,
 		currentExpense,
 		openViewExpenseModalWithId,
-		defaultBudget,
+
 		isBudgetTypeLoan,
 	} = useBadgets()
 
@@ -27,7 +27,7 @@ function UpdateExpense({ isOpen, closeModal }) {
 		updateExpense({
 			budgetId: isBudgetTypeLoan ? defaultBudgetId : budgetId,
 			description: capitalizeWords(description),
-			amount: parseFloat(amount),
+			amount: twoDigitsNumber(parseFloat(amount)),
 			ref,
 		})
 		closeModal()

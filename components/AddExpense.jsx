@@ -3,7 +3,7 @@ import {
 	UNCATEGORIZED_BUDGET_ID,
 	useBadgets,
 } from '../context/BudgetsContext'
-import { capitalizeWords } from '../utils/helpers'
+import { capitalizeWords, twoDigitsNumber } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
 
@@ -27,7 +27,7 @@ function AddExpense({ isOpen, closeModal }) {
 		addExpense({
 			budgetId: isBudgetTypeLoan ? defaultBudget.id : budgetId,
 			description: capitalizeWords(description),
-			amount: parseFloat(amount),
+			amount: twoDigitsNumber(parseFloat(amount)),
 			type: isBudgetTypeLoan
 				? EXPENSE_TYPES.installment
 				: EXPENSE_TYPES.default,

@@ -4,7 +4,7 @@ import {
 	useBadgets,
 	BUDGET_TYPES,
 } from '../context/BudgetsContext'
-import { capitalizeWords, classNames } from '../utils/helpers'
+import { capitalizeWords, classNames, twoDigitsNumber } from '../utils/helpers'
 import Button from './shared/Button'
 import Modal from './shared/Modal'
 import Stack from './shared/Stack'
@@ -28,7 +28,7 @@ function UpdateBudget({ isOpen, closeModal }) {
 
 		updateBudget({
 			name: capitalizeWords(name),
-			max: parseFloat(max),
+			max: twoDigitsNumber(parseFloat(max)),
 			bgColor,
 			ref,
 		})

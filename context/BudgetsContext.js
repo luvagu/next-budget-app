@@ -1,7 +1,7 @@
 import { useUser } from '@auth0/nextjs-auth0'
 import { createContext, useContext, useState } from 'react'
 import useDbData from '../hooks/useDbData'
-import { generateUID } from '../utils/helpers'
+import { generateUID, twoDigitsNumber } from '../utils/helpers'
 import axios from 'axios'
 
 const BudgetsContext = createContext()
@@ -184,9 +184,11 @@ function BudgetsProvider({ children }) {
 	}
 
 	function getBudgetExpensesAmount(budgetId) {
-		return expenses
-			?.filter(expense => expense.budgetId === budgetId)
-			?.reduce((total, expense) => total + expense.amount, 0)
+		return twoDigitsNumber(
+			expenses
+				?.filter(expense => expense.budgetId === budgetId)
+				?.reduce((total, expense) => total + expense.amount, 0)
+		)
 	}
 
 	async function addBudget({ name, max, type, bgColor }) {
