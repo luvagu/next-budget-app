@@ -65,6 +65,22 @@ export function capitalizeWords(words = '') {
 		.toLowerCase()
 		.split(' ')
 		.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+		.map(word =>
+			word
+				.split('')
+				.map((str, idx, arr) => {
+					const regex = /\W/
+					const found = str.match(regex)
+					const nextIdx = idx + 1
+
+					if (found && nextIdx < arr.length) {
+						arr[nextIdx] = arr[nextIdx].toUpperCase()
+					}
+
+					return str
+				})
+				.join('')
+		)
 		.join(' ')
 		.trim()
 }
