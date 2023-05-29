@@ -69,12 +69,11 @@ export function capitalizeWords(words = '') {
 			word
 				.split('')
 				.map((str, idx, arr) => {
-					const regex = /\W/
+					const regex = /["@#$%^&*/=+-]/
 					const found = str.match(regex)
 					const nextIdx = idx + 1
-					const apos = found && found[0] === "'"
 
-					if (found && !apos && nextIdx < arr.length) {
+					if (found && nextIdx < arr.length) {
 						arr[nextIdx] = arr[nextIdx].toUpperCase()
 					}
 
