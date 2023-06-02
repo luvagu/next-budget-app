@@ -99,15 +99,13 @@ export function dateFormatter(timestamp = null) {
 	const isYesterday = !isToday && timeDiffInMs <= twoDaysInMs
 	const isPastTimeOlderThanAWeek = timeDiffInMs > weekInMs
 
-	const updateWord =
-		'Updated ' +
-		(isToday
-			? 'today at '
-			: isYesterday
-			? 'yesterday at '
-			: isPastTimeOlderThanAWeek
-			? 'on'
-			: 'last')
+	const updateWord = isToday
+		? 'Today at '
+		: isYesterday
+		? 'Yesterday at '
+		: isPastTimeOlderThanAWeek
+		? ''
+		: 'Last'
 
 	// e.g. 9:13 in the morning
 	const dayOptions = {
@@ -124,18 +122,18 @@ export function dateFormatter(timestamp = null) {
 		// dayPeriod: 'short',
 		// hourCycle: 'h12',
 		// weekday: 'short',
-		// hour: 'numeric',
-		// minute: 'numeric',
+		hour: 'numeric',
+		minute: 'numeric',
 	}
 
 	// e.g. Thu, 30 Mar 2023, 21:02
 	const dateOptions = {
-		weekday: 'short',
+		// weekday: 'short',
 		year: 'numeric',
 		month: 'short',
 		day: 'numeric',
-		// hour: 'numeric',
-		// minute: '2-digit',
+		hour: 'numeric',
+		minute: '2-digit',
 		// hour12: false,
 		// timeZone: 'America/Guayaquil',
 		// timeZoneName: 'short',
