@@ -88,24 +88,24 @@ export function capitalizeWords(words = '') {
 export function dateFormatter(timestamp = null) {
 	if (!timestamp) return null
 
-	const dayInMs = 24 * 60 * 60 * 1000
-	const twoDaysInMs = 2 * 24 * 60 * 60 * 1000
-	const weekInMs = 7 * 24 * 60 * 60 * 1000
-	const now = new Date()
-	const pastTime = new Date(timestamp / 1000)
+	const dayInMs = 86400000 // 24 * 60 * 60 * 1000
+	const weekInMs = dayInMs * 7
+	const todayStartTime = new Date().setHours(0, 0, 0, 0)
+	const yesterdayStartTime = todayStartTime - dayInMs
+	const pastWeekStartTime = todayStartTime - weekInMs
+	const pastTime = new Date(timestamp / 1000).getTime()
 
-	const timeDiffInMs = now.getTime() - pastTime.getTime()
-	const isToday = timeDiffInMs <= dayInMs
-	const isYesterday = !isToday && timeDiffInMs <= twoDaysInMs
-	const isPastTimeOlderThanAWeek = timeDiffInMs > weekInMs
+	const isWithinToday = pastTime >= todayStartTime
+	const isWithinYesterday = !isWithinToday && pastTime >= yesterdayStartTime
+	const isWithinLastWeek = !isWithinYesterday && pastTime >= pastWeekStartTime
 
-	const updateWord = isToday
-		? 'Today at '
-		: isYesterday
-		? 'Yesterday at '
-		: isPastTimeOlderThanAWeek
-		? ''
-		: 'Last'
+	const updateWord = isWithinToday
+		? 'Today at'
+		: isWithinYesterday
+		? 'Yesterday at'
+		: isWithinLastWeek
+		? 'Last'
+		: ''
 
 	// e.g. 9:13 in the morning
 	const dayOptions = {
@@ -140,11 +140,11 @@ export function dateFormatter(timestamp = null) {
 	}
 
 	const options =
-		isToday || isYesterday
+		isWithinToday || isWithinYesterday
 			? dayOptions
-			: isPastTimeOlderThanAWeek
-			? dateOptions
-			: weekOptions
+			: isWithinLastWeek
+			? weekOptions
+			: dateOptions
 
 	const formattedDateString = new Intl.DateTimeFormat('en-GB', options).format(
 		pastTime
