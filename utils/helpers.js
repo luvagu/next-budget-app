@@ -103,8 +103,6 @@ export function dateFormatter(timestamp = null) {
 		? 'Today at'
 		: isWithinYesterday
 		? 'Yesterday at'
-		: isWithinLastWeek
-		? 'Last'
 		: ''
 
 	// e.g. 9:13 in the morning
