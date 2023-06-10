@@ -257,7 +257,7 @@ function BudgetsProvider({ children }) {
 			user: user.sub,
 		}
 
-		mutate({ ...data, expenses: [...expenses, newExpense] }, false)
+		mutate({ ...data, expenses: [newExpense, ...expenses] }, false)
 
 		const { id, ...restOfData } = newExpense
 		await axios.post('/api/db/create/expense', restOfData)
