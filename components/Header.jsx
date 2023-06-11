@@ -87,34 +87,48 @@ function Header({ isHome, isDashboard }) {
 			</Stack>
 			{user && (
 				<Fragment>
-					<AddBudget
-						isOpen={openAddBudgetModal}
-						closeModal={toggleAddBudgetModal}
-					/>
-					<AddExpense
-						isOpen={openAddExpenseModal}
-						closeModal={toggleAddExpenseModal}
-					/>
-					<ViewExpenses
-						isOpen={openViewExpenseModal}
-						closeModal={toggleViewExpenseModal}
-					/>
-					<UpdateBudget
-						isOpen={openUpdateBudgetModal}
-						closeModal={toggleUpdateBudgetModal}
-					/>
-					<UpdateExpense
-						isOpen={openUpdateExpenseModal}
-						closeModal={toggleUpdateExpenseModal}
-					/>
-					<BudgetNameError
-						isOpen={isDuplicateBudget}
-						closeModal={toggleBudgetNameErrorModal}
-					/>
-					<ConfirmDelete
-						isOpen={openConfirmDeteleModal}
-						closeModal={toggleConfirmDeleteModal}
-					/>
+					{openAddBudgetModal && (
+						<AddBudget
+							isOpen={openAddBudgetModal}
+							closeModal={toggleAddBudgetModal}
+						/>
+					)}
+					{openAddExpenseModal && (
+						<AddExpense
+							isOpen={openAddExpenseModal}
+							closeModal={toggleAddExpenseModal}
+						/>
+					)}
+					{openViewExpenseModal && (
+						<ViewExpenses
+							isOpen={openViewExpenseModal}
+							closeModal={toggleViewExpenseModal}
+						/>
+					)}
+					{openUpdateBudgetModal && (
+						<UpdateBudget
+							isOpen={openUpdateBudgetModal}
+							closeModal={toggleUpdateBudgetModal}
+						/>
+					)}
+					{openUpdateExpenseModal && (
+						<UpdateExpense
+							isOpen={openUpdateExpenseModal}
+							closeModal={toggleUpdateExpenseModal}
+						/>
+					)}
+					{isDuplicateBudget && (
+						<BudgetNameError
+							isOpen={isDuplicateBudget}
+							closeModal={toggleBudgetNameErrorModal}
+						/>
+					)}
+					{openConfirmDeteleModal && (
+						<ConfirmDelete
+							isOpen={openConfirmDeteleModal}
+							closeModal={toggleConfirmDeleteModal}
+						/>
+					)}
 				</Fragment>
 			)}
 		</Fragment>
