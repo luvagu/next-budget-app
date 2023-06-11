@@ -23,6 +23,7 @@ export const BUDGET_CARD_BG_COLORS = {
 	emerald: 'bg-emerald-100',
 	cyan: 'bg-cyan-100',
 	violet: 'bg-violet-100',
+	fuchsia: 'bg-fuchsia-100',
 	loan: 'bg-sky-100', // reserved
 	total: 'bg-stone-100', // reserved
 	unrecognized: 'bg-slate-100', // reserved
@@ -255,11 +256,12 @@ function BudgetsProvider({ children }) {
 			description,
 			type,
 			user: user.sub,
+			ts: new Date().getTime() * 1000, // matches fauna's ts format
 		}
 
 		mutate({ ...data, expenses: [newExpense, ...expenses] }, false)
 
-		const { id, ...restOfData } = newExpense
+		const { id, ts, ...restOfData } = newExpense
 		await axios.post('/api/db/create/expense', restOfData)
 		await mutate()
 	}
