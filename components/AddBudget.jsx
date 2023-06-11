@@ -105,7 +105,7 @@ function AddBudget({ isOpen, closeModal }) {
 							<label
 								key={color}
 								className={classNames(
-									'inline-flex justify-center items-center py-1 w-10 rounded-md shadow',
+									'inline-flex justify-center items-center py-1 w-10 rounded-md shadow hover:cursor-pointer',
 									BUDGET_CARD_BG_COLORS[color]
 								)}
 							>
@@ -113,7 +113,7 @@ function AddBudget({ isOpen, closeModal }) {
 									type='radio'
 									name='bgColor'
 									defaultValue={color}
-									className='border-gray-300 text-blue-600 focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50 disabled:text-gray-500'
+									className='border-gray-300 text-blue-600 focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50 disabled:text-gray-500 hover:cursor-pointer'
 									defaultChecked={index === 0}
 								/>
 							</label>
