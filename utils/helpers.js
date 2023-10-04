@@ -69,7 +69,7 @@ export function capitalizeWords(words = '') {
 			word
 				.split('')
 				.map((str, idx, arr) => {
-					const regex = /["()@#$%^&*/=+-]/
+					const regex = /["\(\)@#$%^&*/=+-]/
 					const found = str.match(regex)
 					const nextIdx = idx + 1
 
