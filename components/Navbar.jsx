@@ -20,7 +20,7 @@ import {
 	PlusIcon,
 } from '@heroicons/react/24/outline'
 
-function Header({ isHome, isDashboard }) {
+function Navbar({ isHome, isDashboard }) {
 	const { user } = useUser()
 
 	const {
@@ -135,4 +135,4 @@ function Header({ isHome, isDashboard }) {
 	)
 }
 
-export default Header
+export default Navbar

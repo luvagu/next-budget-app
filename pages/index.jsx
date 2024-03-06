@@ -1,4 +1,4 @@
-import Header from '@/components/Header'
+import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import { Container, Metatags } from '@/components/shared'
 import { getSession } from '@auth0/nextjs-auth0'
@@ -7,7 +7,7 @@ export default function Home() {
 	return (
 		<Container>
 			<Metatags />
-			<Header isHome />
+			<Navbar isHome />
 			<Hero />
 		</Container>
 	)

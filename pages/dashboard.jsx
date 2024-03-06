@@ -2,7 +2,7 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useBadgets } from '@/context/BudgetsContext'
 import BudgetCard from '@/components/BudgetCard'
 import CardsGrid from '@/components/shared/CardsGrid'
-import Header from '@/components/Header'
+import Navbar from '@/components/Navbar'
 import TotalBudgetCard from '@/components/TotalBudgetCard'
 import UncategorizedBudgetCard from '@/components/UncategorizedBudgetCard'
 import HeroDashboard from '@/components/HeroDashboard'
@@ -18,7 +18,7 @@ export default withPageAuthRequired(function Dashboard() {
 	return (
 		<Container>
 			<Metatags title='Dashboard' />
-			<Header isDashboard />
+			<Navbar isDashboard />
 			{isFetching && <Spinner />}
 			{isError && <Error />}
 			{!isFetching && !isError && (hasBudgets || hasExpenses) && (
