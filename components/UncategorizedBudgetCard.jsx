@@ -1,9 +1,5 @@
-import {
-	BUDGET_CARD_BG_COLORS,
-	UNCATEGORIZED_BUDGET_ID,
-	useBadgets,
-} from '../context/BudgetsContext'
-import BudgetCard from './BudgetCard'
+import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '@/context/BudgetsContext'
+import BudgetCard from '@/components/BudgetCard'
 
 function UncategorizedBudgetCard() {
 	const { getBudgetExpensesAmount } = useBadgets()

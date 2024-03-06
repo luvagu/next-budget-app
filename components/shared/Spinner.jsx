@@ -1,4 +1,4 @@
-import HeroContainer from './HeroContainer'
+import HeroContainer from '@/components/shared/HeroContainer'
 
 function Spinner() {
 	return (

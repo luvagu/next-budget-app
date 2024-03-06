@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { XIcon } from '@heroicons/react/outline'
+import { XMarkIcon as XIcon } from '@heroicons/react/24/outline'
 
 function Modal({ children, title, isOpen = false, closeModal, progress }) {
 	return (

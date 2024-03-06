@@ -1,5 +1,5 @@
 import { UserProvider } from '@auth0/nextjs-auth0'
-import BudgetsProvider from '../context/BudgetsContext'
+import BudgetsProvider from '@/context/BudgetsContext'
 
 import '../styles/globals.css'
 

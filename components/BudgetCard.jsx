@@ -3,18 +3,15 @@ import {
 	TrashIcon,
 	EyeIcon,
 	PlusIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/24/outline'
 import {
 	BUDGET_CARD_BG_COLORS,
 	BUDGET_TYPES,
 	UNCATEGORIZED_BUDGET_ID,
 	useBadgets,
-} from '../context/BudgetsContext'
-import { curencyFormatter } from '../utils/helpers'
-import Button from './shared/Button'
-import Card from './shared/Card'
-import ProgressBar from './shared/ProgressBar'
-import Stack from './shared/Stack'
+} from '@/context/BudgetsContext'
+import { curencyFormatter } from '@/utils/helpers'
+import { Button, Card, ProgressBar, Stack } from '@/components/shared'
 
 function BudgetCard({ id, name, amount, max, type, bgColor, isTotal }) {
 	const {

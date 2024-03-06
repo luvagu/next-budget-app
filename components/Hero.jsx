@@ -1,5 +1,5 @@
-import HeroContainer from './shared/HeroContainer'
-import { CashIcon } from '@heroicons/react/outline'
+import { HeroContainer } from '@/components/shared'
+import { BanknotesIcon as CashIcon } from '@heroicons/react/24/outline'
 
 function Hero({ user }) {
 	return (

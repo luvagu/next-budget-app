@@ -1,5 +1,5 @@
-import { ShieldExclamationIcon } from '@heroicons/react/outline'
-import HeroContainer from './shared/HeroContainer'
+import { ShieldExclamationIcon } from '@heroicons/react/24/outline'
+import { HeroContainer } from '@/components/shared'
 
 function HeroDashboard() {
 	return (

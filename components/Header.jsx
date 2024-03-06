@@ -1,24 +1,24 @@
-import { useUser } from '@auth0/nextjs-auth0'
 import { Fragment } from 'react'
+import { useUser } from '@auth0/nextjs-auth0'
+import { useBadgets } from '@/context/BudgetsContext'
+import { getFirstInitial } from '@/utils/helpers'
 import Link from 'next/link'
-import { useBadgets } from '../context/BudgetsContext'
+import AddBudget from '@/components/AddBudget'
+import AddExpense from '@/components/AddExpense'
+import Button from '@/components/shared/Button'
+import Stack from '@/components/shared/Stack'
+import ViewExpenses from '@/components/ViewExpenses'
+import UpdateBudget from '@/components/UpdateBudget'
+import UpdateExpense from '@/components/UpdateExpense'
+import LinkButton from '@/components/shared/LinkButton'
+import BudgetNameError from '@/components/BudgetNameError'
+import ConfirmDelete from '@/components/ConfirmDelete'
 import {
-	CashIcon,
-	LoginIcon,
-	LogoutIcon,
+	BanknotesIcon as CashIcon,
+	ArrowRightEndOnRectangleIcon as LoginIcon,
+	ArrowLeftStartOnRectangleIcon as LogoutIcon,
 	PlusIcon,
-} from '@heroicons/react/outline'
-import AddBudget from './AddBudget'
-import AddExpense from './AddExpense'
-import Button from './shared/Button'
-import Stack from './shared/Stack'
-import ViewExpenses from './ViewExpenses'
-import UpdateBudget from './UpdateBudget'
-import UpdateExpense from './UpdateExpense'
-import LinkButton from './shared/LinkButton'
-import { getFirstInitial } from '../utils/helpers'
-import BudgetNameError from './BudgetNameError'
-import ConfirmDelete from './ConfirmDelete'
+} from '@heroicons/react/24/outline'
 
 function Header({ isHome, isDashboard }) {
 	const { user } = useUser()

@@ -1,14 +1,11 @@
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/outline'
+import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
 import {
 	DELETE_TYPE,
 	UNCATEGORIZED_BUDGET_ID,
 	useBadgets,
-} from '../context/BudgetsContext'
-import { curencyFormatter, dateFormatter } from '../utils/helpers'
-import Button from './shared/Button'
-import Modal from './shared/Modal'
-import Stack from './shared/Stack'
-import ProgressBar from './shared/ProgressBar'
+} from '@/context/BudgetsContext'
+import { curencyFormatter, dateFormatter } from '@/utils/helpers'
+import { Button, Modal, ProgressBar, Stack } from '@/components/shared'
 
 function ViewExpenses({ isOpen, closeModal }) {
 	const {

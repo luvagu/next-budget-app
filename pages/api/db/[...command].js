@@ -7,7 +7,7 @@ import {
 	readUserData,
 	updateBudget,
 	updateExpense,
-} from '../../../utils/faunadb'
+} from '@/utils/faunadb'
 
 const ALLOWED_COMMANDS = {
 	create: 'POST',

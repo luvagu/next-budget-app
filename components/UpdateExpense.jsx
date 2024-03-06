@@ -1,7 +1,6 @@
-import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '../context/BudgetsContext'
-import { capitalizeWords, twoDigitsNumber } from '../utils/helpers'
-import Button from './shared/Button'
-import Modal from './shared/Modal'
+import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '@/context/BudgetsContext'
+import { capitalizeWords, twoDigitsNumber } from '@/utils/helpers'
+import { Button, Modal } from '@/components/shared'
 
 function UpdateExpense({ isOpen, closeModal }) {
 	const {

@@ -1,8 +1,4 @@
-import {
-	calculatePercent,
-	classNames,
-	curencyFormatter,
-} from '../../utils/helpers'
+import { calculatePercent, classNames, curencyFormatter } from '@/utils/helpers'
 
 const getVariant = ({ percent, isBudgetTypeLoan }) => {
 	const variants = {
