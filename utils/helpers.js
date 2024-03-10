@@ -85,7 +85,10 @@ export function capitalizeWords(words = '') {
 		.trim()
 }
 
-export function dateFormatter(timestamp = null) {
+export function dateFormatter(
+	timestamp = null,
+	{ locale = 'en', todayAt = '', yesterdayAt = '' }
+) {
 	if (!timestamp) return null
 
 	const dayInMs = 86400000 // 24 * 60 * 60 * 1000
@@ -100,9 +103,9 @@ export function dateFormatter(timestamp = null) {
 	const isWithinLastWeek = !isWithinYesterday && pastTime >= pastWeekStartTime
 
 	const updateWord = isWithinToday
-		? 'Today at'
+		? todayAt
 		: isWithinYesterday
-		? 'Yesterday at'
+		? yesterdayAt
 		: ''
 
 	// e.g. 9:13 in the morning
@@ -144,7 +147,7 @@ export function dateFormatter(timestamp = null) {
 			? weekOptions
 			: dateOptions
 
-	const formattedDateString = new Intl.DateTimeFormat('en-GB', options).format(
+	const formattedDateString = new Intl.DateTimeFormat(locale, options).format(
 		pastTime
 	)
 

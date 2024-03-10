@@ -1,4 +1,6 @@
 import { calculatePercent, classNames, curencyFormatter } from '@/utils/helpers'
+import { useTranslation } from 'next-i18next'
+import { Trans } from 'react-i18next'
 
 const getVariant = ({ percent, isBudgetTypeLoan }) => {
 	const variants = {
@@ -16,10 +18,12 @@ const getVariant = ({ percent, isBudgetTypeLoan }) => {
 }
 
 function ProgressBar({ current, max, isBudgetTypeLoan, isInModal, isTotal }) {
+	const { t } = useTranslation()
 	const percent = calculatePercent(current, max)
 	const remaining = max - current
 	const isOverBudget = current > max
 	const isAtMaxBudget = remaining === 0
+
 	const budgetTypeLoanText = isAtMaxBudget ? (
 		'Congratulation! Loan is paid in full.'
 	) : isOverBudget ? (
@@ -28,11 +32,12 @@ function ProgressBar({ current, max, isBudgetTypeLoan, isInModal, isTotal }) {
 			<span className='font-bold'>{curencyFormatter(remaining)}</span>
 		</>
 	) : (
-		<>
-			Loan is <span className='font-bold'>{curencyFormatter(remaining)}</span>{' '}
-			away from being repayed.
-		</>
+		<Trans
+			i18nKey={'budget_is_amount_away_from_maxing_out'}
+			values={{ amount: curencyFormatter(remaining) }}
+		/>
 	)
+
 	const budgetTypeDefaultText = isAtMaxBudget ? (
 		isTotal ? (
 			'Total budget maxed out!'

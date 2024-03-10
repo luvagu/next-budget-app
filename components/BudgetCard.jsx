@@ -12,6 +12,7 @@ import {
 } from '@/context/BudgetsContext'
 import { curencyFormatter } from '@/utils/helpers'
 import { Button, Card, ProgressBar, Stack } from '@/components/shared'
+import { useTranslation } from 'next-i18next'
 
 function BudgetCard({ id, name, amount, max, type, bgColor, isTotal }) {
 	const {

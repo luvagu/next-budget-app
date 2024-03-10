@@ -1,15 +1,14 @@
 import Head from 'next/head'
-
-const defaultTile = 'Budgets & Expenses'
+import { useTranslation } from 'next-i18next'
 
 function Metatags({ title }) {
+	const { t } = useTranslation()
+	const defaultTile = t('app_title')
+
 	return (
 		<Head>
 			<title>{title ? `${title} | ${defaultTile}` : defaultTile}</title>
-			<meta
-				name='description'
-				content='Budgets &amp; Expenses app built with Next.js, Auth0, FaunaDb and Tailwind CSS'
-			/>
+			<meta name='description' content={t('meta_description')} />
 			<meta name='author' content='@luvagu' />
 			<meta charSet='UTF-8' />
 			<meta

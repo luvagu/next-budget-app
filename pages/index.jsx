@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import { Container, Metatags } from '@/components/shared'
 import { getSession } from '@auth0/nextjs-auth0'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 export default function Home() {
 	return (
@@ -14,7 +15,8 @@ export default function Home() {
 }
 
 export async function getServerSideProps(context) {
-	const user = getSession(context.req, context.res)
+	const { locale, req, res } = context
+	const user = getSession(req, res)
 
 	if (user) {
 		return {
@@ -26,6 +28,8 @@ export async function getServerSideProps(context) {
 	}
 
 	return {
-		props: {},
+		props: {
+			...(await serverSideTranslations(locale, ['common'])),
+		},
 	}
 }

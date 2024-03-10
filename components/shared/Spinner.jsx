@@ -1,6 +1,9 @@
 import HeroContainer from '@/components/shared/HeroContainer'
+import { useTranslation } from 'next-i18next'
 
 function Spinner() {
+	const { t } = useTranslation()
+
 	return (
 		<HeroContainer>
 			<svg
@@ -24,7 +27,7 @@ function Spinner() {
 				></path>
 			</svg>
 			<h2 className='text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-gray-600 text-center lg:text-left animate-pulse'>
-				Please wait...
+				{t('hero_please_wait')}
 			</h2>
 		</HeroContainer>
 	)

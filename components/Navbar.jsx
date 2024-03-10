@@ -19,6 +19,7 @@ import {
 	ArrowLeftStartOnRectangleIcon as LogoutIcon,
 	PlusIcon,
 } from '@heroicons/react/24/outline'
+import { useTranslation } from 'next-i18next'
 
 function Navbar({ isHome, isDashboard }) {
 	const { user } = useUser()
@@ -41,6 +42,8 @@ function Navbar({ isHome, isDashboard }) {
 		toggleConfirmDeleteModal,
 	} = useBadgets()
 
+	const { t } = useTranslation()
+
 	return (
 		<Fragment>
 			<Stack direction='horizontal' extraClass='gap-2 mb-4'>
@@ -51,18 +54,22 @@ function Navbar({ isHome, isDashboard }) {
 							<span className='text-blue-600'>
 								{getFirstInitial(user?.name)}&apos;
 							</span>
-							<span className='hidden sm:inline-block'>Budgets</span>
-							<span className='sm:hidden'>B</span>
+							<span className='hidden sm:inline-block'>
+								{t('navbar_logo_logged_in')}
+							</span>
+							<span className='sm:hidden'>
+								{t('navbar_logo_logged_in_initial')}
+							</span>
 						</Fragment>
 					) : (
-						'Budgets & Expenses'
+						t('navbar_logo_guest')
 					)}
 				</h1>
 				{isHome && (
 					<Link href='/api/auth/login' passHref>
 						<LinkButton>
 							<LoginIcon className='h-4 w-4 sm:h-5 sm:w-5' />
-							<span>Log In</span>
+							<span>{t('label_login')}</span>
 						</LinkButton>
 					</Link>
 				)}
@@ -70,21 +77,23 @@ function Navbar({ isHome, isDashboard }) {
 					<Fragment>
 						<Button onClick={toggleAddBudgetModal}>
 							<PlusIcon className='h-4 w-4 sm:h-5 sm:w-5' />
-							<span>Budget</span>
+							<span>{t('label_budget')}</span>
 						</Button>
 						<Button onClick={openAddExpenseModalWithId} variant='blue-outline'>
 							<PlusIcon className='h-4 w-4 sm:h-5 sm:w-5' />
-							<span>Expense</span>
+							<span>{t('label_expense')}</span>
 						</Button>
 					</Fragment>
 				)}
 				{user && (
 					<LinkButton href='/api/auth/logout' variant='gray-outline'>
 						<LogoutIcon className='h-4 w-4 sm:h-5 sm:w-5' />{' '}
-						<span>Log Out</span>
+						<span>{t('label_logout')}</span>
 					</LinkButton>
 				)}
 			</Stack>
+
+			{/* Modals */}
 			{user && (
 				<Fragment>
 					{openAddBudgetModal && (
