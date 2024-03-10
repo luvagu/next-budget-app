@@ -1,0 +1,69 @@
+{
+	"app_title": "Cuentas & Gastos",
+	"meta_description": "La app de Cuentas & Gastos fue construida con Next.js, Auth0, FaunaDb y Tailwind CSS",
+	"dashboard_page_title": "Tablero",
+
+	"navbar_logo_logged_in": "Cuentas",
+	"navbar_logo_logged_in_initial": "C",
+	"navbar_logo_guest": "Cuentas & Gastos",
+
+	"label_login": "Entrar",
+	"label_logout": "Salir",
+	"label_budget": "Cuenta",
+	"label_expense": "Gasto",
+	"label_expenses": "Gastos",
+	"label_view_expenses": "Gastos",
+	"label_installment": "Cuota",
+	"label_installments": "Cuotas",
+	"label_view_installments": "Cuotas",
+	"label_description": "Descripción",
+	"label_amount": "Monto",
+	"label_name": "Nombre",
+	"label_maximun_amount": "Presupuesto / Monto total de cuenta",
+	"label_uncategorized": "Sin categoría",
+	"label_budget_type": "Tipo de cuenta",
+	"label_type_default": "Predeterminado (rastreador de gastos)",
+	"label_type_loan": "Cuentas (rastreador de cuotas)",
+	"label_card_bg_color": "Color de fondo de la tarjeta",
+	"label_add": "Agregar",
+	"label_update": "Actualizar",
+	"label_cancel": "Cancelar",
+	"label_delete": "Eliminar",
+	"label_note": "Nota:",
+
+	"update_budget": "Actualizar presupuesto",
+	"update_loan": "Actualizar cuenta",
+	"update_expense": "Actualizar gasto",
+	"update_installment": "Actualizar cuota",
+	"confirm_delete": "Confirmar eliminación",
+
+	"budget_is": "El presupuesto esta a",
+	"away_from_maxing_out": "para ser agotado.",
+	"budget_maxed_out": "¡Presupuesto agotado!",
+	"opps_budget_gone_over_by": "¡Ui! Superaste el presupuesto por",
+
+	"loan_is": "La cuenta está a",
+	"away_from_being_repayed": "de ser pagada.",
+	"loan_paid_in_full": "¡Felicitaciones! El cuenta está pagada en su totalidad.",
+	"loan_by": "Cuenta pagada por un exceso de",
+
+	"confirm_delete_message": "¿Estás seguro de que deseas eliminar [{{budget_type}}] [{{expense_name}}]?",
+	"confirm_delete_budget_note": "Los gastos de este presupuesto se trasladarán al [Presupuesto] [Sin categoría].",
+	"confirm_delete_loan_note": "Las cuotas de esta cuenta también serán eliminadas.",
+
+	"hero_welcome_header": "¿Listo para administrar presupuestos?",
+	"hero_welcome_message_guest": "Inicia sesión para comenzar.",
+	"hero_welcome_message": "¡Visita tu tablero!",
+
+	"hero_dashboard_opps": "¡Ups!",
+	"hero_dashboard_no_budgets_message": "Aún no tienes presupuestos.",
+	"hero_dashboard_add_budgets_message": "¡Agregue un presupuesto o gasto para comenzar!",
+
+	"hero_please_wait": "Espere por favor...",
+
+	"hero_error_header": "¡Se ha producido un error!",
+	"hero_error_message": "Por favor intenta recargar la página.",
+
+	"helper_date_today_at": "Hoy a las",
+	"helper_date_yesterday_at": "Ayer a las"
+}

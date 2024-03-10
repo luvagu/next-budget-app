@@ -1,8 +1,6 @@
-import { useBadgets } from '../context/BudgetsContext'
-import Modal from './shared/Modal'
-import Stack from './shared/Stack'
-import { ExclamationCircleIcon } from '@heroicons/react/outline'
-import Button from './shared/Button'
+import { useBadgets } from '@/context/BudgetsContext'
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
+import { Button, Modal, Stack } from '@/components/shared'
 
 function BudgetNameError({ isOpen, closeModal }) {
 	const { toggleAddBudgetModal, toggleBudgetNameErrorModal } = useBadgets()

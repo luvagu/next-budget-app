@@ -1,5 +1,5 @@
-import { useBadgets } from '../context/BudgetsContext'
-import BudgetCard from './BudgetCard'
+import { useBadgets } from '@/context/BudgetsContext'
+import BudgetCard from '@/components/BudgetCard'
 
 function TotalBudgetCard() {
 	const { totalExpensesVsBudgets } = useBadgets()

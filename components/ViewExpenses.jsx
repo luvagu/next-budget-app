@@ -1,14 +1,13 @@
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/outline'
+import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
 import {
 	DELETE_TYPE,
 	UNCATEGORIZED_BUDGET_ID,
 	useBadgets,
-} from '../context/BudgetsContext'
-import { curencyFormatter, dateFormatter } from '../utils/helpers'
-import Button from './shared/Button'
-import Modal from './shared/Modal'
-import Stack from './shared/Stack'
-import ProgressBar from './shared/ProgressBar'
+} from '@/context/BudgetsContext'
+import { curencyFormatter, dateFormatter } from '@/utils/helpers'
+import { Button, Modal, ProgressBar, Stack } from '@/components/shared'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 
 function ViewExpenses({ isOpen, closeModal }) {
 	const {
@@ -23,11 +22,14 @@ function ViewExpenses({ isOpen, closeModal }) {
 
 	const budgetExpenses = getBudgetExpenses(defaultBudget.id)
 
+	const router = useRouter()
+	const { t } = useTranslation()
+
 	const title = (
 		<>
 			<span className='flex-1'>
 				<span className=' text-blue-600'>{defaultBudget?.name}&apos;s</span>{' '}
-				{isBudgetTypeLoan ? 'Installments' : 'Expenses'}
+				{t(isBudgetTypeLoan ? 'label_installments' : 'label_expenses')}
 			</span>
 			<Button
 				variant='blue-outline'
@@ -38,7 +40,9 @@ function ViewExpenses({ isOpen, closeModal }) {
 				}}
 			>
 				<PlusIcon className='h-4 w-4' />
-				<span>{isBudgetTypeLoan ? 'Installment' : 'Expense'}</span>
+				<span>
+					{t(isBudgetTypeLoan ? 'label_installment' : 'label_expense')}
+				</span>
 			</Button>
 		</>
 	)
@@ -70,7 +74,11 @@ function ViewExpenses({ isOpen, closeModal }) {
 							{description}
 							{ts && (
 								<span className='text-xs text-gray-600 text-'>
-									{dateFormatter(ts)}
+									{dateFormatter(ts, {
+										locale: router.locale,
+										todayAt: t('helper_date_today_at'),
+										yesterdayAt: t('helper_date_yesterday_at'),
+									})}
 								</span>
 							)}
 						</div>

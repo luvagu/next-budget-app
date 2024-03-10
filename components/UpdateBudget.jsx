@@ -3,11 +3,9 @@ import {
 	BUDGET_CARD_BG_COLORS,
 	useBadgets,
 	BUDGET_TYPES,
-} from '../context/BudgetsContext'
-import { capitalizeWords, classNames, twoDigitsNumber } from '../utils/helpers'
-import Button from './shared/Button'
-import Modal from './shared/Modal'
-import Stack from './shared/Stack'
+} from '@/context/BudgetsContext'
+import { capitalizeWords, classNames, twoDigitsNumber } from '@/utils/helpers'
+import { Button, Modal, Stack } from '@/components/shared'
 
 function UpdateBudget({ isOpen, closeModal }) {
 	const { defaultBudget, updateBudget, isBudgetTypeLoan } = useBadgets()

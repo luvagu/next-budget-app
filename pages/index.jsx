@@ -1,21 +1,22 @@
+import Navbar from '@/components/Navbar'
+import Hero from '@/components/Hero'
+import { Container, Metatags } from '@/components/shared'
 import { getSession } from '@auth0/nextjs-auth0'
-import Container from '../components/shared/Container'
-import Metatags from '../components/shared/Metatags'
-import Header from '../components/Header'
-import Hero from '../components/Hero'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 export default function Home() {
 	return (
 		<Container>
 			<Metatags />
-			<Header isHome />
+			<Navbar isHome />
 			<Hero />
 		</Container>
 	)
 }
 
 export async function getServerSideProps(context) {
-	const user = getSession(context.req, context.res)
+	const { locale, req, res } = context
+	const user = getSession(req, res)
 
 	if (user) {
 		return {
@@ -27,6 +28,8 @@ export async function getServerSideProps(context) {
 	}
 
 	return {
-		props: {},
+		props: {
+			...(await serverSideTranslations(locale, ['common'])),
+		},
 	}
 }

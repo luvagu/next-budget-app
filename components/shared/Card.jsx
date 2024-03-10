@@ -1,4 +1,4 @@
-import { classNames } from '../../utils/helpers'
+import { classNames } from '@/utils/helpers'
 
 function Card({ children, bgColor = 'bg-white' }) {
 	return (

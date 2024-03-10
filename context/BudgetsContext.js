@@ -1,7 +1,7 @@
 import { useUser } from '@auth0/nextjs-auth0'
 import { createContext, useContext, useState } from 'react'
-import useDbData from '../hooks/useDbData'
-import { generateUID, twoDigitsNumber } from '../utils/helpers'
+import useDbData from '@/hooks/useDbData'
+import { generateUID, twoDigitsNumber } from '@/utils/helpers'
 import axios from 'axios'
 
 const BudgetsContext = createContext()

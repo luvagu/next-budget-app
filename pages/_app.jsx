@@ -1,5 +1,6 @@
+import { appWithTranslation } from 'next-i18next'
 import { UserProvider } from '@auth0/nextjs-auth0'
-import BudgetsProvider from '../context/BudgetsContext'
+import BudgetsProvider from '@/context/BudgetsContext'
 
 import '../styles/globals.css'
 
@@ -13,4 +14,4 @@ function MyApp({ Component, pageProps }) {
 	)
 }
 
-export default MyApp
+export default appWithTranslation(MyApp)

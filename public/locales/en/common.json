@@ -1,0 +1,68 @@
+{
+	"app_title": "Budgets & Expenses",
+	"meta_description": "Budgets &amp; Expenses app built with Next.js, Auth0, FaunaDb and Tailwind CSS",
+	"dashboard_page_title": "Dashboard",
+
+	"navbar_logo_logged_in": "Budgets",
+	"navbar_logo_logged_in_initial": "B",
+	"navbar_logo_guest": "Budgets & Expenses",
+
+	"label_login": "Log In",
+	"label_logout": "Log Out",
+	"label_budget": "Budget",
+	"label_expense": "Expense",
+	"label_expenses": "Expenses",
+	"label_view_expenses": "Expenses",
+	"label_installment": "Installment",
+	"label_installments": "Installments",
+	"label_view_installments": "Installments",
+	"label_description": "Description",
+	"label_amount": "Amount",
+	"label_name": "Name",
+	"label_maximun_amount": "Maximun spending / Loan amount",
+	"label_uncategorized": "Uncategorized",
+	"label_budget_type": "Budget type",
+	"label_type_default": "Default (expenses tracker)",
+	"label_type_loan": "Loan (installments tracker)",
+	"label_card_bg_color": "Card background color",
+	"label_add": "Add",
+	"label_update": "Update",
+	"label_cancel": "Cancel",
+	"label_delete": "Delete",
+	"label_note": "Note:",
+
+	"update_budget": "Update Budget",
+	"update_loan": "Update Loan",
+	"update_expense": "Update Expense",
+	"update_installment": "Update Installment",
+	"confirm_delete": "Confirm Delete",
+
+	"budget_is_amount_away_from_maxing_out": "Budget is <strong>{{amount}}</strong> away from maxing out.",
+	"budget_maxed_out": "Budget maxed out!",
+	"opps_budget_gone_over_by_amount": "Opps! Gone over budget by <strong>{{amount}}</strong>",
+
+	"loan_is": "Loan is",
+	"away_from_being_repayed": "away from being repayed.",
+	"loan_paid_in_full": "Congratulation! Loan is paid in full.",
+	"loan_by": "Loan overpaid by",
+
+	"confirm_delete_message": "Are you sure you want to delete [{{budget_type}}] [{{expense_name}}]?",
+	"confirm_delete_budget_note": "This budget's expenses, will be moved to the [Budget] [Uncategorized].",
+	"confirm_delete_loan_note": "This budget's installments will also be deleted.",
+
+	"hero_welcome_header": "Ready to manage budgets?",
+	"hero_welcome_message": "Visit your dashboard!",
+	"hero_welcome_message_guest": "Log In to get started.",
+
+	"hero_dashboard_opps": "¡Ups!",
+	"hero_dashboard_no_budgets_message": "You don't have any budgets yet.",
+	"hero_dashboard_add_budgets_message": "Add a Budget or Expense to get started!",
+
+	"hero_please_wait": "Please wait...",
+
+	"hero_error_header": "An error has occurred!",
+	"hero_error_message": "Please try reloading the page.",
+
+	"helper_date_today_at": "Today at",
+	"helper_date_yesterday_at": "Yesterday at"
+}

@@ -1,9 +1,7 @@
-import { ExclamationIcon } from '@heroicons/react/outline'
-import { DELETE_TYPE, useBadgets } from '../context/BudgetsContext'
-import { capitalizeWords } from '../utils/helpers'
-import Button from './shared/Button'
-import Modal from './shared/Modal'
-import Stack from './shared/Stack'
+import { ExclamationTriangleIcon as ExclamationIcon } from '@heroicons/react/24/outline'
+import { DELETE_TYPE, useBadgets } from '@/context/BudgetsContext'
+import { capitalizeWords } from '@/utils/helpers'
+import { Button, Modal, Stack } from '@/components/shared'
 
 function ConfirmDelete({ isOpen, closeModal }) {
 	const {

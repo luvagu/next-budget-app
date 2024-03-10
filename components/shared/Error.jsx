@@ -1,5 +1,5 @@
-import HeroContainer from './HeroContainer'
-import { ExclamationIcon } from '@heroicons/react/outline'
+import { HeroContainer } from '@/components/shared'
+import { ExclamationTriangleIcon as ExclamationIcon } from '@heroicons/react/24/outline'
 
 function Error() {
 	return (

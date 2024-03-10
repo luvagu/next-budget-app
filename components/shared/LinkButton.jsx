@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import { classNames } from '../../utils/helpers'
+import { classNames } from '@/utils/helpers'
 
 const variants = {
 	'blue-outline':

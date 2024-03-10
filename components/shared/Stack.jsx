@@ -1,4 +1,4 @@
-import { classNames } from '../../utils/helpers'
+import { classNames } from '@/utils/helpers'
 
 function Stack({ children, direction = 'vertical', extraClass }) {
 	return (

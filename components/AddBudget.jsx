@@ -4,11 +4,9 @@ import {
 	BUDGET_CARD_BG_COLORS,
 	BUDGET_TYPES,
 	useBadgets,
-} from '../context/BudgetsContext'
-import { capitalizeWords, classNames, twoDigitsNumber } from '../utils/helpers'
-import Button from './shared/Button'
-import Modal from './shared/Modal'
-import Stack from './shared/Stack'
+} from '@/context/BudgetsContext'
+import { capitalizeWords, classNames, twoDigitsNumber } from '@/utils/helpers'
+import { Button, Modal, Stack } from '@/components/shared'
 
 function AddBudget({ isOpen, closeModal }) {
 	const { addBudget } = useBadgets()
