@@ -37,10 +37,9 @@
 	"update_installment": "Actualizar cuota",
 	"confirm_delete": "Confirmar eliminación",
 
-	"budget_is": "El presupuesto esta a",
-	"away_from_maxing_out": "para ser agotado.",
+	"budget_is_amount_away_from_maxing_out": "El presupuesto esta a <strong>{{amount}}</strong> para ser agotado.",
 	"budget_maxed_out": "¡Presupuesto agotado!",
-	"opps_budget_gone_over_by": "¡Ui! Superaste el presupuesto por",
+	"opps_budget_gone_over_by_amount": "¡Ui! Superaste el presupuesto por <strong>{{amount}}</strong>",
 
 	"loan_is": "La cuenta está a",
 	"away_from_being_repayed": "de ser pagada.",
