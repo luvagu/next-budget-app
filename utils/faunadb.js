@@ -1,4 +1,5 @@
 import { Client, query } from 'faunadb'
+import { mailRaffle0324Notification } from '@/utils//mailgun'
 
 const client = new Client({
 	secret: process.env.FAUNADB_SECRET,
@@ -53,4 +54,30 @@ export const updateBudget = async (ref, data) => {
 
 export const updateExpense = async (ref, data) => {
 	return (await client.query(callFn('updateExpense', [ref, data]))).data
+}
+
+export const getRaffleSlots_0324 = async () => {
+	const response = (await client.query(callFn('getRaffleSlots_0324'))).data
+
+	return response.map(slot => ({
+		...slot.data,
+		id: slot.ref.id,
+		ts: slot.ts,
+	}))
+}
+
+export const addRaffleSlot_0324 = async data => {
+	const response = await client.query(callFn('addRaffleSlot_0324', data))
+
+	// send # reservation mail norification
+	await mailRaffle0324Notification({
+		...response.data,
+		ref: response.ref.id,
+	}).catch(() => {})
+
+	return response
+}
+
+export const deleteRaffleSlot_0324 = async ref => {
+	return (await client.query(callFn('deleteRaffleSlot_0324', ref))).data
 }
