@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import { Button, Modal, Stack } from '@/components/shared'
-import { Tooltip as ReactTooltip } from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { capitalizeWords } from '@/utils/helpers'
@@ -148,7 +148,7 @@ export default function Rifa() {
 					</RadioGroup>
 				</div>
 			</div>
-			<ReactTooltip id='user' place='top' />
+			<Tooltip id='user' place='top' />
 			<Modal
 				isOpen={isOpen}
 				title={isFormSubmited ? '¡Reserva exitosa!' : 'Confirma tu reserva'}
