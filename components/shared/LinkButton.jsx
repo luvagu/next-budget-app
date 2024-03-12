@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import Link from 'next/link'
 import { classNames } from '@/utils/helpers'
 
 const variants = {
@@ -14,26 +14,25 @@ const sizes = {
 	lg: 'gap-3 py-2 px-4 sm:py-3 sm:px-6 text-base',
 }
 
-const LinkButton = forwardRef(
-	({ children, variant = 'blue-outline', size = 'md', href, onClick }, ref) => {
-		return (
-			<a
-				className={classNames(
-					sizes[size],
-					'inline-flex items-center border shadow-sm font-semibold whitespace-nowrap rounded-md',
-					variants[variant],
-					'focus:outline-none focus:ring-2 focus:ring-offset-2'
-				)}
-				href={href}
-				onClick={onClick}
-				ref={ref}
-			>
-				{children}
-			</a>
-		)
-	}
-)
-
-LinkButton.displayName = 'LinkButton'
+const LinkButton = ({
+	children,
+	variant = 'blue-outline',
+	size = 'md',
+	...props
+}) => {
+	return (
+		<Link
+			className={classNames(
+				sizes[size],
+				'inline-flex items-center border shadow-sm font-semibold whitespace-nowrap rounded-md',
+				variants[variant],
+				'focus:outline-none focus:ring-2 focus:ring-offset-2'
+			)}
+			{...props}
+		>
+			{children}
+		</Link>
+	)
+}
 
 export default LinkButton

@@ -66,12 +66,10 @@ function Navbar({ isHome, isDashboard }) {
 					)}
 				</h1>
 				{isHome && (
-					<Link href='/api/auth/login' passHref>
-						<LinkButton>
-							<LoginIcon className='h-4 w-4 sm:h-5 sm:w-5' />
-							<span>{t('label_login')}</span>
-						</LinkButton>
-					</Link>
+					<LinkButton href='/api/auth/login'>
+						<LoginIcon className='h-4 w-4 sm:h-5 sm:w-5' />
+						<span>{t('label_login')}</span>
+					</LinkButton>
 				)}
 				{user && isDashboard && (
 					<Fragment>
