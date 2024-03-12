@@ -7,9 +7,9 @@ const callback = async (req, res) => {
 		// console.log('@@ error at callback', error)
 
 		res
-			.status(error.status || 400)
-			.end(error.message)
-			.redirect('/')
+			?.status(error.status || 400)
+			?.end(error.message)
+			?.redirect('/')
 	}
 }
 
