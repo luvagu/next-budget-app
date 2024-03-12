@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
-import { Button, Modal, Stack } from '@/components/shared'
+import { Button, Metatags, Modal, Stack } from '@/components/shared'
 import { Tooltip } from 'react-tooltip'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -106,6 +106,11 @@ export default function Rifa() {
 
 	return (
 		<>
+			<Metatags
+				title='Gana $50 🤑 | Gran Rifa'
+				description='Participa y gana $50 dolarotes. Separa tu número hoy por tan solo $1 dolar.'
+				noDefaultTitle
+			/>
 			<div className='min-h-screen bg-gradient-to-r from-sky-400 to-blue-500'>
 				<div className='container mx-auto p-5 flex flex-col gap-5'>
 					<RadioGroup value={selected} onChange={setSelected}>
