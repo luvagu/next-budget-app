@@ -9,20 +9,22 @@ import axios from 'axios'
 import useSWR from 'swr'
 
 const getRaffle100 = (reservedSlots = []) => {
-	const RAFFLE_100 = new Array(100).fill('').map((_, i) => ({
-		key: `${i + 1}`,
-		value: `${i + 1}`,
+	const RAFFLE_100 = Array.from(new Array(100).keys()).map(key => ({
+		key: `${key + 1}`,
+		value: `${key + 1}`,
 		disabled: false,
 	}))
 
 	const raffle_100_updated = RAFFLE_100.map(slot => {
 		const reservedSlot = reservedSlots.find(({ value }) => value === slot.value)
+
 		if (reservedSlot) {
 			return {
 				...slot,
 				...reservedSlot,
 			}
 		}
+
 		return slot
 	})
 
@@ -41,18 +43,19 @@ function useRaffleData() {
 		raffle100: getRaffle100(data),
 		isFetching: !data && !error,
 		isError: error,
-		mutate,
+		revalidate: mutate,
 	}
 }
 
-const saveReservation = async data =>
-	await axios.post('/api/raffledb/create/raffle0324', data)
+const saveReservation = async payload => {
+	return await axios.post('/api/raffledb/create/raffle0324', payload)
+}
 
 export default function Rifa() {
 	// Set global Axios required Authorization headers for all api calls
 	axios.defaults.headers.common['Authorization'] = 'Raffle0324'
 
-	const { raffle100, mutate } = useRaffleData()
+	const { raffle100, revalidate } = useRaffleData()
 
 	const [selected, setSelected] = useState({})
 	const [isOpen, setIsOpen] = useState(false)
@@ -82,7 +85,7 @@ export default function Rifa() {
 			return setError('Todos los campos son requeridos')
 		}
 
-		const data = {
+		const payload = {
 			disabled: true,
 			value: selected.value,
 			user: capitalizeWords(name),
@@ -91,10 +94,10 @@ export default function Rifa() {
 		}
 
 		setIsLoading(true)
-		saveReservation(data)
+		saveReservation(payload)
 			.then(() => {
 				setIsFormSubmited(true)
-				mutate()
+				revalidate()
 			})
 			.catch(() =>
 				setError(
@@ -254,6 +257,8 @@ export default function Rifa() {
 		</>
 	)
 }
+
+Rifa.displayName = 'rifa.home'
 
 // export async function getServerSideProps() {
 // 	// const { locale } = context
