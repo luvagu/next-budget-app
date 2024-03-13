@@ -4,7 +4,7 @@ import { Button, Metatags, Modal, Stack } from '@/components/shared'
 import { Tooltip } from 'react-tooltip'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { capitalizeWords } from '@/utils/helpers'
+import { capitalizeWords, getUserFirstName } from '@/utils/helpers'
 import axios from 'axios'
 import useSWR from 'swr'
 
@@ -136,8 +136,8 @@ export default function Rifa() {
 										className='ui-active:ring-2 ui-active:ring-white/60 ui-active:ring-offset-2 ui-active:ring-offset-indigo-300 ui-checked:bg-green-900/75 ui-checked:text-white ui-not-checked:ui-not-disabled:bg-white
                ui-disabled:bg-red-900/75 justify-center ui-not-disabled:cursor-pointer ui-disabled:cursor-not-allowed relative flex rounded-lg px-4 py-3 shadow-md focus:outline-none'
 										{...(slot.user && {
-											'data-tooltip-id': 'user',
-											'data-tooltip-content': slot.user,
+											'data-tooltip-id': 'user-first-name',
+											'data-tooltip-content': getUserFirstName(slot.user),
 										})}
 									>
 										<RadioGroup.Label
@@ -153,7 +153,7 @@ export default function Rifa() {
 					</RadioGroup>
 				</div>
 			</div>
-			<Tooltip id='user' place='top' />
+			<Tooltip id='user-first-name' place='top' />
 			<Modal
 				isOpen={isOpen}
 				title={isFormSubmited ? '¡Reserva exitosa!' : 'Confirma tu reserva'}

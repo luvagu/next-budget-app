@@ -157,3 +157,7 @@ export function dateFormatter(
 export function twoDigitsNumber(number = 0) {
 	return Number(number.toFixed(2))
 }
+
+export function getUserFirstName(username = '') {
+	return username.split(' ')[0]
+}
