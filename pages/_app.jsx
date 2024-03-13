@@ -5,6 +5,10 @@ import BudgetsProvider from '@/context/BudgetsContext'
 import '@/styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
+	if (Component.displayName === 'rifa.home') {
+		return <Component {...pageProps} />
+	}
+
 	return (
 		<UserProvider>
 			<BudgetsProvider>
