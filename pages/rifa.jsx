@@ -123,7 +123,7 @@ export default function Rifa() {
 							</RadioGroup.Label>
 							<RadioGroup.Description as='h3' className='text-sm font-medium'>
 								Participa y gana $50 dolarotes. Separa tu número hoy por tan
-								solo $1 dolar. <br />
+								solo $1 dolar (Bs. 40). <br />
 								<strong>Ojo 👀</strong>: sorteo a realizarse con 75% de venta
 								<br />
 								<strong>Tip 💡</strong>: los números en blanco aún están
@@ -166,7 +166,10 @@ export default function Rifa() {
 					<form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4'>
 						<p className='text-sm'>
 							Has seleccionado el número <strong>{selected.value}</strong>.
-							Confirma tu reserva llenando todos los datos a continuación.
+							<br />
+							El total a pagar es <strong>$1</strong> o <strong>Bs. 40</strong>
+							<br />
+							Llena todos los datos a continuación para confirmar tu reserva.
 						</p>
 						<label className='block'>
 							<span className='text-gray-700 text-sm sm:text-base'>
