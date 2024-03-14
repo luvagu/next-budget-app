@@ -6,31 +6,47 @@ const client = mailgun({
 })
 
 export async function mailRaffle0324Notification(data) {
-	const { value, user, phone, payment, ref } = data
+	const { values, user, phone, payment, refs } = data
 
 	try {
-		if (!value || !user || !phone || !payment || !ref) {
+		if (!values || !user || !phone || !payment || !refs) {
 			throw new Error(`Campos requeridos incompletos!`)
 		}
 
+		const valuesLenght = values.length
 		const url =
 			process.env.NODE_ENV === 'development'
 				? `http://localhost:3000`
 				: 'https://next-budget-app-three.vercel.app'
 
-		const link = `${url}/api/raffledb/void?ref=${ref}`
+		let numbers = ''
+		values.forEach((value, i) => {
+			numbers += `#${value}${
+				valuesLenght > 1 && i < valuesLenght - 1 ? ', ' : ''
+			}`
+		})
+
+		let links = ''
+		refs.forEach(ref => {
+			links += `\n${url}/api/raffledb/void?ref=${ref}`
+		})
+
+		const subject =
+			valuesLenght > 1
+				? `Los números ${numbers} fueron reservados`
+				: `El ${numbers} fue reservado`
 
 		const data = {
 			from: `Raffle0324 <${process.env.MAILGUN_FROM_EMAIL}>`,
 			to: 'luiavag@gmail.com',
-			subject: `Nuevo participante - El #${value} fue reservado`,
+			subject: `Nuevo participante - ${subject}`,
 			text: `Hola,\n\n
       Estos son los datos de la reserva.\n\n
-      Número reservado: #${value} \n
+      Número(s) reservado(s): ${numbers} \n
       Nombre participante: ${user} \n
       WhatsApp participante: ${phone} \n
       Método de pago: ${payment} \n\n
-      Nota: envia al participante los datos de tu Pago Movil o realiza el cobro en efectivo lo antes posible. Si no recibes el pago en 24 horas, puedes hacer click en el siguinete enlace para anular esta reserva: ${link}`,
+      Nota: envia al participante los datos de tu Pago Movil o realiza el cobro en efectivo lo antes posible. Si no recibes el pago en 24 horas, puedes hacer click en el(los) siguinete(s) enlace(s) para anular esta reserva: ${links}`,
 		}
 
 		return await client.messages().send(data)

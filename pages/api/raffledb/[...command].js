@@ -1,4 +1,4 @@
-import { addRaffleSlot_0324, getRaffleSlots_0324 } from '@/utils/faunadb'
+import { addRaffleSlots_0324, getRaffleSlots_0324 } from '@/utils/faunadb'
 
 const ALLOWED_COMMANDS = {
 	create: 'POST',
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
 		try {
 			let response
 			if (query === QUERY_TYPES.raffle0324) {
-				response = await addRaffleSlot_0324(data)
+				response = await addRaffleSlots_0324(data)
 
 				return res.status(200).json(response)
 			}

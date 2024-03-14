@@ -66,14 +66,31 @@ export const getRaffleSlots_0324 = async () => {
 	}))
 }
 
-export const addRaffleSlot_0324 = async data => {
-	const response = await client.query(callFn('addRaffleSlot_0324', data))
+export const addRaffleSlots_0324 = async data => {
+	const dataArr = Array.isArray(data) ? data : [data]
+	const response = await client.query(callFn('addRaffleSlots_0324', dataArr))
 
-	// send # reservation mail norification
-	await mailRaffle0324Notification({
-		...response.data,
-		ref: response.ref.id,
-	}).catch(() => {})
+	const mailData = response.reduce(
+		(acc, curr, index) => {
+			if (index === 0) {
+				acc.user = curr.data.user
+				acc.phone = curr.data.phone
+				acc.payment = curr.data.payment
+			}
+
+			acc.values.push(curr.data.value)
+			acc.refs.push(curr.ref.id)
+
+			return acc
+		},
+		{
+			values: [],
+			refs: [],
+		}
+	)
+
+	// send # reservation mail notification
+	await mailRaffle0324Notification(mailData).catch(() => {})
 
 	return response
 }
