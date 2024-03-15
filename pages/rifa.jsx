@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { RadioGroup } from '@headlessui/react'
+import { RadioGroup, Switch } from '@headlessui/react'
 import { Button, Metatags, Modal, Stack } from '@/components/shared'
 import { Tooltip } from 'react-tooltip'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { capitalizeWords, getUserFirstName } from '@/utils/helpers'
+import { capitalizeWords, classNames, getUserFirstName } from '@/utils/helpers'
 import axios from 'axios'
 import useSWR from 'swr'
 
@@ -33,17 +33,18 @@ const getRaffle100 = (reservedSlots = []) => {
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
-function useRaffleData() {
+function useRaffleData({ revalidateOnFocus = true }) {
 	const { data, error, mutate } = useSWR(
 		'/api/raffledb/read/raffle0324',
-		fetcher
+		fetcher,
+		{ revalidateOnFocus }
 	)
 
 	return {
 		raffle100: getRaffle100(data),
 		isFetching: !data && !error,
 		isError: error,
-		revalidate: mutate,
+		mutate,
 	}
 }
 
@@ -51,24 +52,90 @@ const saveReservation = async payload => {
 	return await axios.post('/api/raffledb/create/raffle0324', payload)
 }
 
+const Toggle = ({ enabled, setEnabled }) => {
+	return (
+		<div className='flex gap-4 items-center text-sm font-medium'>
+			<span>Selección:</span>
+			<span>Individual</span>
+			<Switch
+				checked={enabled}
+				onChange={setEnabled}
+				className={classNames(
+					enabled ? 'bg-green-900/75' : 'bg-blue-900/75',
+					'relative inline-flex h-[20px] w-[56px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75'
+				)}
+			>
+				<span
+					aria-hidden='true'
+					className={classNames(
+						enabled ? 'translate-x-9 bg-yellow-400' : 'translate-x-0 bg-white',
+						'pointer-events-none inline-block h-[16px] w-[16px] transform rounded-full  shadow-lg ring-0 transition duration-200 ease-in-out'
+					)}
+				/>
+			</Switch>
+			<span>Múltiple</span>
+		</div>
+	)
+}
+
+const Choices = ({ choices, isVisble, setConfirm }) => {
+	const choicesValues = choices.map(({ value }) => value).join(', ')
+	const disabled = !choicesValues.length
+
+	return (
+		<div
+			className={classNames(
+				isVisble ? 'visible h-full' : 'invisible h-0 p-0',
+				'flex justify-between items-center gap-4 bg-white p-1 pl-2 rounded shadow-md transition-all duration-200 ease-in-out'
+			)}
+		>
+			<div className='flex gap-2 text-sm font-medium'>{choicesValues}</div>
+			<Button
+				disabled={disabled}
+				size='sm'
+				onClick={setConfirm}
+				extraClass={classNames(
+					isVisble ? 'visible h-full' : 'invisible h-0 p-0',
+					'transition-[hight] ease-in-out'
+				)}
+			>
+				Confirmar
+			</Button>
+		</div>
+	)
+}
+
 export default function Rifa() {
 	// Set global Axios required Authorization headers for all api calls
 	axios.defaults.headers.common['Authorization'] = 'Raffle0324'
-
-	const { raffle100, revalidate } = useRaffleData()
 
 	const [selected, setSelected] = useState({})
 	const [isOpen, setIsOpen] = useState(false)
 	const [isFormSubmited, setIsFormSubmited] = useState(false)
 	const [error, setError] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
+	const [isMultiSelect, setIsMultiSelect] = useState(false)
+	const [choices, setChoices] = useState([])
+
+	const { raffle100, mutate } = useRaffleData({
+		revalidateOnFocus: !isMultiSelect,
+	})
 
 	const closeModal = () => {
 		setIsOpen(false)
-		setSelected({})
-		setIsFormSubmited(false)
-		setError('')
+
+		// Modal closes with 200ms due to transition delay
+		// Calling setters after modal is not visible
+		setTimeout(() => {
+			!isMultiSelect && setCheckedSlot(selected, false)
+			isFormSubmited && isMultiSelect && setChoices([])
+			isFormSubmited && isMultiSelect && setIsMultiSelect(false)
+			setSelected({})
+			setIsFormSubmited(false)
+			setError('')
+		}, 200)
 	}
+
 	const openModal = () => {
 		setIsOpen(true)
 	}
@@ -81,24 +148,27 @@ export default function Rifa() {
 			new FormData(form.target).entries()
 		)
 
-		if (!name || !phone || !payment || !selected.value) {
+		const isValueSelected = !!(isMultiSelect ? choices.length : selected.value)
+
+		if (!name || !phone || !payment || !isValueSelected) {
 			return setError('Todos los campos son requeridos')
 		}
 
-		const payload = {
+		const getData = value => ({
 			disabled: true,
-			value: selected.value,
+			value,
 			user: capitalizeWords(name),
 			phone,
 			payment,
-		}
+		})
+
+		const payload = isMultiSelect
+			? choices.map(choice => getData(choice.value))
+			: getData(selected.value)
 
 		setIsLoading(true)
 		saveReservation(payload)
-			.then(() => {
-				setIsFormSubmited(true)
-				revalidate()
-			})
+			.then(() => mutate().finally(() => setIsFormSubmited(true)))
 			.catch(() =>
 				setError(
 					'Un error ha ocurrido al procesar la operación. Por favor inténtalo nuevamente o elige otro número.'
@@ -106,6 +176,63 @@ export default function Rifa() {
 			)
 			.finally(() => setIsLoading(false))
 	}
+
+	const handleMultipleSelect = () => {
+		setIsMultiSelect(!isMultiSelect)
+
+		if (isMultiSelect) {
+			resetChoices()
+		}
+	}
+
+	const resetChoices = () => {
+		// set checked slot to false
+		mutate(
+			raffle100.map(slot => {
+				if (choices.findIndex(choice => choice.value === slot.value) !== -1) {
+					return { ...slot, checked: false }
+				}
+				return slot
+			}),
+			false // importsnt do not revalidate as we don't save this state on DB
+		).finally(() => setChoices([]))
+	}
+
+	const setCheckedSlot = (selected, checked = true) => {
+		// set checked slot (true or false)
+		mutate(
+			raffle100.map(slot => ({
+				...slot,
+				...(slot.value === selected.value && { checked }),
+			})),
+			false // important do not revalidate as we don't save this state on DB
+		)
+	}
+
+	const handleSetChoice = selected => {
+		setSelected(selected)
+		setCheckedSlot(selected)
+
+		if (isMultiSelect) {
+			setChoices(prevChoices => {
+				const isAlreadySelected = prevChoices.find(
+					({ value }) => value === selected.value
+				)
+
+				isAlreadySelected && setCheckedSlot(selected, false)
+
+				return isAlreadySelected
+					? prevChoices.filter(({ value }) => value !== selected.value)
+					: [...prevChoices, selected]
+			})
+		}
+	}
+
+	const numbers = isMultiSelect
+		? choices.map(({ value }) => value).join(', ')
+		: selected.value
+	const dolarAmount = `$${isMultiSelect ? choices.length : '1'}`
+	const bolivarAmount = `Bs. ${isMultiSelect ? choices.length * 40 : '40'}`
 
 	return (
 		<>
@@ -115,44 +242,57 @@ export default function Rifa() {
 				noDefaultTitle
 			/>
 			<div className='min-h-screen bg-gradient-to-r from-sky-400 to-blue-500'>
-				<div className='container mx-auto p-5 flex flex-col gap-5'>
-					<RadioGroup value={selected} onChange={setSelected}>
-						<Stack extraClass='gap-4'>
-							<RadioGroup.Label as='h1' className='text-xl font-bold'>
-								Gran Rifa Marzo 2024 - El gordito cincuentón - Gana $50 🤑
-							</RadioGroup.Label>
-							<RadioGroup.Description as='h3' className='text-sm font-medium'>
-								Participa y gana $50 dolarotes. Separa tu número hoy por tan
-								solo $1 dolar (Bs. 40). <br />
-								<strong>Ojo 👀</strong>: sorteo a realizarse con 75% de venta
-								<br />
-								<strong>Tip 💡</strong>: los números en blanco aún están
-								disponibles.
-							</RadioGroup.Description>
-							<div className='grid grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4'>
-								{raffle100.map(slot => (
-									<RadioGroup.Option
-										key={slot.key}
-										value={slot}
-										disabled={slot.disabled}
-										onClick={openModal}
-										className='ui-active:ring-2 ui-active:ring-white/60 ui-active:ring-offset-2 ui-active:ring-offset-indigo-300 ui-checked:bg-green-900/75 ui-checked:text-white ui-not-checked:ui-not-disabled:bg-white
-               ui-disabled:bg-red-900/75 justify-center ui-not-disabled:cursor-pointer ui-disabled:cursor-not-allowed relative flex rounded-lg px-4 py-3 shadow-md focus:outline-none'
-										{...(slot.user && {
-											'data-tooltip-id': 'user-first-name',
-											'data-tooltip-content': getUserFirstName(slot.user),
-										})}
+				<div className='container mx-auto p-5 flex flex-col gap-4'>
+					<h1 className='text-xl font-bold'>
+						Gran Rifa Marzo 2024 - El gordito cincuentón - Gana $50 🤑
+					</h1>
+					<h3 className='text-sm font-medium'>
+						Participa y gana $50 dolarotes. Separa tu número hoy por tan solo $1
+						dolar (Bs. 40). <br />
+						<strong>Ojo 👀</strong>: sorteo a realizarse con 75% de venta
+						<br />
+						<strong>Tip 💡</strong>: los números en blanco aún están
+						disponibles.
+					</h3>
+					<Toggle enabled={isMultiSelect} setEnabled={handleMultipleSelect} />
+					<Choices
+						choices={choices}
+						setConfirm={openModal}
+						isVisble={isMultiSelect}
+					/>
+					<RadioGroup value={selected} onChange={handleSetChoice}>
+						<div className='grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-4'>
+							{raffle100.map(slot => (
+								<RadioGroup.Option
+									key={slot.key}
+									value={slot}
+									disabled={slot.disabled}
+									onClick={!isMultiSelect && openModal}
+									className={classNames(
+										slot.checked
+											? 'bg-green-900/75 text-white '
+											: 'ui-not-checked:ui-not-disabled:bg-white',
+										'ui-active:ring-2 ui-active:ring-white/60 ui-active:ring-offset-2 ui-active:ring-offset-indigo-300 ui-disabled:bg-red-900/75 ui-not-disabled:cursor-pointer ui-disabled:cursor-not-allowed relative flex justify-center rounded-md p-3 shadow-md focus:outline-none'
+									)}
+									{...(slot.user && {
+										'data-tooltip-id': 'user-first-name',
+										'data-tooltip-content': getUserFirstName(slot.user),
+									})}
+								>
+									<RadioGroup.Label
+										as='p'
+										className={classNames(
+											slot.checked
+												? 'text-yellow-400'
+												: 'ui-not-checked:ui-not-disabled:text-gray-900',
+											'text-sm font-bold ui-disabled:text-gray-300/75'
+										)}
 									>
-										<RadioGroup.Label
-											as='p'
-											className='text-base font-bold ui-checked:text-yellow-400 ui-not-checked:ui-not-disabled:text-gray-900 ui-disabled:text-gray-300/75'
-										>
-											{slot.value}
-										</RadioGroup.Label>
-									</RadioGroup.Option>
-								))}
-							</div>
-						</Stack>
+										{slot.value}
+									</RadioGroup.Label>
+								</RadioGroup.Option>
+							))}
+						</div>
 					</RadioGroup>
 				</div>
 			</div>
@@ -165,9 +305,13 @@ export default function Rifa() {
 				{!isFormSubmited && (
 					<form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4'>
 						<p className='text-sm'>
-							Has seleccionado el número <strong>{selected.value}</strong>.
+							Has seleccionado{' '}
+							{isMultiSelect && choices.length ? 'los números' : 'el número'}{' '}
+							<strong>{numbers}</strong>
+							.
 							<br />
-							El total a pagar es <strong>$1</strong> o <strong>Bs. 40</strong>
+							El total a pagar es <strong>{dolarAmount}</strong> o{' '}
+							<strong>{bolivarAmount}</strong>
 							<br />
 							Llena todos los datos a continuación para confirmar tu reserva.
 						</p>
@@ -240,10 +384,12 @@ export default function Rifa() {
 					<Stack extraClass='gap-4'>
 						<CheckCircleIcon className='h-10 w-10 mx-auto text-green-500' />
 						<p>
-							Tu número{' '}
-							<span className='font-bold underline'>{selected.value}</span> fue
-							reservado con éxito. En breve serás contactado para confirmar el
-							pago.
+							{isMultiSelect && choices.length ? 'Tus números' : 'Tu número'}{' '}
+							<span className='font-bold'>{numbers}</span>{' '}
+							{isMultiSelect && choices.length
+								? 'fueron reservados'
+								: 'fue reservado'}{' '}
+							con éxito. En breve serás contactado para confirmar el pago.
 						</p>
 						<p>
 							<span className='text-red-700 font-bold'>Importante</span>: debes

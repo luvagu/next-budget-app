@@ -19,12 +19,7 @@ export async function mailRaffle0324Notification(data) {
 				? `http://localhost:3000`
 				: 'https://next-budget-app-three.vercel.app'
 
-		let numbers = ''
-		values.forEach((value, i) => {
-			numbers += `#${value}${
-				valuesLenght > 1 && i < valuesLenght - 1 ? ', ' : ''
-			}`
-		})
+		const numbers = values.map(value => `#${value}`).join(', ')
 
 		let links = ''
 		refs.forEach(ref => {
@@ -36,6 +31,9 @@ export async function mailRaffle0324Notification(data) {
 				? `Los números ${numbers} fueron reservados`
 				: `El ${numbers} fue reservado`
 
+		const dolarAmount = `$${valuesLenght}`
+		const bolivarAmount = `Bs. ${valuesLenght * 40}`
+
 		const data = {
 			from: `Raffle0324 <${process.env.MAILGUN_FROM_EMAIL}>`,
 			to: 'luiavag@gmail.com',
@@ -45,6 +43,7 @@ export async function mailRaffle0324Notification(data) {
       Número(s) reservado(s): ${numbers} \n
       Nombre participante: ${user} \n
       WhatsApp participante: ${phone} \n
+      Total boleto: ${dolarAmount} o ${bolivarAmount} \n\n
       Método de pago: ${payment} \n\n
       Nota: envia al participante los datos de tu Pago Movil o realiza el cobro en efectivo lo antes posible. Si no recibes el pago en 24 horas, puedes hacer click en el(los) siguinete(s) enlace(s) para anular esta reserva: ${links}`,
 		}
