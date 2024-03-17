@@ -21,10 +21,7 @@ export async function mailRaffle0324Notification(data) {
 
 		const numbers = values.map(value => `#${value}`).join(', ')
 
-		let links = ''
-		refs.forEach(ref => {
-			links += `\n${url}/api/raffledb/void?ref=${ref}`
-		})
+		let links = `\n${url}/api/raffledb/void?ref=${refs.join(',')}`
 
 		const subject =
 			valuesLenght > 1

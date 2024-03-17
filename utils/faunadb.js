@@ -95,6 +95,8 @@ export const addRaffleSlots_0324 = async data => {
 	return response
 }
 
-export const deleteRaffleSlot_0324 = async ref => {
-	return (await client.query(callFn('deleteRaffleSlot_0324', ref))).data
+export const deleteRaffleSlots_0324 = async refs => {
+	const refsArr = Array.isArray(refs) ? refs : [refs]
+
+	return (await client.query(callFn('deleteRaffleSlots_0324', refsArr))).data
 }

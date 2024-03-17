@@ -54,7 +54,7 @@ const saveReservation = async payload => {
 
 const Toggle = ({ enabled, setEnabled }) => {
 	return (
-		<div className='flex gap-4 items-center text-sm font-medium'>
+		<Stack direction='horizontal' className='gap-4 text-sm font-medium'>
 			<span>Selección:</span>
 			<span>Individual</span>
 			<Switch
@@ -74,7 +74,7 @@ const Toggle = ({ enabled, setEnabled }) => {
 				/>
 			</Switch>
 			<span>Múltiple</span>
-		</div>
+		</Stack>
 	)
 }
 
@@ -82,27 +82,11 @@ const Choices = ({ choices, isVisble, setConfirm }) => {
 	const choicesValues = choices.map(({ value }) => value).join(', ')
 	const disabled = !choicesValues.length
 
-	return (
-		<div
-			className={classNames(
-				isVisble ? 'visible h-full' : 'invisible h-0 p-0',
-				'flex justify-between items-center gap-4 bg-white p-1 pl-2 rounded shadow-md transition-all duration-200 ease-in-out'
-			)}
-		>
-			<div className='flex gap-2 text-sm font-medium'>{choicesValues}</div>
-			<Button
-				disabled={disabled}
-				size='sm'
-				onClick={setConfirm}
-				extraClass={classNames(
-					isVisble ? 'visible h-full' : 'invisible h-0 p-0',
-					'transition-[hight] ease-in-out'
-				)}
-			>
-				Confirmar
-			</Button>
-		</div>
-	)
+	return isVisble ? (
+		<Button disabled={disabled} size='sm' onClick={setConfirm}>
+			Confirmar
+		</Button>
+	) : null
 }
 
 export default function Rifa() {
@@ -228,6 +212,7 @@ export default function Rifa() {
 		}
 	}
 
+	const isMultipleChoices = isMultiSelect && choices.length > 1
 	const numbers = isMultiSelect
 		? choices.map(({ value }) => value).join(', ')
 		: selected.value
@@ -242,7 +227,7 @@ export default function Rifa() {
 				noDefaultTitle
 			/>
 			<div className='min-h-screen bg-gradient-to-r from-sky-400 to-blue-500'>
-				<div className='container mx-auto p-5 flex flex-col gap-4'>
+				<Stack className='container mx-auto p-5 gap-4'>
 					<h1 className='text-xl font-bold'>
 						Gran Rifa Marzo 2024 - El gordito cincuentón - Gana $50 🤑
 					</h1>
@@ -254,12 +239,14 @@ export default function Rifa() {
 						<strong>Tip 💡</strong>: los números en blanco aún están
 						disponibles.
 					</h3>
-					<Toggle enabled={isMultiSelect} setEnabled={handleMultipleSelect} />
-					<Choices
-						choices={choices}
-						setConfirm={openModal}
-						isVisble={isMultiSelect}
-					/>
+					<Stack className='gap-4 min-h-[26px]' direction='horizontal'>
+						<Toggle enabled={isMultiSelect} setEnabled={handleMultipleSelect} />
+						<Choices
+							choices={choices}
+							setConfirm={openModal}
+							isVisble={isMultiSelect}
+						/>
+					</Stack>
 					<RadioGroup value={selected} onChange={handleSetChoice}>
 						<div className='grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-4'>
 							{raffle100.map(slot => (
@@ -294,7 +281,7 @@ export default function Rifa() {
 							))}
 						</div>
 					</RadioGroup>
-				</div>
+				</Stack>
 			</div>
 			<Tooltip id='user-first-name' place='top' />
 			<Modal
@@ -305,8 +292,7 @@ export default function Rifa() {
 				{!isFormSubmited && (
 					<form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4'>
 						<p className='text-sm'>
-							Has seleccionado{' '}
-							{isMultiSelect && choices.length ? 'los números' : 'el número'}{' '}
+							Has seleccionado {isMultipleChoices ? 'los números' : 'el número'}{' '}
 							<strong>{numbers}</strong>
 							.
 							<br />
@@ -343,7 +329,7 @@ export default function Rifa() {
 							<span className='text-gray-700 text-sm sm:text-base'>
 								Método de pago preferido
 							</span>
-							<Stack extraClass='mt-1'>
+							<Stack className='mt-1'>
 								<label className='inline-flex items-center'>
 									<input
 										onChange={null}
@@ -381,15 +367,13 @@ export default function Rifa() {
 					</form>
 				)}
 				{isFormSubmited && (
-					<Stack extraClass='gap-4'>
+					<Stack className='gap-4'>
 						<CheckCircleIcon className='h-10 w-10 mx-auto text-green-500' />
 						<p>
-							{isMultiSelect && choices.length ? 'Tus números' : 'Tu número'}{' '}
+							{isMultipleChoices ? 'Tus números' : 'Tu número'}{' '}
 							<span className='font-bold'>{numbers}</span>{' '}
-							{isMultiSelect && choices.length
-								? 'fueron reservados'
-								: 'fue reservado'}{' '}
-							con éxito. En breve serás contactado para confirmar el pago.
+							{isMultipleChoices ? 'fueron reservados' : 'fue reservado'} con
+							éxito. En breve serás contactado para confirmar el pago.
 						</p>
 						<p>
 							<span className='text-red-700 font-bold'>Importante</span>: debes
