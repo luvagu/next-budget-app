@@ -1,6 +1,6 @@
 import { classNames } from '@/utils/helpers'
 
-function Stack({ children, direction = 'vertical', extraClass }) {
+function Stack({ children, direction = 'vertical', className }) {
 	return (
 		<div
 			className={classNames(
@@ -8,7 +8,7 @@ function Stack({ children, direction = 'vertical', extraClass }) {
 				direction === 'vertical'
 					? 'flex-auto flex-col '
 					: 'flex-row items-center',
-				extraClass
+				className
 			)}
 		>
 			{children}

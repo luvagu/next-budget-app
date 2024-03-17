@@ -17,7 +17,7 @@ function ConfirmDelete({ isOpen, closeModal }) {
 	const hasBudgetGotExpenses = !!getBudgetExpenses(id)?.length
 
 	const title = (
-		<Stack direction='horizontal' extraClass='gap-2'>
+		<Stack direction='horizontal' className='gap-2'>
 			<ExclamationIcon className='h-6 w-6 text-red-600' aria-hidden='true' />
 			<div>Confirm Delete</div>
 		</Stack>
@@ -63,7 +63,7 @@ function ConfirmDelete({ isOpen, closeModal }) {
 					)}
 				</p>
 			)}
-			<Stack direction='horizontal' extraClass='gap-2 mt-6 justify-end'>
+			<Stack direction='horizontal' className='gap-2 mt-6 justify-end'>
 				<Button variant='gray-outline' onClick={handleCancel}>
 					Cancel
 				</Button>

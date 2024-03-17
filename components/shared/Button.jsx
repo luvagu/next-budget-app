@@ -27,7 +27,7 @@ function Button({
 	size = 'md',
 	onClick,
 	disabled = false,
-	extraClass,
+	className,
 }) {
 	return (
 		<button
@@ -36,7 +36,7 @@ function Button({
 				sizes[size],
 				'inline-flex items-center border shadow-sm font-semibold whitespace-nowrap rounded focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed',
 				variants[variant],
-				extraClass
+				className
 			)}
 			onClick={onClick}
 			disabled={disabled}

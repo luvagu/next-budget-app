@@ -46,7 +46,7 @@ function Navbar({ isHome, isDashboard }) {
 
 	return (
 		<Fragment>
-			<Stack direction='horizontal' extraClass='gap-2 mb-4'>
+			<Stack direction='horizontal' className='gap-2 mb-4'>
 				<h1 className='inline-flex items-center gap-1 text-xl sm:text-2xl md:text-3xl font-semibold mr-auto'>
 					{user ? (
 						<Fragment>

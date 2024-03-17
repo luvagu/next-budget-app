@@ -63,12 +63,12 @@ function ViewExpenses({ isOpen, closeModal }) {
 			closeModal={closeModal}
 			progress={progress}
 		>
-			<Stack extraClass='gap-2'>
+			<Stack className='gap-2'>
 				{budgetExpenses?.map(({ id, amount, description, ts }) => (
 					<Stack
 						key={id}
 						direction='horizontal'
-						extraClass='gap-2 hover:bg-slate-300 items-baseline'
+						className='gap-2 hover:bg-slate-300 items-baseline'
 					>
 						<div className='mr-auto text-base sm:text-lg md:text-xl inline-flex flex-col'>
 							{description}

@@ -68,7 +68,7 @@ function UpdateBudget({ isOpen, closeModal }) {
 					<span className='text-gray-700 text-sm sm:text-base'>
 						Card background color
 					</span>
-					<Stack extraClass='mt-1 gap-2 flex-wrap' direction='horizontal'>
+					<Stack className='mt-1 gap-2 flex-wrap' direction='horizontal'>
 						{budgetCardBgColorsToMap.map(color => (
 							<label
 								key={color}

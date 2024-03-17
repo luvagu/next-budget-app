@@ -64,7 +64,7 @@ function AddBudget({ isOpen, closeModal }) {
 					<span className='text-gray-700 text-sm sm:text-base'>
 						Budget type
 					</span>
-					<Stack extraClass='mt-1'>
+					<Stack className='mt-1'>
 						<label className='inline-flex items-center'>
 							<input
 								onChange={e => setIsBudgetTypeLoanSelected(!e.target.checked)}
@@ -98,7 +98,7 @@ function AddBudget({ isOpen, closeModal }) {
 					<span className='text-gray-700 text-sm sm:text-base'>
 						Card background color
 					</span>
-					<Stack extraClass='mt-1 gap-2 flex-wrap' direction='horizontal'>
+					<Stack className='mt-1 gap-2 flex-wrap' direction='horizontal'>
 						{budgetCardBgColorsToMap.map((color, index) => (
 							<label
 								key={color}

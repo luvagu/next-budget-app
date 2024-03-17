@@ -70,7 +70,7 @@ function BudgetCard({ id, name, amount, max, type, bgColor, isTotal }) {
 			)}
 
 			{id && (
-				<Stack direction='horizontal' extraClass='gap-2 mt-4 justify-end'>
+				<Stack direction='horizontal' className='gap-2 mt-4 justify-end'>
 					{!isUncategorizedBudget && (
 						<>
 							<Button
