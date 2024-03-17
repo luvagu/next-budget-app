@@ -78,14 +78,20 @@ const Toggle = ({ enabled, setEnabled }) => {
 	)
 }
 
-const Choices = ({ choices, isVisble, setConfirm }) => {
-	const choicesValues = choices.map(({ value }) => value).join(', ')
-	const disabled = !choicesValues.length
+const ConfirmChoices = ({ choices, isVisble, setConfirm }) => {
+	const disabled = !choices.length
 
 	return isVisble ? (
-		<Button disabled={disabled} size='sm' onClick={setConfirm}>
-			Confirmar
-		</Button>
+		<div className='max-sm:fixed max-sm:inset-x-0 max-sm:bottom-0 max-sm:z-10 max-sm:shadow-xl max-sm:flex max-sm:justify-center max-sm:bg-slate-200 max-sm:p-2'>
+			<Button
+				disabled={disabled}
+				size='sm'
+				onClick={setConfirm}
+				className='max-sm:w-full max-sm:justify-center'
+			>
+				Confirmar
+			</Button>
+		</div>
 	) : null
 }
 
@@ -227,7 +233,12 @@ export default function Rifa() {
 				noDefaultTitle
 			/>
 			<div className='min-h-screen bg-gradient-to-r from-sky-400 to-blue-500'>
-				<Stack className='container mx-auto p-5 gap-4'>
+				<Stack
+					className={classNames(
+						'container mx-auto p-5 gap-4',
+						isMultiSelect && 'pb-16 sm:pb-0'
+					)}
+				>
 					<h1 className='text-xl font-bold'>
 						Gran Rifa Marzo 2024 - El gordito cincuentón - Gana $50 🤑
 					</h1>
@@ -241,7 +252,7 @@ export default function Rifa() {
 					</h3>
 					<Stack className='gap-4 min-h-[26px]' direction='horizontal'>
 						<Toggle enabled={isMultiSelect} setEnabled={handleMultipleSelect} />
-						<Choices
+						<ConfirmChoices
 							choices={choices}
 							setConfirm={openModal}
 							isVisble={isMultiSelect}
