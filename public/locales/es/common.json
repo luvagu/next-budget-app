@@ -9,7 +9,7 @@
 
 	"label_login": "Entrar",
 	"label_logout": "Salir",
-	"label_add_budget_expense": "Agregar Presupuesto o Cuenta",
+	"label_add_budget_expense": "Presupuesto o Cuenta",
 	"label_budget": "Presupuesto",
 	"label_loan": "Cuenta",
 	"label_expense": "Gasto",
@@ -36,7 +36,7 @@
 	"label_total_budgets": "Total presupuestos",
 	"label_total_loans": "Total cuentas",
 
-	"add_budget": "Agregar Presupuesto o Cuenta",
+	"add_budget_loan": "Agregar Presupuesto o Cuenta",
 	"update_budget": "Actualizar presupuesto",
 	"update_loan": "Actualizar cuenta",
 	"update_expense": "Actualizar gasto",

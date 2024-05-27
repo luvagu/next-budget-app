@@ -37,11 +37,7 @@ function AddBudget({ isOpen, closeModal }) {
 		: defaultBudgetCardBgColors
 
 	return (
-		<Modal
-			title={t('label_add_budget_expense')}
-			isOpen={isOpen}
-			closeModal={closeModal}
-		>
+		<Modal title={t('add_budget_loan')} isOpen={isOpen} closeModal={closeModal}>
 			<form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4'>
 				<label className='block'>
 					<span className='text-gray-700 text-sm sm:text-base'>
