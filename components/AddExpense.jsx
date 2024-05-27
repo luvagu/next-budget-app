@@ -5,6 +5,7 @@ import {
 } from '@/context/BudgetsContext'
 import { capitalizeWords, twoDigitsNumber } from '@/utils/helpers'
 import { Button, Modal } from '@/components/shared'
+import { useTranslation } from 'react-i18next'
 
 function AddExpense({ isOpen, closeModal }) {
 	const {
@@ -35,16 +36,20 @@ function AddExpense({ isOpen, closeModal }) {
 		openViewExpenseModalWithId(isBudgetTypeLoan ? defaultBudget.id : budgetId)
 	}
 
+	const { t } = useTranslation()
+
 	return (
 		<Modal
-			title={`Add ${isBudgetTypeLoan ? 'Installment' : 'Expense'}`}
+			title={`${t('label_add')} ${
+				isBudgetTypeLoan ? t('label_installment') : t('label_expense')
+			}`}
 			isOpen={isOpen}
 			closeModal={closeModal}
 		>
 			<form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4'>
 				<label className='block'>
 					<span className='text-gray-700 text-sm sm:text-base'>
-						Description
+						{t('label_description')}
 					</span>
 					<input
 						type='text'
@@ -55,7 +60,9 @@ function AddExpense({ isOpen, closeModal }) {
 					/>
 				</label>
 				<label className='block'>
-					<span className='text-gray-700 text-sm sm:text-base'>Amount</span>
+					<span className='text-gray-700 text-sm sm:text-base'>
+						{t('label_amount')}
+					</span>
 					<input
 						type='number'
 						name='amount'
@@ -67,7 +74,9 @@ function AddExpense({ isOpen, closeModal }) {
 					/>
 				</label>
 				<label className='block'>
-					<span className='text-gray-700 text-sm sm:text-base'>Budget</span>
+					<span className='text-gray-700 text-sm sm:text-base'>
+						{t('label_budget')}
+					</span>
 					<select
 						name='budgetId'
 						className='mt-1 block w-full rounded-md text-sm sm:text-base border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 disabled:bg-gray-100 disabled:text-gray-500'
@@ -87,7 +96,7 @@ function AddExpense({ isOpen, closeModal }) {
 					</select>
 				</label>
 				<div className='flex justify-end mt-1'>
-					<Button type='submit'>Add</Button>
+					<Button type='submit'>{t('label_add')}</Button>
 				</div>
 			</form>
 		</Modal>

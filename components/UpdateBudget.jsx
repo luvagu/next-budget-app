@@ -6,6 +6,7 @@ import {
 } from '@/context/BudgetsContext'
 import { capitalizeWords, classNames, twoDigitsNumber } from '@/utils/helpers'
 import { Button, Modal, Stack } from '@/components/shared'
+import { useTranslation } from 'react-i18next'
 
 function UpdateBudget({ isOpen, closeModal }) {
 	const { defaultBudget, updateBudget, isBudgetTypeLoan } = useBadgets()
@@ -33,15 +34,21 @@ function UpdateBudget({ isOpen, closeModal }) {
 		closeModal()
 	}
 
+	const { t } = useTranslation()
+
 	const budgetCardBgColorsToMap = isBudgetTypeLoan
 		? [BUDGET_TYPES.loan]
 		: defaultBudgetCardBgColors
 
 	return (
-		<Modal title='Update Budget' isOpen={isOpen} closeModal={closeModal}>
+		<Modal
+			title={t(isBudgetTypeLoan ? 'update_loan' : 'update_budget')}
+			isOpen={isOpen}
+			closeModal={closeModal}
+		>
 			<form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4'>
 				<label className='block'>
-					<span className='text-gray-700'>Name</span>
+					<span className='text-gray-700'>{t('label_name')}</span>
 					<input
 						type='text'
 						name='name'
@@ -52,7 +59,11 @@ function UpdateBudget({ isOpen, closeModal }) {
 					/>
 				</label>
 				<label className='block'>
-					<span className='text-gray-700'>Maximun spending</span>
+					<span className='text-gray-700'>
+						{t(
+							isBudgetTypeLoan ? 'label_loan_amount' : 'label_maximun_spending'
+						)}
+					</span>
 					<input
 						type='number'
 						name='max'
@@ -66,7 +77,7 @@ function UpdateBudget({ isOpen, closeModal }) {
 				</label>
 				<div className='block'>
 					<span className='text-gray-700 text-sm sm:text-base'>
-						Card background color
+						{t('label_card_bg_color')}
 					</span>
 					<Stack className='mt-1 gap-2 flex-wrap' direction='horizontal'>
 						{budgetCardBgColorsToMap.map(color => (
@@ -89,7 +100,7 @@ function UpdateBudget({ isOpen, closeModal }) {
 					</Stack>
 				</div>
 				<div className='flex justify-end mt-1'>
-					<Button type='submit'>Update</Button>
+					<Button type='submit'>{t('label_update')}</Button>
 				</div>
 			</form>
 		</Modal>

@@ -9,6 +9,7 @@ import HeroDashboard from '@/components/HeroDashboard'
 import { Container, Error, Metatags, Spinner } from '@/components/shared'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import TotalLoanCard from '@/components/TotalLoanCard'
 
 export default function Dashboard() {
 	const { isFetching, isError, budgets, expenses, getBudgetExpensesAmount } =
@@ -34,6 +35,7 @@ export default function Dashboard() {
 					})}
 					<UncategorizedBudgetCard />
 					<TotalBudgetCard />
+					<TotalLoanCard />
 				</CardsGrid>
 			)}
 

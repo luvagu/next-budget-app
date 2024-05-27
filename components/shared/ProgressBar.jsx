@@ -1,5 +1,4 @@
 import { calculatePercent, classNames, curencyFormatter } from '@/utils/helpers'
-import { useTranslation } from 'next-i18next'
 import { Trans } from 'react-i18next'
 
 const getVariant = ({ percent, isBudgetTypeLoan }) => {
@@ -18,56 +17,49 @@ const getVariant = ({ percent, isBudgetTypeLoan }) => {
 }
 
 function ProgressBar({ current, max, isBudgetTypeLoan, isInModal, isTotal }) {
-	const { t } = useTranslation()
 	const percent = calculatePercent(current, max)
 	const remaining = max - current
 	const isOverBudget = current > max
 	const isAtMaxBudget = remaining === 0
 
-	const budgetTypeLoanText = isAtMaxBudget ? (
-		'Congratulation! Loan is paid in full.'
-	) : isOverBudget ? (
-		<>
-			Loan is overpaid by{' '}
-			<span className='font-bold'>{curencyFormatter(remaining)}</span>
-		</>
-	) : (
+	const budgetTypeLoanText = (
 		<Trans
-			i18nKey={'budget_is_amount_away_from_maxing_out'}
+			i18nKey={
+				isAtMaxBudget
+					? isTotal
+						? 'total_loans_paid_in_full'
+						: 'loan_paid_in_full'
+					: isOverBudget
+					? isTotal
+						? 'total_loans_overpaid_by_amount'
+						: 'loan_overpaid_by_amount'
+					: isTotal
+					? 'total_loans_is_amount_away_from_maxed_out'
+					: 'loan_is_amount_away_from_maxing_out'
+			}
 			values={{ amount: curencyFormatter(remaining) }}
 		/>
 	)
 
-	const budgetTypeDefaultText = isAtMaxBudget ? (
-		isTotal ? (
-			'Total budget maxed out!'
-		) : (
-			'Budget maxed out!'
-		)
-	) : isOverBudget ? (
-		isTotal ? (
-			<>
-				Opps! Total budget gone over by{' '}
-				<span className='font-bold'>{curencyFormatter(remaining)}</span>
-			</>
-		) : (
-			<>
-				Opps! Budget gone over by{' '}
-				<span className='font-bold'>{curencyFormatter(remaining)}</span>
-			</>
-		)
-	) : isTotal ? (
-		<>
-			Total budget is{' '}
-			<span className='font-bold'>{curencyFormatter(remaining)}</span> away from
-			maxing out.
-		</>
-	) : (
-		<>
-			Budget is <span className='font-bold'>{curencyFormatter(remaining)}</span>{' '}
-			away from maxing out.
-		</>
+	const budgetTypeDefaultText = (
+		<Trans
+			i18nKey={
+				isAtMaxBudget
+					? isTotal
+						? 'total_budgets_maxed_out'
+						: 'budget_maxed_out'
+					: isOverBudget
+					? isTotal
+						? 'total_budgets_gone_over_by_amount'
+						: 'budget_gone_over_by_amount'
+					: isTotal
+					? 'total_budgets_is_amount_away_from_maxed_out'
+					: 'budget_is_amount_away_from_maxed_out'
+			}
+			values={{ amount: curencyFormatter(remaining) }}
+		/>
 	)
+
 	const progressBarTopText = isBudgetTypeLoan
 		? budgetTypeLoanText
 		: budgetTypeDefaultText

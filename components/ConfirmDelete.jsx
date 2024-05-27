@@ -2,6 +2,7 @@ import { ExclamationTriangleIcon as ExclamationIcon } from '@heroicons/react/24/
 import { DELETE_TYPE, useBadgets } from '@/context/BudgetsContext'
 import { capitalizeWords } from '@/utils/helpers'
 import { Button, Modal, Stack } from '@/components/shared'
+import { Trans, useTranslation } from 'react-i18next'
 
 function ConfirmDelete({ isOpen, closeModal }) {
 	const {
@@ -16,10 +17,12 @@ function ConfirmDelete({ isOpen, closeModal }) {
 	const { name, type, id } = deleteData
 	const hasBudgetGotExpenses = !!getBudgetExpenses(id)?.length
 
+	const { t } = useTranslation()
+
 	const title = (
 		<Stack direction='horizontal' className='gap-2'>
 			<ExclamationIcon className='h-6 w-6 text-red-600' aria-hidden='true' />
-			<div>Confirm Delete</div>
+			<div>{t('confirm_delete')}</div>
 		</Stack>
 	)
 
@@ -48,27 +51,25 @@ function ConfirmDelete({ isOpen, closeModal }) {
 	return (
 		<Modal title={title} isOpen={isOpen} closeModal={handleCancel}>
 			<p className='text-base text-gray-500'>
-				Are you sure you want to delete [{capitalizeWords(type)}] [{name}]?
+				<Trans i18nKey={'confirm_delete_message'} values={{ type, name }} />
 			</p>
 			{type === 'budget' && hasBudgetGotExpenses && (
 				<p className='text-base text-gray-500 mt-2'>
-					<strong>Note</strong>:{' '}
-					{isBudgetTypeLoan ? (
-						<>This budget&apos;s installments will also be deleted</>
-					) : (
-						<>
-							This budget&apos;s expenses, will be moved to the [Budget]
-							[Uncategorized]
-						</>
-					)}
+					<Trans
+						i18nKey={
+							isBudgetTypeLoan
+								? 'confirm_delete_budget_note'
+								: 'confirm_delete_loan_note'
+						}
+					/>
 				</p>
 			)}
 			<Stack direction='horizontal' className='gap-2 mt-6 justify-end'>
 				<Button variant='gray-outline' onClick={handleCancel}>
-					Cancel
+					{t('label_cancel')}
 				</Button>
 				<Button variant='red' onClick={handleDelete}>
-					Delete
+					{t('label_delete')}
 				</Button>
 			</Stack>
 		</Modal>

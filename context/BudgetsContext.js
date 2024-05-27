@@ -26,6 +26,7 @@ export const BUDGET_CARD_BG_COLORS = {
 	fuchsia: 'bg-fuchsia-100',
 	loan: 'bg-sky-100', // reserved
 	total: 'bg-stone-100', // reserved
+	totalLoans: 'bg-indigo-50', // reserved
 	unrecognized: 'bg-slate-100', // reserved
 	loanPaid: 'bg-green-100', // reserved
 	budgetMax: 'bg-red-100', // reserved
@@ -101,6 +102,18 @@ function BudgetsProvider({ children }) {
 			0
 		),
 		max: budgetsTypeDefault?.reduce((total, budget) => total + budget.max, 0),
+	}
+
+	const expensesTypeLoan = expenses?.filter(
+		({ type }) => type === EXPENSE_TYPES.installment
+	)
+
+	const totalInstallmentsVsLoans = {
+		amount: expensesTypeLoan?.reduce(
+			(total, expense) => total + expense.amount,
+			0
+		),
+		max: budgetsTypeLoan?.reduce((total, budget) => total + budget.max, 0),
 	}
 
 	const isBudgetTypeLoan = defaultBudget?.type === BUDGET_TYPES.loan
@@ -383,6 +396,7 @@ function BudgetsProvider({ children }) {
 				toggleUpdateExpenseModal,
 				toggleViewExpenseModal,
 				totalExpensesVsBudgets,
+				totalInstallmentsVsLoans,
 				updateBudget,
 				updateExpense,
 			}}

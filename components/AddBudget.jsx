@@ -7,6 +7,7 @@ import {
 } from '@/context/BudgetsContext'
 import { capitalizeWords, classNames, twoDigitsNumber } from '@/utils/helpers'
 import { Button, Modal, Stack } from '@/components/shared'
+import { useTranslation } from 'react-i18next'
 
 function AddBudget({ isOpen, closeModal }) {
 	const { addBudget } = useBadgets()
@@ -29,15 +30,23 @@ function AddBudget({ isOpen, closeModal }) {
 		closeModal()
 	}
 
+	const { t } = useTranslation()
+
 	const budgetCardBgColorsToMap = isBudgetTypeLoanSelected
 		? [BUDGET_TYPES.loan]
 		: defaultBudgetCardBgColors
 
 	return (
-		<Modal title='Add Budget' isOpen={isOpen} closeModal={closeModal}>
+		<Modal
+			title={t('label_add_budget_expense')}
+			isOpen={isOpen}
+			closeModal={closeModal}
+		>
 			<form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4'>
 				<label className='block'>
-					<span className='text-gray-700 text-sm sm:text-base'>Name</span>
+					<span className='text-gray-700 text-sm sm:text-base'>
+						{t('label_name')}
+					</span>
 					<input
 						type='text'
 						name='name'
@@ -48,7 +57,7 @@ function AddBudget({ isOpen, closeModal }) {
 				</label>
 				<label className='block'>
 					<span className='text-gray-700 text-sm sm:text-base'>
-						Maximun spending / Loan amount
+						{t('label_maximun_amount')}
 					</span>
 					<input
 						type='number'
@@ -62,7 +71,7 @@ function AddBudget({ isOpen, closeModal }) {
 				</label>
 				<div className='block'>
 					<span className='text-gray-700 text-sm sm:text-base'>
-						Budget type
+						{t('label_budget_type')}
 					</span>
 					<Stack className='mt-1'>
 						<label className='inline-flex items-center'>
@@ -76,7 +85,7 @@ function AddBudget({ isOpen, closeModal }) {
 								required
 							/>
 							<span className='ml-2 text-gray-700 text-sm sm:text-base'>
-								Default (expenses tracker)
+								{t('label_type_default')}
 							</span>
 						</label>
 						<label className='inline-flex items-center'>
@@ -89,14 +98,14 @@ function AddBudget({ isOpen, closeModal }) {
 								required
 							/>
 							<span className='ml-2 text-gray-700 text-sm sm:text-base'>
-								Loan (installments tracker)
+								{t('label_type_loan')}
 							</span>
 						</label>
 					</Stack>
 				</div>
 				<div className='block'>
 					<span className='text-gray-700 text-sm sm:text-base'>
-						Card background color
+						{t('label_card_bg_color')}
 					</span>
 					<Stack className='mt-1 gap-2 flex-wrap' direction='horizontal'>
 						{budgetCardBgColorsToMap.map((color, index) => (
@@ -119,7 +128,7 @@ function AddBudget({ isOpen, closeModal }) {
 					</Stack>
 				</div>
 				<div className='flex justify-end mt-1'>
-					<Button type='submit'>Add</Button>
+					<Button type='submit'>{t('label_add')}</Button>
 				</div>
 			</form>
 		</Modal>

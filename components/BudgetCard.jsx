@@ -28,7 +28,10 @@ function BudgetCard({ id, name, amount, max, type, bgColor, isTotal }) {
 	const isUncategorizedBudget = id === UNCATEGORIZED_BUDGET_ID
 	const isBudgetTypeLoan = type === BUDGET_TYPES.loan
 	const customBgColor =
-		BUDGET_CARD_BG_COLORS[isBudgetTypeLoan ? 'loan' : bgColor] || 'bg-white'
+		BUDGET_CARD_BG_COLORS[isBudgetTypeLoan && !isTotal ? 'loan' : bgColor] ||
+		'bg-white'
+
+	const { t } = useTranslation()
 
 	return (
 		<Card
@@ -47,7 +50,6 @@ function BudgetCard({ id, name, amount, max, type, bgColor, isTotal }) {
 					{max && (
 						<span className='text-sm md:text-base text-gray-400 ml-1'>
 							/ {curencyFormatter(max)}
-							{isTotal && '*'}
 						</span>
 					)}
 				</div>
@@ -60,13 +62,6 @@ function BudgetCard({ id, name, amount, max, type, bgColor, isTotal }) {
 					isBudgetTypeLoan={isBudgetTypeLoan}
 					isTotal={isTotal}
 				/>
-			)}
-
-			{isTotal && (
-				<p className='text-gray-600 text-xs mt-3'>
-					* Total amount does not account for budgets of type{' '}
-					<strong className='text-sky-600'>loan</strong>.
-				</p>
 			)}
 
 			{id && (
@@ -101,7 +96,9 @@ function BudgetCard({ id, name, amount, max, type, bgColor, isTotal }) {
 						onClick={() => openAddExpenseModalWithId(id)}
 					>
 						<PlusIcon className='h-4 w-4' />
-						<span>{isBudgetTypeLoan ? 'Installment' : 'Expense'}</span>
+						<span>
+							{t(isBudgetTypeLoan ? 'label_installment' : 'label_expense')}
+						</span>
 					</Button>
 					<Button
 						onClick={() => openViewExpenseModalWithId(id)}
@@ -110,7 +107,9 @@ function BudgetCard({ id, name, amount, max, type, bgColor, isTotal }) {
 						disabled={!hasBudgetExpenses}
 					>
 						<EyeIcon className='h-4 w-4' />
-						<span>{isBudgetTypeLoan ? 'Installments' : 'Expenses'}</span>
+						<span>
+							{t(isBudgetTypeLoan ? 'label_installments' : 'label_expenses')}
+						</span>
 					</Button>
 				</Stack>
 			)}

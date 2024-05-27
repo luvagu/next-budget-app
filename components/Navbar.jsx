@@ -29,7 +29,6 @@ function Navbar({ isHome, isDashboard }) {
 		toggleAddBudgetModal,
 		openAddExpenseModal,
 		toggleAddExpenseModal,
-		openAddExpenseModalWithId,
 		openUpdateBudgetModal,
 		openUpdateExpenseModal,
 		openViewExpenseModal,
@@ -72,16 +71,10 @@ function Navbar({ isHome, isDashboard }) {
 					</LinkButton>
 				)}
 				{user && isDashboard && (
-					<Fragment>
-						<Button onClick={toggleAddBudgetModal}>
-							<PlusIcon className='h-4 w-4 sm:h-5 sm:w-5' />
-							<span>{t('label_budget')}</span>
-						</Button>
-						<Button onClick={openAddExpenseModalWithId} variant='blue-outline'>
-							<PlusIcon className='h-4 w-4 sm:h-5 sm:w-5' />
-							<span>{t('label_expense')}</span>
-						</Button>
-					</Fragment>
+					<Button onClick={toggleAddBudgetModal}>
+						<PlusIcon className='h-4 w-4 sm:h-5 sm:w-5' />
+						<span>{t('label_add_budget_expense')}</span>
+					</Button>
 				)}
 				{user && (
 					<LinkButton href='/api/auth/logout' variant='gray-outline'>

@@ -1,6 +1,7 @@
 import { UNCATEGORIZED_BUDGET_ID, useBadgets } from '@/context/BudgetsContext'
 import { capitalizeWords, twoDigitsNumber } from '@/utils/helpers'
 import { Button, Modal } from '@/components/shared'
+import { useTranslation } from 'react-i18next'
 
 function UpdateExpense({ isOpen, closeModal }) {
 	const {
@@ -33,15 +34,17 @@ function UpdateExpense({ isOpen, closeModal }) {
 		openViewExpenseModalWithId(isBudgetTypeLoan ? defaultBudgetId : budgetId)
 	}
 
+	const { t } = useTranslation()
+
 	return (
 		<Modal
-			title={`Update ${isBudgetTypeLoan ? 'Installment' : 'Expense'}`}
+			title={t(isBudgetTypeLoan ? 'update_loan' : 'update_budget')}
 			isOpen={isOpen}
 			closeModal={closeModal}
 		>
 			<form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4'>
 				<label className='block'>
-					<span className='text-gray-700'>Description</span>
+					<span className='text-gray-700'>{t('label_description')}</span>
 					<input
 						type='text'
 						name='description'
@@ -52,7 +55,7 @@ function UpdateExpense({ isOpen, closeModal }) {
 					/>
 				</label>
 				<label className='block'>
-					<span className='text-gray-700'>Amount</span>
+					<span className='text-gray-700'>{t('Amount')}</span>
 					<input
 						type='number'
 						name='amount'
@@ -65,7 +68,9 @@ function UpdateExpense({ isOpen, closeModal }) {
 					/>
 				</label>
 				<label className='block'>
-					<span className='text-gray-700'>Budget</span>
+					<span className='text-gray-700'>
+						{t(isBudgetTypeLoan ? 'label_loan' : 'label_budget')}
+					</span>
 					<select
 						name='budgetId'
 						className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 disabled:bg-gray-100 disabled:text-gray-500'
@@ -85,7 +90,7 @@ function UpdateExpense({ isOpen, closeModal }) {
 					</select>
 				</label>
 				<div className='flex justify-end mt-1'>
-					<Button type='submit'>Update</Button>
+					<Button type='submit'>{t('label_update')}</Button>
 				</div>
 			</form>
 		</Modal>
